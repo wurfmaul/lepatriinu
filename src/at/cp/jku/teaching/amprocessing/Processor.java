@@ -43,14 +43,16 @@ public class Processor {
 
     // This method is called from the Runner and is the starting point of onset detection / tempo extraction.
     public void analyze() {
-    	System.out.println("Running Analysis...");
+    	if (Analyzer.DEBUG_MODE)
+    		System.out.println("Running Analysis...");
     	
     	Analyzer analyzer = new Analyzer(m_audiofile);
     	m_onsetList = analyzer.performOnsetDetection();
     	m_tempo = analyzer.performTempoExtraction();
     	m_beatList = analyzer.performBeatDetection();
     	
-    	System.out.println("Analysis finished.");
+    	if (Analyzer.DEBUG_MODE)
+    		System.out.println("Analysis finished.");
     }
 
     public LinkedList<Double> getOnsets() {

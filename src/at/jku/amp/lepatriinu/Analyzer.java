@@ -5,8 +5,9 @@ import java.util.LinkedList;
 import at.cp.jku.teaching.amprocessing.AudioFile;
 
 /**
- * Contains the configuration of all kind of constants, factors and tuning
- * details.
+ * Heart of detecting functionality. Contains the configuration of all kind of
+ * constants, factors and tuning details. Also performs extractions and
+ * detections.
  * 
  * @author Wolfgang Küllinger (0955711)
  * @author Fabian Jordan (0855941)
@@ -19,13 +20,17 @@ public class Analyzer {
 	private static final BeatDetector BEAT_DETECTOR = BeatDetector.SIMPLE;
 
 	// Debug mode
-	static final boolean DEBUG = true;
+	public static final boolean DEBUG_MODE = true;
 	
 	// Onset detection settings
+	public static final double ONSET_DETECTION_TOLERANCE_TIME = 0.05;
 	
 	// Tempo extraction settings
+	public static final double TEMPO_EXTRACTION_TOLERANCE_MIN = 0.96;
+	public static final double TEMPO_EXTRACTION_TOLERANCE_MAX = 1.04;
 	
 	// Beat detection settings
+	public static final double BEAT_DETECTION_TOLERANCE_TIME = 0.07;
 	
 	private final AudioFile audiofile;
 	
