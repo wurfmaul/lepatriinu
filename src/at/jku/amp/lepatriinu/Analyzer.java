@@ -16,7 +16,9 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
 public class Analyzer {
 	// Detector/Extractor classes
 	private static final OnsetDetector ONSET_DETECTOR = OnsetDetector.SIMPLE;
+	@SuppressWarnings("unused")
 	private static final TempoExtractor TEMPO_EXTRACTOR = TempoExtractor.SIMPLE;
+	@SuppressWarnings("unused")
 	private static final BeatDetector BEAT_DETECTOR = BeatDetector.SIMPLE;
 
 	// Debug mode
