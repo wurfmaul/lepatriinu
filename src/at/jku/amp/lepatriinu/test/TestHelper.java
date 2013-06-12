@@ -1,9 +1,5 @@
 package at.jku.amp.lepatriinu.test;
 
-import static at.jku.amp.lepatriinu.Analyzer.BEAT_DETECTION_TOLERANCE_TIME;
-import static at.jku.amp.lepatriinu.Analyzer.ONSET_DETECTION_TOLERANCE_TIME;
-import static at.jku.amp.lepatriinu.Analyzer.TEMPO_EXTRACTION_TOLERANCE_MAX;
-import static at.jku.amp.lepatriinu.Analyzer.TEMPO_EXTRACTION_TOLERANCE_MIN;
 import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
@@ -26,8 +22,12 @@ import java.util.StringTokenizer;
  * 
  */
 public class TestHelper {
+	private static final double ONSET_DETECTION_TOLERANCE_FACTOR = 0.05;
+	private static final double TEMPO_EXTRACTION_TOLERANCE_MIN = 0.96;
+	private static final double TEMPO_EXTRACTION_TOLERANCE_MAX = 1.04;
+	private static final double BEAT_DETECTION_TOLERANCE_FACTOR = 0.07;
 	
-	static void assertBeatEquals(final int train, final Collection<Double> actual) {
+	public static void assertBeatEquals(final int train, final Collection<Double> actual) {
 		final String fileExpected = "data/train" + Integer.toString(train) + ".beats";
 		try {
 			final Collection<Double> expected = parseBeatList(fileExpected);
@@ -47,7 +47,7 @@ public class TestHelper {
 		}
 	}
 
-	static void assertOnsetEquals(final int train, final Collection<Double> actual) {
+	public static void assertOnsetEquals(final int train, final Collection<Double> actual) {
 		final String fileExpected = "data/train" + Integer.toString(train) + ".onsets";
 		try {
 			final Collection<Double> expected = parseOnsetList(fileExpected);
@@ -67,7 +67,7 @@ public class TestHelper {
 		}
 	}
 
-	static void assertTempoEquals(final int train, final double actual) {
+	public static void assertTempoEquals(final int train, final double actual) {
 		final String fileExpected = "data/train" + Integer.toString(train) + ".bpms";
 		try {
 			final RangeChecker range = new TempoRangeChecker(parseTempo(fileExpected));
@@ -181,13 +181,13 @@ public class TestHelper {
 
 	private static class BeatRangeChecker extends RangeChecker {
 		public BeatRangeChecker(double expected) {
-			super(expected - BEAT_DETECTION_TOLERANCE_TIME, expected + BEAT_DETECTION_TOLERANCE_TIME);
+			super(expected - BEAT_DETECTION_TOLERANCE_FACTOR, expected + BEAT_DETECTION_TOLERANCE_FACTOR);
 		}
 	}
 	
 	private static class OnsetRangeChecker extends RangeChecker {
 		public OnsetRangeChecker(double expected) {
-			super(expected - ONSET_DETECTION_TOLERANCE_TIME, expected + ONSET_DETECTION_TOLERANCE_TIME);
+			super(expected - ONSET_DETECTION_TOLERANCE_FACTOR, expected + ONSET_DETECTION_TOLERANCE_FACTOR);
 		}
 	}
 
