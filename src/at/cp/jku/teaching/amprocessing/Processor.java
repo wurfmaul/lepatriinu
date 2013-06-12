@@ -8,7 +8,10 @@ package at.cp.jku.teaching.amprocessing;
 
 import java.util.LinkedList;
 
-import at.jku.amp.lepatriinu.Analyzer;
+import at.jku.amp.lepatriinu.BeatDetector;
+import at.jku.amp.lepatriinu.Configuration;
+import at.jku.amp.lepatriinu.OnsetDetector;
+import at.jku.amp.lepatriinu.TempoExtractor;
 
 /**
  *
@@ -32,7 +35,7 @@ public class Processor {
 
         System.out.println("Reading Audio-File " + filename);
         System.out.println("Performing FFT...");
-        // an AudioFile object is created with the following Parameters: AudioFile(WAVFILENAME, FFTLENGTH in seconds, HOPLENGTH in seconds)
+        // an AudioFile object is created with the following Paramters: AudioFile(WAVFILENAME, FFTLENGTH in seconds, HOPLENGTH in seconds)
         // if you would like to work with multiple resolutions you simple create multiple AudioFile objects with different parameters
         // given an audio file with 44.100 Hz the parameters below translate to an FFT with size 2048 points
         // Note that the value is not taken to be precise; it is adjusted so that the FFT Size is always power of 2.
@@ -43,16 +46,15 @@ public class Processor {
 
     // This method is called from the Runner and is the starting point of onset detection / tempo extraction.
     public void analyze() {
-    	if (Analyzer.DEBUG_MODE)
-    		System.out.println("Running Analysis...");
+    	System.out.println("Running Analysis...");
     	
-    	Analyzer analyzer = new Analyzer(m_audiofile);
-    	m_onsetList = analyzer.performOnsetDetection();
-    	m_tempo = analyzer.performTempoExtraction();
-    	m_beatList = analyzer.performBeatDetection();
+    	OnsetDetector onsetDetector = Configuration.ONSET_DETECTOR;
+    	TempoExtractor tempoExtractor = Configuration.TEMPO_EXTRACTOR;
+    	BeatDetector beatDetector = Configuration.BEAT_DETECTOR;
     	
-    	if (Analyzer.DEBUG_MODE)
-    		System.out.println("Analysis finished.");
+    	m_onsetList = onsetDetector.execute(m_audiofile);
+    	m_tempo = tempoExtractor.execute(m_audiofile);
+    	m_beatList = beatDetector.execute(m_audiofile);
     }
 
     public LinkedList<Double> getOnsets() {
