@@ -8,8 +8,10 @@ package at.cp.jku.teaching.amprocessing;
 
 import java.util.LinkedList;
 
+import javax.security.auth.login.Configuration;
+
+import at.jku.amp.lepatriinu.Analyzer;
 import at.jku.amp.lepatriinu.BeatDetector;
-import at.jku.amp.lepatriinu.Configuration;
 import at.jku.amp.lepatriinu.OnsetDetector;
 import at.jku.amp.lepatriinu.TempoExtractor;
 
@@ -45,17 +47,18 @@ public class Processor {
     }
 
     // This method is called from the Runner and is the starting point of onset detection / tempo extraction.
-    public void analyze() {
-    	System.out.println("Running Analysis...");
-    	
-    	OnsetDetector onsetDetector = Configuration.ONSET_DETECTOR;
-    	TempoExtractor tempoExtractor = Configuration.TEMPO_EXTRACTOR;
-    	BeatDetector beatDetector = Configuration.BEAT_DETECTOR;
-    	
-    	m_onsetList = onsetDetector.execute(m_audiofile);
-    	m_tempo = tempoExtractor.execute(m_audiofile);
-    	m_beatList = beatDetector.execute(m_audiofile);
-    }
+	public void analyze() {
+		if (Analyzer.DEBUG_MODE)
+			System.out.println("Running Analysis...");
+
+		Analyzer analyzer = new Analyzer(m_audiofile);
+		m_onsetList = analyzer.performOnsetDetection();
+		m_tempo = analyzer.performTempoExtraction();
+		m_beatList = analyzer.performBeatDetection();
+
+		if (Analyzer.DEBUG_MODE)
+			System.out.println("Analysis finished.");
+	}
 
     public LinkedList<Double> getOnsets() {
         return m_onsetList;
