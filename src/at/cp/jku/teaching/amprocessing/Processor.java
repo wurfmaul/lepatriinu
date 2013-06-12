@@ -8,12 +8,7 @@ package at.cp.jku.teaching.amprocessing;
 
 import java.util.LinkedList;
 
-import javax.security.auth.login.Configuration;
-
 import at.jku.amp.lepatriinu.Analyzer;
-import at.jku.amp.lepatriinu.BeatDetector;
-import at.jku.amp.lepatriinu.OnsetDetector;
-import at.jku.amp.lepatriinu.TempoExtractor;
 
 /**
  *
