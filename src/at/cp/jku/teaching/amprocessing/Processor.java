@@ -32,7 +32,7 @@ public class Processor {
 
         System.out.println("Reading Audio-File " + filename);
         System.out.println("Performing FFT...");
-        // an AudioFile object is created with the following Paramters: AudioFile(WAVFILENAME, FFTLENGTH in seconds, HOPLENGTH in seconds)
+        // an AudioFile object is created with the following Parameters: AudioFile(WAVFILENAME, FFTLENGTH in seconds, HOPLENGTH in seconds)
         // if you would like to work with multiple resolutions you simple create multiple AudioFile objects with different parameters
         // given an audio file with 44.100 Hz the parameters below translate to an FFT with size 2048 points
         // Note that the value is not taken to be precise; it is adjusted so that the FFT Size is always power of 2.

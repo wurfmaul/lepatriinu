@@ -21,6 +21,9 @@ public class Analyzer {
 
 	public static final boolean DEBUG_MODE = true;
 	
+	// ONSET DETECTION CONSTANTS
+	public static final int THRESHOLD_RANGE = 5;
+	
 	private final AudioFile audiofile;
 	
 	public Analyzer(AudioFile audiofile) {
@@ -32,14 +35,14 @@ public class Analyzer {
 	}
 
 	public double performTempoExtraction() {
-		System.err.println("Tempo extraction not yet supported.");
-		TEMPO_EXTRACTOR.execute(audiofile);
+//		System.err.println("Tempo extraction not yet supported.");
+//		TEMPO_EXTRACTOR.execute(audiofile);
 		return 0d;
 	}
 
 	public LinkedList<Double> performBeatDetection() {
-		System.err.println("Beat detection not yet supported.");
-		BEAT_DETECTOR.execute(audiofile);
+//		System.err.println("Beat detection not yet supported.");
+//		BEAT_DETECTOR.execute(audiofile);
 		return new LinkedList<Double>();
 	}
 }
