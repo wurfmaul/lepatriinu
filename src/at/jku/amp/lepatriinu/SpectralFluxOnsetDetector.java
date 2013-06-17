@@ -30,7 +30,7 @@ public class SpectralFluxOnsetDetector extends OnsetDetector {
 		}
 		
 		// POSTPROCESSING
-		return peakPick(result);
+		return peakPick(result, audiofile.hopTime);
 	}
 
 }

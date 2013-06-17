@@ -29,7 +29,7 @@ public class TrainTest {
 		 *  - single: trains.set(train) 
 		 */
 //		TRAINS.set(1, 5); // the first four trains
-		TRAINS.set(5);
+		TRAINS.set(1);
 		
 		processors = new HashMap<>(COUNT);
 		int key = 0;

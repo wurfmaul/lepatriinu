@@ -27,7 +27,7 @@ public abstract class OnsetDetector {
 	 */
 	public abstract LinkedList<Double> execute(AudioFile audiofile);
 
-	protected LinkedList<Double> peakPick(LinkedList<Double> list) {
+	protected LinkedList<Double> peakPick(LinkedList<Double> list, double hopTime) {
 		LinkedList<Double> onsets = new LinkedList<>();
 
 		for (int i = 0; i < list.size(); i++) {
@@ -40,7 +40,7 @@ public abstract class OnsetDetector {
 			}
 			t = t / count * 2 ;
 			if (list.get(i) > t) {
-				onsets.add(t);
+				onsets.add(i * hopTime);
 			}
 		}
 		return onsets;
