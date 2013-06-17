@@ -18,23 +18,23 @@ import at.cp.jku.teaching.amprocessing.Processor;
 public class TrainTest {
 	private static final int COUNT = 20;
 	private static final BitSet TRAINS = new BitSet(COUNT);
-	
+
 	private static Map<Integer, Processor> processors;
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		/*
-		 * Configure trains:
-		 *  - range: trains.set(from [incl.], to [excl.])
-		 *  - single: trains.set(train) 
+		 * Configure trains: - range: trains.set(from [incl.], to [excl.]) -
+		 * single: trains.set(train)
 		 */
-//		TRAINS.set(1, 5); // the first four trains
-		TRAINS.set(1);
-		
+		TRAINS.set(1, 5); // the first four trains
+//		TRAINS.set(1);
+
 		processors = new HashMap<>(COUNT);
 		int key = 0;
-		while((key = TRAINS.nextSetBit(key + 1)) != -1) {
-			Processor proc = new Processor("data/train" + Integer.toString(key) + ".wav");
+		while ((key = TRAINS.nextSetBit(key + 1)) != -1) {
+			Processor proc = new Processor("data/train" + Integer.toString(key)
+					+ ".wav");
 			proc.analyze();
 			processors.put(key, proc);
 		}
@@ -46,7 +46,11 @@ public class TrainTest {
 			try {
 				assertOnsetEquals(e.getKey(), e.getValue().getOnsets());
 			} catch (AssertionError er) {
-				System.err.println(e.getKey() + ": " +er.getMessage());
+				String s = er.getMessage();
+				System.err.print(e.getKey() + ": " + s);
+				double expected = Double.parseDouble(s.substring(s.indexOf('<') + 1, s.indexOf('>')));
+				double was = Double.parseDouble(s.substring(s.lastIndexOf('<') + 1, s.lastIndexOf('>')));
+				System.err.println(" (" + (was / expected * 100 - 100) + "% failure)");
 			}
 		}
 	}
@@ -58,11 +62,11 @@ public class TrainTest {
 			try {
 				assertTempoEquals(e.getKey(), e.getValue().getTempo());
 			} catch (AssertionError er) {
-				System.err.println(e.getKey() + ": " +er.getMessage());
+				System.err.println(e.getKey() + ": " + er.getMessage());
 			}
 		}
 	}
-	
+
 	@Ignore
 	@Test
 	public void testPerformBeatDetection() {
@@ -70,7 +74,7 @@ public class TrainTest {
 			try {
 				assertBeatEquals(e.getKey(), e.getValue().getBeats());
 			} catch (AssertionError er) {
-				System.err.println(e.getKey() + ": " +er.getMessage());
+				System.err.println(e.getKey() + ": " + er.getMessage());
 			}
 		}
 	}

@@ -50,12 +50,15 @@ public class AudioFile {
     private double frameRMS;
     private int frameCount;
     
-    public double fftTime;
-    public double hopTime;
-    // Contains the Spectral Data (Magnitude, Phase, Unwrapped Phase) for each Frame
-    public LinkedList<SpectralData> spectralDataContainer;
-    // Contains the value of each sample
-    public LinkedList<Double> sampleDataContainer;
+	public double fftTime;
+	public double hopTime;
+	/**
+	 * Contains the Spectral Data (Magnitude, Phase, Unwrapped Phase) for each
+	 * Frame
+	 */
+	public LinkedList<SpectralData> spectralDataContainer;
+	/** Contains the value of each sample */
+	public LinkedList<Double> sampleDataContainer;
 
     public AudioFile(String filename, double fftTime, double hopTime) {
         this.fftTime = fftTime;

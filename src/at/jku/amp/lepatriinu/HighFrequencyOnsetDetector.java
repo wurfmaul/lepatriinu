@@ -3,26 +3,37 @@ package at.jku.amp.lepatriinu;
 import java.util.LinkedList;
 
 import at.cp.jku.teaching.amprocessing.AudioFile;
+import at.cp.jku.teaching.amprocessing.SpectralData;
 
 public class HighFrequencyOnsetDetector extends OnsetDetector {
 
 	@Override
 	public LinkedList<Double> execute(AudioFile audiofile) {
+		// DETECTION FUNCTION
 		final int length = audiofile.spectralDataContainer.size();
 		final LinkedList<Double> result = new LinkedList<>();
 		
-		// FIXME: goes notly...
-		
+		// FIXME: still goes notly, but needs less time for it ...
 		double sum;
 		
-		for(int i=0; i<length; i++){
+		for (SpectralData sd: audiofile.spectralDataContainer) {
 			sum = 0;
-			for (int j = 1; j<length; j++){
-				sum += j * Math.pow(Math.abs(audiofile.spectralDataContainer.get(j).totalEnergy), 2);
+			for (int i = 0; i < sd.size; i++) {
+				sum += i * Math.pow(sd.phases[i], 2);
 			}
 			result.add(sum);
 		}
-		return result;
+		
+//		for(int i=0; i<length; i++){
+//			sum = 0;
+//			for (int j = 1; j<length; j++){
+//				sum += j * Math.pow(Math.abs(audiofile.spectralDataContainer.get(j).totalEnergy), 2);
+//			}
+//			result.add(sum);
+//		}
+		
+		// POSTPROCESSING
+		return peakPick(result, audiofile.hopTime);
 	}
 
 }

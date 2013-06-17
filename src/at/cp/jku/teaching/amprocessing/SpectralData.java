@@ -6,21 +6,22 @@
 package at.cp.jku.teaching.amprocessing;
 
 /**
- *
+ * The container for the data of one frame of the audio file
+ * 
  * @author andreas arzt
  */
 public class SpectralData {
 
-    // contains the magnitudes of the sinusoids
-    public double[] magnitudes;
-    // contains the phases of the sinusoids
-    public double[] phases;
-    //contains the unwrapped phases of the sinusoids
-    public double[] unwrappedPhases;
-    //contains the total energy in this frame
-    public double totalEnergy;
-    // the size of each of the above arrays (= fftSize/2 + 1)
-    public int size;
+	/** contains the magnitudes of the sinusoids */
+	public double[] magnitudes;
+	/** contains the phases of the sinusoids */
+	public double[] phases;
+	/** contains the unwrapped phases of the sinusoids */
+	public double[] unwrappedPhases;
+	/** contains the total energy in this frame */
+	public double totalEnergy;
+	/** the size of each of the above arrays (= fftSize/2 + 1) */
+	public int size;
 
     SpectralData(double[] reBuffer, double[] imBuffer, int fftSize) {
         size = fftSize / 2 + 1;

@@ -41,6 +41,7 @@ public abstract class OnsetDetector {
 			t = t / count * 2 ;
 			if (list.get(i) > t) {
 				onsets.add(i * hopTime);
+				System.err.println(i * hopTime);
 			}
 		}
 		return onsets;
