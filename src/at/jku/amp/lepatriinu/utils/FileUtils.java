@@ -106,12 +106,7 @@ public class FileUtils {
 				if (f.isDirectory())
 					return false;
 				String name = f.getName();
-				int dot = name.lastIndexOf('.');
-				if (dot > 0) {
-					return name.substring(dot + 1, name.length())
-							.equalsIgnoreCase(extension);
-				}
-				return false;
+				return name.endsWith("." + extension);
 			}
 		};
 	}

@@ -27,7 +27,44 @@ public abstract class OnsetDetector {
 	 */
 	public abstract LinkedList<Double> execute(AudioFile audiofile);
 
-	protected LinkedList<Double> peakPick(LinkedList<Double> list, double hopTime) {
+	// GERIS VERSION
+	protected LinkedList<Double> peakPick(LinkedList<Double> list,
+			double hopTime) {
+
+		for (int i = 1; i < list.size(); i++) {
+			if (list.get(i) <= list.get(i - 1)) {
+				list.set(i, 0.0);
+			}
+		}
+		for (int i = list.size() - 2; i >= 0; i--) {
+			if (list.get(i) <= list.get((i + 1))) {
+				list.set(i, 0.0);
+			} else if (list.get(i) > list.get(i + 1)) {
+				for (int j = 1; j < 9; j++) {
+					if (i + j >= list.size())
+						break;
+					if (list.get(i + j) > list.get(i)) {
+						list.set(i, 0.0);
+					} else {
+						list.set(i + j, 0.0);
+					}
+				}
+			}
+		}
+		LinkedList<Double> result = new LinkedList<>();
+
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i) > 30)
+				result.add(i * hopTime);
+		}
+
+		System.err.println(list.size() + " onsets found!");
+		return result;
+	}
+
+	// OUR ORIGINAL VERSION
+	protected LinkedList<Double> peakPick1(LinkedList<Double> list,
+			double hopTime) {
 		LinkedList<Double> onsets = new LinkedList<>();
 
 		for (int i = 0; i < list.size(); i++) {
@@ -38,12 +75,13 @@ public abstract class OnsetDetector {
 				t += list.get(j);
 				count++;
 			}
-			t = t / count * 2 ;
+			t = t / count * 2;
 			if (list.get(i) > t) {
 				onsets.add(i * hopTime);
 				System.err.println(i * hopTime);
 			}
 		}
+		System.err.println(onsets.size() + " onsets found!");
 		return onsets;
 	}
 }

@@ -16,13 +16,12 @@ public class HighFrequencyOnsetDetector extends OnsetDetector {
 		// FIXME: still goes notly, but needs lessly time for it ...
 		double sum;
 
-		for (int j = 0; j < length; j++) { // SpectralData sd: audiofile.spectralDataContainer) {
-			SpectralData sd = audiofile.spectralDataContainer.get(j);
+		for (SpectralData sd: audiofile.spectralDataContainer) {
 			sum = 0;
 			for (int i = 0; i < sd.size; i++) {
-				sum += i * Math.pow(sd.magnitudes[i], 2);
+				sum += Math.abs(i * sd.magnitudes[i]);
 			}
-			System.err.println(length + ", " + audiofile.sampleDataContainer.size());
+//			System.err.println(length + ", " + audiofile.sampleDataContainer.size());
 			result.add(sum);
 		}
 
