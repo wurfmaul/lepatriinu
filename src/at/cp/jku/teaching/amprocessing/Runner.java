@@ -69,8 +69,8 @@ public class Runner {
             throw new IllegalArgumentException("Output Directory does not exist!");
         }
 
-        if (!outputDirectory.endsWith("/")) {
-            outputDirectory = outputDirectory + "/";
+        if (!outputDirectory.endsWith(File.separator)) {
+            outputDirectory = outputDirectory + File.separator;
         }
 
         shortWavFileName = wavFileName.substring(wavFileName.lastIndexOf("/") + 1, wavFileName.lastIndexOf("."));

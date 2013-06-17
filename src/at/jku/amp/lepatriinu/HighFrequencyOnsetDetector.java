@@ -12,28 +12,31 @@ public class HighFrequencyOnsetDetector extends OnsetDetector {
 		// DETECTION FUNCTION
 		final int length = audiofile.spectralDataContainer.size();
 		final LinkedList<Double> result = new LinkedList<>();
-		
-		// FIXME: still goes notly, but needs less time for it ...
+
+		// FIXME: still goes notly, but needs lessly time for it ...
 		double sum;
-		
-		for (SpectralData sd: audiofile.spectralDataContainer) {
+
+		for (int j = 0; j < length; j++) { // SpectralData sd: audiofile.spectralDataContainer) {
+			SpectralData sd = audiofile.spectralDataContainer.get(j);
 			sum = 0;
 			for (int i = 0; i < sd.size; i++) {
-				sum += i * Math.pow(sd.phases[i], 2);
+				sum += i * Math.pow(sd.magnitudes[i], 2);
 			}
+			System.err.println(length + ", " + audiofile.sampleDataContainer.size());
 			result.add(sum);
 		}
-		
-//		for(int i=0; i<length; i++){
+
+//		for (int i = 0; i < length; i++) {
 //			sum = 0;
-//			for (int j = 1; j<length; j++){
-//				sum += j * Math.pow(Math.abs(audiofile.spectralDataContainer.get(j).totalEnergy), 2);
+//			for (int j = 1; j < length; j++) {
+//				sum += j
+//						* Math.pow(Math.abs(audiofile.spectralDataContainer
+//								.get(j).totalEnergy), 2);
 //			}
 //			result.add(sum);
 //		}
-		
+
 		// POSTPROCESSING
 		return peakPick(result, audiofile.hopTime);
 	}
-
 }

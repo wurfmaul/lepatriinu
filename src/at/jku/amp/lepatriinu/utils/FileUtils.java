@@ -1,7 +1,13 @@
-package at.jku.amp.lepatriinu.ui.utils;
+package at.jku.amp.lepatriinu.utils;
 
 import java.awt.Component;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
@@ -12,7 +18,7 @@ import javax.swing.filechooser.FileFilter;
  * @author Fabian Jordan (0855941)
  * 
  */
-public class FileChooser {
+public class FileUtils {
 
 	/**
 	 * Opens a <code>JFileChooser</code> dialog window for the user and returns
@@ -63,5 +69,50 @@ public class FileChooser {
 		if (fj.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION)
 			return fj.getSelectedFile();
 		return null;
+	}
+	
+	public static String readFile(String filename) {
+		Path p = Paths.get(filename);
+		try (BufferedReader br = Files.newBufferedReader(p,
+				StandardCharsets.UTF_8)) {
+			return readFile(br);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private static String readFile(BufferedReader br) throws IOException {
+		StringBuffer result = new StringBuffer();
+		String line = null;
+
+		while ((line = br.readLine()) != null) {
+			result.append(line);
+			result.append('\n');
+		}
+
+		return result.toString();
+	}
+
+	public static FileFilter getFileFilter(final String extension) {
+		return new FileFilter() {
+			@Override
+			public String getDescription() {
+				return extension;
+			}
+
+			@Override
+			public boolean accept(File f) {
+				if (f.isDirectory())
+					return false;
+				String name = f.getName();
+				int dot = name.lastIndexOf('.');
+				if (dot > 0) {
+					return name.substring(dot + 1, name.length())
+							.equalsIgnoreCase(extension);
+				}
+				return false;
+			}
+		};
 	}
 }
