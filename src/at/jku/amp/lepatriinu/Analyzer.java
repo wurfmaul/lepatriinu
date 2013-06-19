@@ -24,6 +24,10 @@ public class Analyzer {
 	// ONSET DETECTION CONSTANTS
 	public static final int THRESHOLD_RANGE = 7;
 	
+	// SWING-UI CONSTANTS
+	public static final String INPUT_DIR = "data";
+	public static final String OUTPUT_DIR = "output";
+	
 	private final AudioFile audiofile;
 	
 	public Analyzer(AudioFile audiofile) {

@@ -39,6 +39,7 @@ import javax.swing.plaf.basic.BasicDirectoryModel;
 import javax.swing.text.BadLocationException;
 
 import at.cp.jku.teaching.amprocessing.Runner;
+import at.jku.amp.lepatriinu.Analyzer;
 import at.jku.amp.lepatriinu.utils.FileUtils;
 
 /**
@@ -55,9 +56,10 @@ import at.jku.amp.lepatriinu.utils.FileUtils;
  */
 public class SwingUI extends JFrame {
 	private static final long serialVersionUID = -3015831195484437974L;
-
-	private static final String STARTING_DIRECTORY = "data\\";
-	private static final String OUTPUT_DIRECTORY = ".\\output\\";
+	private static final String SEP = System.getProperty("file.separator");
+	private static final String STARTING_DIRECTORY = Analyzer.INPUT_DIR + SEP;
+	private static final String OUTPUT_DIRECTORY = "." + SEP + Analyzer.OUTPUT_DIR + SEP;
+	
 	private JCheckBox cbOnset;
 	private JCheckBox cbTempo;
 	private JCheckBox cbBeat;
