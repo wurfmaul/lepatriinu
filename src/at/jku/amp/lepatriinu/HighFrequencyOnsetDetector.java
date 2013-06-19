@@ -10,7 +10,7 @@ public class HighFrequencyOnsetDetector extends OnsetDetector {
 	@Override
 	public LinkedList<Double> execute(AudioFile audiofile) {
 		// DETECTION FUNCTION
-		final int length = audiofile.spectralDataContainer.size();
+//		final int length = audiofile.spectralDataContainer.size();
 		final LinkedList<Double> result = new LinkedList<>();
 
 		// FIXME: still goes notly, but needs lessly time for it ...

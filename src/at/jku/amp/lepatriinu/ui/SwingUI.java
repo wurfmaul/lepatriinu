@@ -134,7 +134,7 @@ public class SwingUI extends JFrame {
 	private SwingUI() {
 		System.out.println("starting off");
 
-		File p = new File(OUTPUT_DIRECTORY + "\\data\\");
+		File p = new File(OUTPUT_DIRECTORY);
 		System.out.println("Output directory created: " + p.mkdirs());
 
 		setTitle("Lepatriinu - Audio and Music Processor");
@@ -475,7 +475,7 @@ public class SwingUI extends JFrame {
 
 	private void loadOutputBox() {
 		JFileChooser fj;
-		fj = new JFileChooser(OUTPUT_DIRECTORY + "\\data");
+		fj = new JFileChooser(OUTPUT_DIRECTORY);
 		fj.setFileFilter(FileUtils.getFileFilter("eval"));
 		bdmOutputFiles = new BasicDirectoryModel(fj);
 		lOutput.setModel(bdmOutputFiles);
