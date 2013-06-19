@@ -39,6 +39,7 @@ import javax.swing.plaf.basic.BasicDirectoryModel;
 import javax.swing.text.BadLocationException;
 
 import at.cp.jku.teaching.amprocessing.Runner;
+import at.jku.amp.lepatriinu.Analyzer;
 import at.jku.amp.lepatriinu.utils.FileUtils;
 
 /**
@@ -55,9 +56,10 @@ import at.jku.amp.lepatriinu.utils.FileUtils;
  */
 public class SwingUI extends JFrame {
 	private static final long serialVersionUID = -3015831195484437974L;
-
-	private static final String STARTING_DIRECTORY = "data\\";
-	private static final String OUTPUT_DIRECTORY = ".\\output\\";
+	private static final String SEP = System.getProperty("file.separator");
+	private static final String STARTING_DIRECTORY = Analyzer.INPUT_DIR + SEP;
+	private static final String OUTPUT_DIRECTORY = "." + SEP + Analyzer.OUTPUT_DIR + SEP;
+	
 	private JCheckBox cbOnset;
 	private JCheckBox cbTempo;
 	private JCheckBox cbBeat;
@@ -132,7 +134,7 @@ public class SwingUI extends JFrame {
 	private SwingUI() {
 		System.out.println("starting off");
 
-		File p = new File(OUTPUT_DIRECTORY + "\\data\\");
+		File p = new File(OUTPUT_DIRECTORY);
 		System.out.println("Output directory created: " + p.mkdirs());
 
 		setTitle("Lepatriinu - Audio and Music Processor");
@@ -343,10 +345,12 @@ public class SwingUI extends JFrame {
 		gbc_lbl1.gridy = 0;
 		panel_7.add(lbl1, gbc_lbl1);
 
-		lblPrecision = new JLabel("0.0");
+		lblPrecision = new JLabel("0.0%");
+		lblPrecision.setOpaque(true);
 		GridBagConstraints gbc_lblPrecision = new GridBagConstraints();
+		gbc_lblPrecision.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblPrecision.insets = new Insets(0, 0, 5, 0);
-		gbc_lblPrecision.anchor = GridBagConstraints.BASELINE_LEADING;
+		gbc_lblPrecision.anchor = GridBagConstraints.BASELINE;
 		gbc_lblPrecision.gridx = 1;
 		gbc_lblPrecision.gridy = 0;
 		panel_7.add(lblPrecision, gbc_lblPrecision);
@@ -359,10 +363,12 @@ public class SwingUI extends JFrame {
 		gbc_lbl2.gridy = 1;
 		panel_7.add(lbl2, gbc_lbl2);
 
-		lblRecall = new JLabel("0.0");
+		lblRecall = new JLabel("0.0%");
+		lblRecall.setOpaque(true);
 		GridBagConstraints gbc_lblRecall = new GridBagConstraints();
+		gbc_lblRecall.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblRecall.insets = new Insets(0, 0, 5, 0);
-		gbc_lblRecall.anchor = GridBagConstraints.BASELINE_LEADING;
+		gbc_lblRecall.anchor = GridBagConstraints.BASELINE;
 		gbc_lblRecall.gridx = 1;
 		gbc_lblRecall.gridy = 1;
 		panel_7.add(lblRecall, gbc_lblRecall);
@@ -375,10 +381,10 @@ public class SwingUI extends JFrame {
 		gbc_lbl3.gridy = 2;
 		panel_7.add(lbl3, gbc_lbl3);
 
-		lblFMeasure = new JLabel("0.0");
+		lblFMeasure = new JLabel("0.0%");
+		lblFMeasure.setOpaque(true);
 		GridBagConstraints gbc_lblFMeasure = new GridBagConstraints();
-		gbc_lblFMeasure.fill = GridBagConstraints.VERTICAL;
-		gbc_lblFMeasure.anchor = GridBagConstraints.WEST;
+		gbc_lblFMeasure.fill = GridBagConstraints.BOTH;
 		gbc_lblFMeasure.gridx = 1;
 		gbc_lblFMeasure.gridy = 2;
 		panel_7.add(lblFMeasure, gbc_lblFMeasure);
@@ -473,7 +479,7 @@ public class SwingUI extends JFrame {
 
 	private void loadOutputBox() {
 		JFileChooser fj;
-		fj = new JFileChooser(OUTPUT_DIRECTORY + "\\data");
+		fj = new JFileChooser(OUTPUT_DIRECTORY);
 		fj.setFileFilter(FileUtils.getFileFilter("eval"));
 		bdmOutputFiles = new BasicDirectoryModel(fj);
 		lOutput.setModel(bdmOutputFiles);
@@ -571,12 +577,11 @@ public class SwingUI extends JFrame {
 
 		@Override
 		public void intervalAdded(ListDataEvent e) {
-			double p = 0, r = 0, fM = 0;
+			double p = 0, r = 0, fM = 0, temp;
 			double size = bdmOutputFiles.getSize();
 			for (File f : bdmOutputFiles.getFiles()) {
 				String bigString = FileUtils.readFile(f.getAbsolutePath());
 				String searchString = "Precision: ";
-				double temp;
 				temp = Double
 						.parseDouble(bigString.substring(
 								bigString.indexOf(searchString)
@@ -601,9 +606,15 @@ public class SwingUI extends JFrame {
 										bigString.indexOf(searchString))));
 				fM += (!Double.isNaN(temp)) ? temp : 0;
 			}
-			lblPrecision.setText(String.format("%f", (p / size)));
-			lblRecall.setText(String.format("%f", (r / size)));
-			lblFMeasure.setText(String.format("%f", (fM / size)));
+			p /= size;
+			lblPrecision.setText(String.format("%f%%", p * 100));
+			lblPrecision.setBackground(new Color((float) (1 - p), (float)p, 0f));
+			r /= size;
+			lblRecall.setText(String.format("%f%%", r * 100));
+			lblRecall.setBackground(new Color((float) (1 - r), (float)r, 0f));
+			fM /= size;
+			lblFMeasure.setText(String.format("%f%%", fM * 100));
+			lblFMeasure.setBackground(new Color((float) (1 - fM), (float)fM, 0f));
 		}
 
 		@Override

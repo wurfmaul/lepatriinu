@@ -16,13 +16,18 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
 public class Analyzer {
 	// Detector/Extractor classes
 	private static final OnsetDetector ONSET_DETECTOR = OnsetDetector.FLUX;
-	private static final TempoExtractor TEMPO_EXTRACTOR = TempoExtractor.SIMPLE;
-	private static final BeatDetector BEAT_DETECTOR = BeatDetector.SIMPLE;
-
+//	private static final TempoExtractor TEMPO_EXTRACTOR = TempoExtractor.SIMPLE;
+//	private static final BeatDetector BEAT_DETECTOR = BeatDetector.SIMPLE;
+	
+	// GENERAL CONSTANTS
 	public static final boolean DEBUG_MODE = true;
 	
 	// ONSET DETECTION CONSTANTS
 	public static final int THRESHOLD_RANGE = 7;
+	
+	// SWING-UI CONSTANTS
+	public static final String INPUT_DIR = "data";
+	public static final String OUTPUT_DIR = "output";
 	
 	private final AudioFile audiofile;
 	
