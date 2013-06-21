@@ -3,16 +3,12 @@ package at.jku.amp.lepatriinu.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -29,14 +25,11 @@ import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicDirectoryModel;
-import javax.swing.text.BadLocationException;
 
 import at.cp.jku.teaching.amprocessing.Runner;
 import at.jku.amp.lepatriinu.Analyzer;
@@ -57,8 +50,9 @@ public class SwingUI extends JFrame {
 	private static final long serialVersionUID = -3015831195484437974L;
 	private static final String SEP = System.getProperty("file.separator");
 	private static final String STARTING_DIRECTORY = Analyzer.INPUT_DIR + SEP;
-	private static final String OUTPUT_DIRECTORY = "." + SEP + Analyzer.OUTPUT_DIR + SEP;
-	
+	private static final String OUTPUT_DIRECTORY = "." + SEP
+			+ Analyzer.OUTPUT_DIR + SEP;
+
 	private JCheckBox cbOnset;
 	private JCheckBox cbTempo;
 	private JCheckBox cbBeat;
@@ -68,15 +62,24 @@ public class SwingUI extends JFrame {
 
 	private JList<Object> lFiles;
 	private BasicDirectoryModel bdmInputFiles;
-	private JList<Object> lOutput;
-	private BasicDirectoryModel bdmOutputFiles;
 
-	private JTextArea txtpnOutput;
-	private JTabbedPane logTabPane;
-	private JTextArea txtpnLog;
-	private JButton btClearLog;
-	private JTextArea txtpnDebug;
-	private JButton btClearDebug;
+	private JList<Object> lOnOutput;
+	private BasicDirectoryModel bdmOnOutputFiles;
+	private JTextArea tpOnOutput;
+	private JLabel lOnPrecision;
+	private JLabel lOnRecall;
+	private JLabel lOnFMeasure;
+	
+	private JList<Object> lTeOutput;
+	private BasicDirectoryModel bdmTeOutputFiles;
+	private JTextArea tpTeOutput;
+
+	private JList<Object> lBeOutput;
+	private BasicDirectoryModel bdmBeOutputFiles;
+	private JTextArea tpBeOutput;
+	private JLabel lBeRecall;
+	private JLabel lBeFMeasure;
+	private JLabel lBePrecision;
 
 	/**
 	 * Starts off the <code>Runner</code> by calling its <code>main</code>
@@ -96,19 +99,24 @@ public class SwingUI extends JFrame {
 	private ActionListener runAllButtonClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			for (File f : bdmInputFiles.getFiles()) {
-				run(STARTING_DIRECTORY, killExtension(f.getName()));
+				run(STARTING_DIRECTORY, FileUtils.killExtension(f.getName()));
 			}
-			loadOutputBox();
+			loadOnsetsOutputBox();
+			loadTempoOutputBox();
+			loadBeatOutputBox();
 		}
 	};
 
 	private ActionListener runButtonClick = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			for (int i : lFiles.getSelectedIndices()) {
-				run(STARTING_DIRECTORY, killExtension(bdmInputFiles.getFiles()
-						.get(i).getName()));
+				run(STARTING_DIRECTORY,
+						FileUtils.killExtension(bdmInputFiles.getFiles().get(i)
+								.getName()));
 			}
-			loadOutputBox();
+			loadOnsetsOutputBox();
+			loadTempoOutputBox();
+			loadBeatOutputBox();
 		}
 	};
 
@@ -136,7 +144,7 @@ public class SwingUI extends JFrame {
 		File p = new File(OUTPUT_DIRECTORY);
 		System.out.println("Output directory created: " + p.mkdirs());
 
-		setTitle("Lepatriinu - Audio and Music Processor");
+		setTitle("Geris Version - Audio and Music Processor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 757, 527);
 		JPanel contentPane = new JPanel();
@@ -244,7 +252,7 @@ public class SwingUI extends JFrame {
 
 		JPanel panel_5 = new JPanel();
 		panel_5.setBorder(new EmptyBorder(5, 5, 5, 5));
-		tabbedPane.addTab("Output", null, panel_5, null);
+		tabbedPane.addTab("Onsets Output", null, panel_5, null);
 		GridBagLayout gbl_panel_5 = new GridBagLayout();
 		gbl_panel_5.columnWidths = new int[] { 0, 0 };
 		gbl_panel_5.rowHeights = new int[] { 0, 0, 0 };
@@ -254,7 +262,7 @@ public class SwingUI extends JFrame {
 
 		JPanel panel_9 = new JPanel();
 		panel_9.setBorder(new TitledBorder(UIManager
-				.getBorder("TitledBorder.border"), "Onset",
+				.getBorder("TitledBorder.border"), "Onsets",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_9 = new GridBagConstraints();
 		gbc_panel_9.insets = new Insets(0, 0, 5, 0);
@@ -267,21 +275,21 @@ public class SwingUI extends JFrame {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel_9.add(scrollPane_1);
 
-		lOutput = new JList<>();
-		lOutput.addListSelectionListener(new ListSelectionListener() {
+		lOnOutput = new JList<>();
+		lOnOutput.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting()) {
-					int selI = lOutput.getSelectedIndex();
+					int selI = lOnOutput.getSelectedIndex();
 					if (selI != -1) {
-						txtpnOutput.setText(FileUtils.readFile(bdmOutputFiles
+						tpOnOutput.setText(FileUtils.readFile(bdmOnOutputFiles
 								.getFiles().get(selI).getAbsolutePath()));
 					}
 				}
 			}
 		});
-		lOutput.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		loadOutputBox();
-		scrollPane_1.setViewportView(lOutput);
+		lOnOutput.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		loadOnsetsOutputBox();
+		scrollPane_1.setViewportView(lOnOutput);
 
 		JPanel panel_1 = new JPanel();
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
@@ -319,11 +327,13 @@ public class SwingUI extends JFrame {
 		gbc_scrollPane_2.gridy = 0;
 		panel_8.add(scrollPane_2, gbc_scrollPane_2);
 
-		txtpnOutput = new JTextArea();
-		scrollPane_2.setViewportView(txtpnOutput);
+		tpOnOutput = new JTextArea();
+		scrollPane_2.setViewportView(tpOnOutput);
 
 		JPanel panel_7 = new JPanel();
-		panel_7.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Summary (Averages)", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_7.setBorder(new TitledBorder(UIManager
+				.getBorder("TitledBorder.border"), "Summary (Averages)",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_7 = new GridBagConstraints();
 		gbc_panel_7.fill = GridBagConstraints.BOTH;
 		gbc_panel_7.gridx = 1;
@@ -344,15 +354,15 @@ public class SwingUI extends JFrame {
 		gbc_lbl1.gridy = 0;
 		panel_7.add(lbl1, gbc_lbl1);
 
-		lblPrecision = new JLabel("0.0%");
-		lblPrecision.setOpaque(true);
-		GridBagConstraints gbc_lblPrecision = new GridBagConstraints();
-		gbc_lblPrecision.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblPrecision.insets = new Insets(0, 0, 5, 0);
-		gbc_lblPrecision.anchor = GridBagConstraints.BASELINE;
-		gbc_lblPrecision.gridx = 1;
-		gbc_lblPrecision.gridy = 0;
-		panel_7.add(lblPrecision, gbc_lblPrecision);
+		lOnPrecision = new JLabel("0.0%");
+		lOnPrecision.setOpaque(true);
+		GridBagConstraints gbc_lOnPrecision = new GridBagConstraints();
+		gbc_lOnPrecision.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lOnPrecision.insets = new Insets(0, 0, 5, 0);
+		gbc_lOnPrecision.anchor = GridBagConstraints.BASELINE;
+		gbc_lOnPrecision.gridx = 1;
+		gbc_lOnPrecision.gridy = 0;
+		panel_7.add(lOnPrecision, gbc_lOnPrecision);
 
 		JLabel lbl2 = new JLabel("Recall");
 		GridBagConstraints gbc_lbl2 = new GridBagConstraints();
@@ -362,15 +372,15 @@ public class SwingUI extends JFrame {
 		gbc_lbl2.gridy = 1;
 		panel_7.add(lbl2, gbc_lbl2);
 
-		lblRecall = new JLabel("0.0%");
-		lblRecall.setOpaque(true);
-		GridBagConstraints gbc_lblRecall = new GridBagConstraints();
-		gbc_lblRecall.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblRecall.insets = new Insets(0, 0, 5, 0);
-		gbc_lblRecall.anchor = GridBagConstraints.BASELINE;
-		gbc_lblRecall.gridx = 1;
-		gbc_lblRecall.gridy = 1;
-		panel_7.add(lblRecall, gbc_lblRecall);
+		lOnRecall = new JLabel("0.0%");
+		lOnRecall.setOpaque(true);
+		GridBagConstraints gbc_lOnRecall = new GridBagConstraints();
+		gbc_lOnRecall.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lOnRecall.insets = new Insets(0, 0, 5, 0);
+		gbc_lOnRecall.anchor = GridBagConstraints.BASELINE;
+		gbc_lOnRecall.gridx = 1;
+		gbc_lOnRecall.gridy = 1;
+		panel_7.add(lOnRecall, gbc_lOnRecall);
 
 		JLabel lbl3 = new JLabel("F-Measure");
 		GridBagConstraints gbc_lbl3 = new GridBagConstraints();
@@ -380,82 +390,227 @@ public class SwingUI extends JFrame {
 		gbc_lbl3.gridy = 2;
 		panel_7.add(lbl3, gbc_lbl3);
 
-		lblFMeasure = new JLabel("0.0%");
-		lblFMeasure.setOpaque(true);
-		GridBagConstraints gbc_lblFMeasure = new GridBagConstraints();
-		gbc_lblFMeasure.fill = GridBagConstraints.BOTH;
-		gbc_lblFMeasure.gridx = 1;
-		gbc_lblFMeasure.gridy = 2;
-		panel_7.add(lblFMeasure, gbc_lblFMeasure);
-
-		logTabPane = new JTabbedPane(JTabbedPane.BOTTOM);
-		logTabPane.addChangeListener(logTabPaneChange);
-		// splitPane.setRightComponent(logTabPane);
+		lOnFMeasure = new JLabel("0.0%");
+		lOnFMeasure.setOpaque(true);
+		GridBagConstraints gbc_lOnFMeasure = new GridBagConstraints();
+		gbc_lOnFMeasure.fill = GridBagConstraints.BOTH;
+		gbc_lOnFMeasure.gridx = 1;
+		gbc_lOnFMeasure.gridy = 2;
+		panel_7.add(lOnFMeasure, gbc_lOnFMeasure);
 
 		JPanel panel = new JPanel();
-		logTabPane.addTab(tabNames[0], null, panel, null);
-		panel.setBorder(null);
+		tabbedPane.addTab("Tempo Output", null, panel, null);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 0, 0, 0 };
-		gbl_panel.rowHeights = new int[] { 0, 0 };
-		gbl_panel.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panel.columnWidths = new int[] { 0, 0 };
+		gbl_panel.rowHeights = new int[] { 0, 0, 0 };
+		gbl_panel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
-		btClearLog = new JButton("Clear");
-		btClearLog.addActionListener(clearLogButtonClick);
+		JPanel panel_6 = new JPanel();
+		panel_6.setBorder(new TitledBorder(UIManager
+				.getBorder("TitledBorder.border"), "Beats",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panel_6 = new GridBagConstraints();
+		gbc_panel_6.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_6.fill = GridBagConstraints.BOTH;
+		gbc_panel_6.gridx = 0;
+		gbc_panel_6.gridy = 0;
+		panel.add(panel_6, gbc_panel_6);
+		panel_6.setLayout(new BorderLayout(0, 0));
+
+		JScrollPane scrollPane_4 = new JScrollPane();
+		panel_6.add(scrollPane_4, BorderLayout.CENTER);
+
+		lTeOutput = new JList<>();
+		lTeOutput.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (!e.getValueIsAdjusting()) {
+					int selI = lTeOutput.getSelectedIndex();
+					if (selI != -1) {
+						tpTeOutput.setText(FileUtils.readFile(bdmTeOutputFiles
+								.getFiles().get(selI).getAbsolutePath()));
+					}
+				}
+			}
+		});
+		loadTempoOutputBox();
+		scrollPane_4.setViewportView(lTeOutput);
+
+		JPanel panel_15 = new JPanel();
+		panel_15.setBorder(new TitledBorder(null, "Selected File",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panel_15 = new GridBagConstraints();
+		gbc_panel_15.fill = GridBagConstraints.BOTH;
+		gbc_panel_15.gridx = 0;
+		gbc_panel_15.gridy = 1;
+		panel.add(panel_15, gbc_panel_15);
+		GridBagLayout gbl_panel_15 = new GridBagLayout();
+		gbl_panel_15.columnWidths = new int[] { 6, 0 };
+		gbl_panel_15.rowHeights = new int[] { 24, 0 };
+		gbl_panel_15.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panel_15.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+		panel_15.setLayout(gbl_panel_15);
 
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 0;
-		panel.add(scrollPane, gbc_scrollPane);
+		panel_15.add(scrollPane, gbc_scrollPane);
 
-		txtpnLog = new JTextArea();
-		scrollPane.setViewportView(txtpnLog);
-		txtpnLog.setTabSize(4);
-		txtpnLog.setEditable(false);
-		txtpnLog.setFont(new Font("Courier New", Font.PLAIN, 11));
-		GridBagConstraints gbc_btClearLog = new GridBagConstraints();
-		gbc_btClearLog.anchor = GridBagConstraints.NORTH;
-		gbc_btClearLog.gridx = 1;
-		gbc_btClearLog.gridy = 0;
-		panel.add(btClearLog, gbc_btClearLog);
+		tpTeOutput = new JTextArea();
+		scrollPane.setViewportView(tpTeOutput);
 
-		JPanel panel_6 = new JPanel();
-		panel_6.setBorder(null);
-		logTabPane.addTab(tabNames[1], null, panel_6, null);
-		GridBagLayout gbl_panel_6 = new GridBagLayout();
-		gbl_panel_6.columnWidths = new int[] { 0, 0, 0 };
-		gbl_panel_6.rowHeights = new int[] { 0, 0 };
-		gbl_panel_6.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
-		gbl_panel_6.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
-		panel_6.setLayout(gbl_panel_6);
+		JPanel panel_10 = new JPanel();
+		panel_10.setBorder(new EmptyBorder(5, 5, 5, 5));
+		tabbedPane.addTab("Beat Output", null, panel_10, null);
+		GridBagLayout gbl_panel_10 = new GridBagLayout();
+		gbl_panel_10.columnWidths = new int[] { 0, 0 };
+		gbl_panel_10.rowHeights = new int[] { 0, 0, 0 };
+		gbl_panel_10.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panel_10.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+		panel_10.setLayout(gbl_panel_10);
 
-		JScrollPane scrollPane_4 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_4 = new GridBagConstraints();
-		gbc_scrollPane_4.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_4.insets = new Insets(0, 0, 0, 5);
-		gbc_scrollPane_4.gridx = 0;
-		gbc_scrollPane_4.gridy = 0;
-		panel_6.add(scrollPane_4, gbc_scrollPane_4);
+		JPanel panel_11 = new JPanel();
+		panel_11.setBorder(new TitledBorder(UIManager
+				.getBorder("TitledBorder.border"), "Beats",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panel_11 = new GridBagConstraints();
+		gbc_panel_11.fill = GridBagConstraints.BOTH;
+		gbc_panel_11.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_11.gridx = 0;
+		gbc_panel_11.gridy = 0;
+		panel_10.add(panel_11, gbc_panel_11);
+		panel_11.setLayout(new BorderLayout(0, 0));
 
-		txtpnDebug = new JTextArea();
-		txtpnDebug.setForeground(Color.RED);
-		scrollPane_4.setViewportView(txtpnDebug);
-		txtpnDebug.setTabSize(4);
-		txtpnDebug.setFont(new Font("Courier New", Font.PLAIN, 11));
-		txtpnDebug.setEditable(false);
+		JScrollPane scrollPane_6 = new JScrollPane();
+		panel_11.add(scrollPane_6, BorderLayout.CENTER);
 
-		btClearDebug = new JButton("Clear");
-		btClearDebug.addActionListener(clearDebugButtonClick);
-		GridBagConstraints gbc_btClearDebug = new GridBagConstraints();
-		gbc_btClearDebug.anchor = GridBagConstraints.NORTH;
-		gbc_btClearDebug.gridx = 1;
-		gbc_btClearDebug.gridy = 0;
-		panel_6.add(btClearDebug, gbc_btClearDebug);
+		lBeOutput = new JList<>();
+		lBeOutput.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (!e.getValueIsAdjusting()) {
+					int selI = lBeOutput.getSelectedIndex();
+					if (selI != -1) {
+						tpBeOutput.setText(FileUtils.readFile(bdmBeOutputFiles
+								.getFiles().get(selI).getAbsolutePath()));
+					}
+				}
+			}
+		});
+		lBeOutput.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		loadBeatOutputBox();
+		scrollPane_6.setViewportView(lBeOutput);
+
+		JPanel panel_12 = new JPanel();
+		GridBagConstraints gbc_panel_12 = new GridBagConstraints();
+		gbc_panel_12.fill = GridBagConstraints.BOTH;
+		gbc_panel_12.gridx = 0;
+		gbc_panel_12.gridy = 1;
+		panel_10.add(panel_12, gbc_panel_12);
+		GridBagLayout gbl_panel_12 = new GridBagLayout();
+		gbl_panel_12.columnWidths = new int[] { 0, 0, 0 };
+		gbl_panel_12.rowHeights = new int[] { 0, 0 };
+		gbl_panel_12.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_12.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+		panel_12.setLayout(gbl_panel_12);
+
+		JPanel panel_13 = new JPanel();
+		panel_13.setBorder(new TitledBorder(null, "Selected File",
+
+		TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panel_13 = new GridBagConstraints();
+		gbc_panel_13.fill = GridBagConstraints.BOTH;
+		gbc_panel_13.insets = new Insets(0, 0, 0, 5);
+		gbc_panel_13.gridx = 0;
+		gbc_panel_13.gridy = 0;
+		panel_12.add(panel_13, gbc_panel_13);
+		GridBagLayout gbl_panel_13 = new GridBagLayout();
+		gbl_panel_13.columnWidths = new int[] { 6, 0 };
+		gbl_panel_13.rowHeights = new int[] { 24, 0 };
+		gbl_panel_13.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panel_13.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+		panel_13.setLayout(gbl_panel_13);
+
+		JScrollPane scrollPane_3 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_3 = new GridBagConstraints();
+		gbc_scrollPane_3.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_3.gridx = 0;
+		gbc_scrollPane_3.gridy = 0;
+		panel_13.add(scrollPane_3, gbc_scrollPane_3);
+
+		tpBeOutput = new JTextArea();
+		scrollPane_3.setViewportView(tpBeOutput);
+
+		JPanel panel_14 = new JPanel();
+		panel_14.setBorder(new TitledBorder(UIManager
+				.getBorder("TitledBorder.border"), "Summary (Averages)",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panel_14 = new GridBagConstraints();
+		gbc_panel_14.fill = GridBagConstraints.BOTH;
+		gbc_panel_14.gridx = 1;
+		gbc_panel_14.gridy = 0;
+		panel_12.add(panel_14, gbc_panel_14);
+		GridBagLayout gbl_panel_14 = new GridBagLayout();
+		gbl_panel_14.columnWidths = new int[] { 0, 0, 0 };
+		gbl_panel_14.rowHeights = new int[] { 0, 0, 0, 0 };
+		gbl_panel_14.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_14.rowWeights = new double[] { 0.0, 0.0, 0.0,
+				Double.MIN_VALUE };
+		panel_14.setLayout(gbl_panel_14);
+
+		JLabel label = new JLabel("Precision");
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.anchor = GridBagConstraints.BASELINE_TRAILING;
+		gbc_label.insets = new Insets(0, 0, 5, 5);
+		gbc_label.gridx = 0;
+		gbc_label.gridy = 0;
+		panel_14.add(label, gbc_label);
+
+		lBePrecision = new JLabel("0.0%");
+		lBePrecision.setOpaque(true);
+		GridBagConstraints gbc_lTePrecision = new GridBagConstraints();
+		gbc_lTePrecision.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lTePrecision.anchor = GridBagConstraints.BASELINE;
+		gbc_lTePrecision.insets = new Insets(0, 0, 5, 0);
+		gbc_lTePrecision.gridx = 1;
+		gbc_lTePrecision.gridy = 0;
+		panel_14.add(lBePrecision, gbc_lTePrecision);
+
+		JLabel label_2 = new JLabel("Recall");
+		GridBagConstraints gbc_label_2 = new GridBagConstraints();
+		gbc_label_2.anchor = GridBagConstraints.BASELINE_TRAILING;
+		gbc_label_2.insets = new Insets(0, 0, 5, 5);
+		gbc_label_2.gridx = 0;
+		gbc_label_2.gridy = 1;
+		panel_14.add(label_2, gbc_label_2);
+
+		lBeRecall = new JLabel("0.0%");
+		lBeRecall.setOpaque(true);
+		GridBagConstraints gbc_lTeRecall = new GridBagConstraints();
+		gbc_lTeRecall.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lTeRecall.anchor = GridBagConstraints.BASELINE;
+		gbc_lTeRecall.insets = new Insets(0, 0, 5, 0);
+		gbc_lTeRecall.gridx = 1;
+		gbc_lTeRecall.gridy = 1;
+		panel_14.add(lBeRecall, gbc_lTeRecall);
+
+		JLabel label_4 = new JLabel("F-Measure");
+		GridBagConstraints gbc_label_4 = new GridBagConstraints();
+		gbc_label_4.anchor = GridBagConstraints.ABOVE_BASELINE_TRAILING;
+		gbc_label_4.insets = new Insets(0, 0, 0, 5);
+		gbc_label_4.gridx = 0;
+		gbc_label_4.gridy = 2;
+		panel_14.add(label_4, gbc_label_4);
+
+		lBeFMeasure = new JLabel("0.0%");
+		lBeFMeasure.setOpaque(true);
+		GridBagConstraints gbc_lTeFMeasure = new GridBagConstraints();
+		gbc_lTeFMeasure.fill = GridBagConstraints.BOTH;
+		gbc_lTeFMeasure.gridx = 1;
+		gbc_lTeFMeasure.gridy = 2;
+		panel_14.add(lBeFMeasure, gbc_lTeFMeasure);
 
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
@@ -476,100 +631,35 @@ public class SwingUI extends JFrame {
 		System.out.println("Ready!");
 	}
 
-	private void loadOutputBox() {
+	private void loadOnsetsOutputBox() {
 		JFileChooser fj;
 		fj = new JFileChooser(OUTPUT_DIRECTORY);
-		fj.setFileFilter(FileUtils.getFileFilter("eval"));
-		bdmOutputFiles = new BasicDirectoryModel(fj);
-		lOutput.setModel(bdmOutputFiles);
+		fj.setFileFilter(FileUtils.getFileFilter("onsets.eval"));
+		bdmOnOutputFiles = new BasicDirectoryModel(fj);
+		lOnOutput.setModel(bdmOnOutputFiles);
 
-		bdmOutputFiles.addListDataListener(ldl);
+		bdmOnOutputFiles.addListDataListener(onLDL);
+	}
+	
+	private void loadTempoOutputBox() {
+		JFileChooser fj;
+		fj = new JFileChooser(OUTPUT_DIRECTORY);
+		fj.setFileFilter(FileUtils.getFileFilter("bpms.eval"));
+		bdmTeOutputFiles = new BasicDirectoryModel(fj);
+		lTeOutput.setModel(bdmTeOutputFiles);
 	}
 
-	protected String killExtension(String name) {
-		return name.substring(0, name.lastIndexOf('.'));
+	private void loadBeatOutputBox() {
+		JFileChooser fj;
+		fj = new JFileChooser(OUTPUT_DIRECTORY);
+		fj.setFileFilter(FileUtils.getFileFilter("beats.eval"));
+		bdmBeOutputFiles = new BasicDirectoryModel(fj);
+		lBeOutput.setModel(bdmBeOutputFiles);
+
+		bdmBeOutputFiles.addListDataListener(beLDL);
 	}
 
-	private String[] tabNames = new String[] { "Log", "Debug" };
-
-	/**
-	 * Creates a <code>Stream</code> that redirects the incoming Data into the
-	 * <code>txtpnLog</code> text pane
-	 * 
-	 * @return a new <code>Stream</code>
-	 */
-	@SuppressWarnings("unused")
-	private PrintStream getLogWorkaround() {
-		return new PrintStream(new OutputStream() {
-			@Override
-			public void write(final int b) throws IOException {
-				EventQueue.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							txtpnLog.getDocument().insertString(
-									txtpnLog.getDocument().getLength(),
-									new String(new byte[] { (byte) b }), null);
-							if (!txtpnLog.isShowing()) {
-								logTabPane.setTitleAt(0, tabNames[0] + " - *");
-							}
-						} catch (BadLocationException e) {
-						}
-					}
-				});
-			}
-		});
-	}
-
-	/**
-	 * Creates a <code>Stream</code> that redirects the incoming Data into the
-	 * <code>txtpnDebug</code> text pane
-	 * 
-	 * @return a new <code>Stream</code>
-	 */
-	@SuppressWarnings("unused")
-	private PrintStream getDebugWorkaround() {
-		return new PrintStream(new OutputStream() {
-			@Override
-			public void write(final int b) throws IOException {
-				EventQueue.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							txtpnDebug.getDocument().insertString(
-									txtpnDebug.getDocument().getLength(),
-									new String(new byte[] { (byte) b }), null);
-							if (!txtpnDebug.isShowing()) {
-								logTabPane.setTitleAt(1, tabNames[1] + " - *");
-							}
-						} catch (BadLocationException e) {
-						}
-					}
-				});
-			}
-		});
-	}
-
-	private ActionListener clearLogButtonClick = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			txtpnLog.setText("");
-		}
-	};
-
-	private ActionListener clearDebugButtonClick = new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
-			txtpnDebug.setText("");
-		}
-	};
-
-	private ChangeListener logTabPaneChange = new ChangeListener() {
-		public void stateChanged(ChangeEvent e) {
-			logTabPane.setTitleAt(logTabPane.getSelectedIndex(),
-					tabNames[logTabPane.getSelectedIndex()]);
-		}
-	};
-
-	private ListDataListener ldl = new ListDataListener() {
+	private ListDataListener onLDL = new ListDataListener() {
 		@Override
 		public void intervalRemoved(ListDataEvent e) {
 		}
@@ -577,8 +667,8 @@ public class SwingUI extends JFrame {
 		@Override
 		public void intervalAdded(ListDataEvent e) {
 			double p = 0, r = 0, fM = 0, temp;
-			double size = bdmOutputFiles.getSize();
-			for (File f : bdmOutputFiles.getFiles()) {
+			double size = bdmOnOutputFiles.getSize();
+			for (File f : bdmOnOutputFiles.getFiles()) {
 				String bigString = FileUtils.readFile(f.getAbsolutePath());
 				String searchString = "Precision: ";
 				temp = Double
@@ -606,14 +696,16 @@ public class SwingUI extends JFrame {
 				fM += (!Double.isNaN(temp)) ? temp : 0;
 			}
 			p /= size;
-			lblPrecision.setText(String.format("%f%%", p * 100));
-			lblPrecision.setBackground(new Color((float) (1 - p), (float)p, 0f));
+			lOnPrecision.setText(String.format("%f%%", p * 100));
+			lOnPrecision
+					.setBackground(new Color((float) (1 - p), (float) p, 0f));
 			r /= size;
-			lblRecall.setText(String.format("%f%%", r * 100));
-			lblRecall.setBackground(new Color((float) (1 - r), (float)r, 0f));
+			lOnRecall.setText(String.format("%f%%", r * 100));
+			lOnRecall.setBackground(new Color((float) (1 - r), (float) r, 0f));
 			fM /= size;
-			lblFMeasure.setText(String.format("%f%%", fM * 100));
-			lblFMeasure.setBackground(new Color((float) (1 - fM), (float)fM, 0f));
+			lOnFMeasure.setText(String.format("%f%%", fM * 100));
+			lOnFMeasure.setBackground(new Color((float) (1 - fM), (float) fM,
+					0f));
 		}
 
 		@Override
@@ -621,10 +713,59 @@ public class SwingUI extends JFrame {
 		}
 	};
 
-	private JLabel lblPrecision;
-	private JLabel lblRecall;
-	private JLabel lblFMeasure;
+	private ListDataListener beLDL = new ListDataListener() {
+		@Override
+		public void intervalRemoved(ListDataEvent e) {
+		}
 
+		@Override
+		public void intervalAdded(ListDataEvent e) {
+			double p = 0, r = 0, fM = 0, temp;
+			double size = bdmBeOutputFiles.getSize();
+			for (File f : bdmBeOutputFiles.getFiles()) {
+				String bigString = FileUtils.readFile(f.getAbsolutePath());
+				String searchString = "Precision: ";
+				temp = Double
+						.parseDouble(bigString.substring(
+								bigString.indexOf(searchString)
+										+ searchString.length(),
+								bigString.indexOf('\n',
+										bigString.indexOf(searchString))));
+				p += (!Double.isNaN(temp)) ? temp : 0;
+				searchString = "Recall: ";
+				temp = Double
+						.parseDouble(bigString.substring(
+								bigString.indexOf(searchString)
+										+ searchString.length(),
+								bigString.indexOf('\n',
+										bigString.indexOf(searchString))));
+				r += (!Double.isNaN(temp)) ? temp : 0;
+				searchString = "F-Measure: ";
+				temp = Double
+						.parseDouble(bigString.substring(
+								bigString.indexOf(searchString)
+										+ searchString.length(),
+								bigString.indexOf('\n',
+										bigString.indexOf(searchString))));
+				fM += (!Double.isNaN(temp)) ? temp : 0;
+			}
+			p /= size;
+			lBePrecision.setText(String.format("%f%%", p * 100));
+			lBePrecision
+					.setBackground(new Color((float) (1 - p), (float) p, 0f));
+			r /= size;
+			lBeRecall.setText(String.format("%f%%", r * 100));
+			lBeRecall.setBackground(new Color((float) (1 - r), (float) r, 0f));
+			fM /= size;
+			lBeFMeasure.setText(String.format("%f%%", fM * 100));
+			lBeFMeasure.setBackground(new Color((float) (1 - fM), (float) fM,
+					0f));
+		}
+
+		@Override
+		public void contentsChanged(ListDataEvent e) {
+		}
+	};
 	/**
 	 * Launch the application.
 	 */

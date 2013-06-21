@@ -110,4 +110,8 @@ public class FileUtils {
 			}
 		};
 	}
+
+	public static String killExtension(String name) {
+		return name.substring(0, name.lastIndexOf('.'));
+	}
 }
