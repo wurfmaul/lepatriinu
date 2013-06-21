@@ -40,13 +40,13 @@ public class Analyzer {
 	}
 
 	public double performTempoExtraction() {
-//		System.err.println("Tempo extraction not yet supported.");
+		System.err.println("Tempo extraction not yet supported.");
 //		TEMPO_EXTRACTOR.execute(audiofile);
 		return 0d;
 	}
 
 	public LinkedList<Double> performBeatDetection() {
-//		System.err.println("Beat detection not yet supported.");
+		System.err.println("Beat detection not yet supported.");
 //		BEAT_DETECTOR.execute(audiofile);
 		return new LinkedList<Double>();
 	}
