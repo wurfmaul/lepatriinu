@@ -24,6 +24,7 @@ public class Analyzer {
 	
 	// ONSET DETECTION CONSTANTS
 	public static final int THRESHOLD_RANGE = 7;
+	public static final boolean FLUX_USE_TOTAL_ENERGY = true;
 	
 	// SWING-UI CONSTANTS
 	public static final String INPUT_DIR = "data";

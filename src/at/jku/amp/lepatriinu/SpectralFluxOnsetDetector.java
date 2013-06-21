@@ -10,16 +10,18 @@ public class SpectralFluxOnsetDetector extends OnsetDetector {
 	@Override
 	public LinkedList<Double> execute(AudioFile audiofile) {
 		LinkedList<Double> result;
-		
-		// 
-		result = executeOriginal(audiofile);
+
+		// DETECTION FUNCTION
+		if(Analyzer.FLUX_USE_TOTAL_ENERGY)
+			result = executeTotalEnergy(audiofile);
+		else
+			result = executeOriginal(audiofile);
 		
 		// POSTPROCESSING
 		return peakPick(result, audiofile.hopTime);
 	}
 	
 	private LinkedList<Double> executeOriginal(AudioFile audiofile) {
-		// DETECTION FUNCTION
 		final int length = audiofile.spectralDataContainer.size();
 		final LinkedList<Double> result = new LinkedList<>();
 		
@@ -44,22 +46,22 @@ public class SpectralFluxOnsetDetector extends OnsetDetector {
 		return result;
 	}
 
-	// GERIS VERSION
 	private LinkedList<Double> executeTotalEnergy(AudioFile audiofile) {
-		// DETECTION FUNCTION
 		final int length = audiofile.spectralDataContainer.size();
-		final LinkedList<Double> list = new LinkedList<>();
+		final LinkedList<Double> result = new LinkedList<>();
 		
+		double energy;
+		double lastEnergy = audiofile.spectralDataContainer.get(0).totalEnergy;
 		double x;
 		
 		for (int i = 1; i < length; i++) {
-			x = audiofile.spectralDataContainer.get(i).totalEnergy
-					 - audiofile.spectralDataContainer.get(i- 1).totalEnergy;
-			list.add(Math.pow((x + Math.abs(x) )/ 2, 2));
+			energy = audiofile.spectralDataContainer.get(i).totalEnergy;
+			x = Math.abs(energy) - Math.abs(lastEnergy);
+			x = (x + Math.abs(x) )/ 2;
+			result.add(x * x);
+			lastEnergy = energy;
 		}
-		
-		// POSTPROCESSING
-		return peakPick(list, audiofile.hopTime);
+		return result;
 	}
 
 }
