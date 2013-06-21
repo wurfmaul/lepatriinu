@@ -50,6 +50,9 @@ public class AudioFile {
     private double frameRMS;
     private int frameCount;
     
+    // TODO quick and dirty!
+    public String filename;
+    
 	public double fftTime;
 	public double hopTime;
 	/**
@@ -63,6 +66,7 @@ public class AudioFile {
     public AudioFile(String filename, double fftTime, double hopTime) {
         this.fftTime = fftTime;
         this.hopTime = hopTime;
+        this.filename = filename;
         try {
             File audioFile = new File(filename);
 

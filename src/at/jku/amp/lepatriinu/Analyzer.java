@@ -3,6 +3,7 @@ package at.jku.amp.lepatriinu;
 import java.util.LinkedList;
 
 import at.cp.jku.teaching.amprocessing.AudioFile;
+import at.jku.amp.lepatriinu.OnsetDetector.Mode;
 
 /**
  * Heart of detecting functionality. Contains the configuration of all kind of
@@ -14,9 +15,9 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
  * 
  */
 public class Analyzer {
-	// Detector/Extractor classes
-	private static final OnsetDetector ONSET_DETECTOR = OnsetDetector.FLUX;
-	private static final BeatDetector BEAT_DETECTOR = BeatDetector.AUTO;
+	// DETECTOR INSTANCES
+	private static final OnsetDetector ONSET_DETECTOR = OnsetDetector.GRTR;
+	private static final BeatDetector BEAT_DETECTOR = BeatDetector.IOSE;
 	private static final TempoExtractor TEMPO_EXTRACTOR = TempoExtractor.SIMPLE;
 	
 	// GENERAL CONSTANTS
@@ -27,7 +28,12 @@ public class Analyzer {
 	public static final int THRESHOLD_RANGE = 5;
 	public static final boolean FLUX_USE_TOTAL_ENERGY = true;
 	public static final boolean HIFQ_USE_WPHACK = true;
-	public static final boolean PEAKPICK_USE_ADPTV_THRESHOLD = false;
+	public static final Mode PEAKPICK_MODE = Mode.MOUNTAIN_CLIMBING;
+	
+	// BEAT DETECTOR CONSTANTS
+	public static final boolean AUTO_USE_ONSETS = false;
+	public static final int OCC_THRESHOLD = 30;
+	public static final double TOLERANCE = 0.025;
 	
 	private final AudioFile audiofile;
 	
@@ -44,6 +50,7 @@ public class Analyzer {
 	}
 
 	public double performTempoExtraction(LinkedList<Double> beats) {
-		return TEMPO_EXTRACTOR.execute(audiofile, beats);
+//		return TEMPO_EXTRACTOR.execute(audiofile, beats);
+		return 0;
 	}
 }

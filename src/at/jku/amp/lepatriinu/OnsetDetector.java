@@ -19,6 +19,7 @@ public abstract class OnsetDetector {
 	public static final OnsetDetector SIMPLE = new SimpleOnsetDetector();
 	public static final OnsetDetector FLUX = new SpectralFluxOnsetDetector();
 	public static final OnsetDetector HIFQ = new HighFrequencyOnsetDetector();
+	public static final OnsetDetector GRTR = new GroundTruthPicker();
 
 	/**
 	 * Performs the detection operation.
@@ -32,78 +33,85 @@ public abstract class OnsetDetector {
 	protected LinkedList<Double> peakPick(LinkedList<Double> list,
 			double hopTime) {
 
-		if (Analyzer.PEAKPICK_USE_ADPTV_THRESHOLD)
-			return adptvThreshold(list, hopTime);
-		return peakPickModified(list, hopTime);
+		switch (Analyzer.PEAKPICK_MODE) {
+		case ADAPTIVE_THRESHOLD:
+			return adaptiveThreshold(list, hopTime);
+		default:
+			return mountainClimbing(list, hopTime);
+		}
 	}
 
-	private LinkedList<Double> adptvThreshold(LinkedList<Double> list,
+	private LinkedList<Double> adaptiveThreshold(LinkedList<Double> list,
 			double hopTime) {
 
 		final LinkedList<Double> onsets = new LinkedList<>();
 
 		for (int i = 0; i < list.size(); i++) {
 			int from = Math.max(0, i - THRESHOLD_RANGE);
-			int to = Math.min(i	+ THRESHOLD_RANGE, list.size()-1);
-			double[] values = new double[to-from];
+			int to = Math.min(i + THRESHOLD_RANGE, list.size() - 1);
+			double[] values = new double[to - from];
 			double sum = 0;
-			
+
 			for (int j = from; j <= to; j++) {
-				values[j%(to-from)] = list.get(j);
+				values[j % (to - from)] = list.get(j);
 				sum += list.get(j);
 			}
-			
+
 			// MEAN
-			double mean = sum / (to-from);
+			double mean = sum / (to - from);
 
 			// MEDIAN
 			Arrays.sort(values);
 			double median = mean;
-			if(values.length%2 == 0)
-				median += (values[values.length/2-1] + values[values.length/2]) / 2;
+			if (values.length % 2 == 0)
+				median += (values[values.length / 2 - 1] + values[values.length / 2]) / 2;
 			else
-				median += values[values.length/2];
-			
+				median += values[values.length / 2];
+
 			if (list.get(i) > median) {
 				onsets.add(i * hopTime);
 			}
-			
+
 		}
 		return onsets;
 	}
 
-	private LinkedList<Double> peakPickModified(LinkedList<Double> list,
+	private LinkedList<Double> mountainClimbing(LinkedList<Double> list,
 			double hopTime) {
-		
+
 		final LinkedList<Double> result = new LinkedList<>();
 		final LinkedList<Integer> indices = new LinkedList<>();
-		
+
 		// kill first and last
-		list.set(0,  0d);
-		list.set(list.size()-1, 0d);
+		list.set(0, 0d);
+		list.set(list.size() - 1, 0d);
 
 		// have a look at the others
-		for(int i=1; i<list.size()-1; i++) {
-			if (list.get(i) < list.get(i - 1) || list.get(i) < list.get(i+1))
+		for (int i = 1; i < list.size() - 1; i++) {
+			if (list.get(i) < list.get(i - 1) || list.get(i) < list.get(i + 1))
 				list.set(i, 0d);
 			else
 				indices.add(i);
 		}
-		
+
 		// use threshold
 		for (int i : indices) {
 			int from = Math.max(0, i - THRESHOLD_RANGE);
-			int to = Math.min(i	+ THRESHOLD_RANGE, list.size()-1);
-			
+			int to = Math.min(i + THRESHOLD_RANGE, list.size() - 1);
+
 			for (int j = from; j <= to; j++) {
-				if(list.get(j) > list.get(i))
+				if (list.get(j) > list.get(i))
 					list.set(i, 0d);
 			}
-			
-			if(list.get(i) >= THRESHOLD)
-				result.add(i*hopTime);
+
+			if (list.get(i) >= THRESHOLD)
+				result.add(i * hopTime);
 		}
-		
+
 		return result;
+	}
+
+	public enum Mode {
+		ADAPTIVE_THRESHOLD, MOUNTAIN_CLIMBING;
 	}
 }
