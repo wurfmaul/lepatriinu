@@ -32,7 +32,7 @@ public class Analyzer {
 	
 	// BEAT DETECTOR CONSTANTS
 	public static final boolean AUTO_USE_ONSETS = false;
-	public static final int OCC_THRESHOLD = 30;
+	public static final double OCC_THRESHOLD = 0.35;
 	public static final double TOLERANCE = 0.025;
 	
 	private final AudioFile audiofile;
