@@ -32,7 +32,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicDirectoryModel;
 
 import at.cp.jku.teaching.amprocessing.Runner;
-import at.jku.amp.lepatriinu.Analyzer;
 
 /**
  * A GUI for the execution of the <code>Runner</code>. It just provides some
@@ -49,9 +48,11 @@ import at.jku.amp.lepatriinu.Analyzer;
 public class SwingUI extends JFrame {
 	private static final long serialVersionUID = -3015831195484437974L;
 	private static final String SEP = System.getProperty("file.separator");
-	private static final String STARTING_DIRECTORY = Analyzer.INPUT_DIR + SEP;
+	public static final String INPUT_DIR = "data";
+	public static final String OUTPUT_DIR = "output";
+	private static final String STARTING_DIRECTORY = INPUT_DIR + SEP;
 	private static final String OUTPUT_DIRECTORY = "." + SEP
-			+ Analyzer.OUTPUT_DIR + SEP;
+			+ OUTPUT_DIR + SEP;
 
 	private JCheckBox cbOnset;
 	private JCheckBox cbTempo;
