@@ -1,7 +1,9 @@
 package at.jku.amp.lepatriinu;
 
+import static at.jku.amp.lepatriinu.Analyzer.THRESHOLD_RANGE;
+
+import java.util.Arrays;
 import java.util.LinkedList;
-import static at.jku.amp.lepatriinu.Analyzer.*;
 
 import at.cp.jku.teaching.amprocessing.AudioFile;
 
@@ -27,61 +29,82 @@ public abstract class OnsetDetector {
 	 */
 	public abstract LinkedList<Double> execute(AudioFile audiofile);
 
-	// GERIS VERSION
 	protected LinkedList<Double> peakPick(LinkedList<Double> list,
 			double hopTime) {
 
-		for (int i = 1; i < list.size(); i++) {
-			if (list.get(i) <= list.get(i - 1)) {
-				list.set(i, 0.0);
-			}
-		}
-		for (int i = list.size() - 2; i >= 0; i--) {
-			if (list.get(i) <= list.get((i + 1))) {
-				list.set(i, 0.0);
-			} else if (list.get(i) > list.get(i + 1)) {
-				for (int j = 1; j < 9; j++) {
-					if (i + j >= list.size())
-						break;
-					if (list.get(i + j) > list.get(i)) {
-						list.set(i, 0.0);
-					} else {
-						list.set(i + j, 0.0);
-					}
-				}
-			}
-		}
-		LinkedList<Double> result = new LinkedList<>();
-
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i) > 30)
-				result.add(i * hopTime);
-		}
-
-		System.err.println(list.size() + " onsets found!");
-		return result;
+		if (Analyzer.PEAKPICK_USE_ADPTV_THRESHOLD)
+			return adptvThreshold(list, hopTime);
+		return peakPickModified(list, hopTime);
 	}
 
-	// OUR ORIGINAL VERSION
-	protected LinkedList<Double> peakPick1(LinkedList<Double> list,
+	private LinkedList<Double> adptvThreshold(LinkedList<Double> list,
 			double hopTime) {
-		LinkedList<Double> onsets = new LinkedList<>();
+
+		final LinkedList<Double> onsets = new LinkedList<>();
 
 		for (int i = 0; i < list.size(); i++) {
-			int count = 0;
-			double t = 0d;
-			for (int j = Math.max(0, i - THRESHOLD_RANGE); j < Math.min(i
-					+ THRESHOLD_RANGE, list.size()); j++) {
-				t += list.get(j);
-				count++;
+			int from = Math.max(0, i - THRESHOLD_RANGE);
+			int to = Math.min(i	+ THRESHOLD_RANGE, list.size()-1);
+			double[] values = new double[to-from];
+			double sum = 0;
+			
+			for (int j = from; j <= to; j++) {
+				values[j%(to-from)] = list.get(j);
+				sum += list.get(j);
 			}
-			t = t / count * 2;
-			if (list.get(i) > t) {
+			
+			// MEAN
+			double mean = sum / (to-from);
+
+			// MEDIAN
+			Arrays.sort(values);
+			double median = mean;
+			if(values.length%2 == 0)
+				median += (values[values.length/2-1] + values[values.length/2]) / 2;
+			else
+				median += values[values.length/2];
+			
+			if (list.get(i) > median) {
 				onsets.add(i * hopTime);
-				System.err.println(i * hopTime);
 			}
+			
 		}
-		System.err.println(onsets.size() + " onsets found!");
 		return onsets;
+	}
+
+	private LinkedList<Double> peakPickModified(LinkedList<Double> list,
+			double hopTime) {
+		
+		final LinkedList<Double> result = new LinkedList<>();
+		final LinkedList<Integer> indices = new LinkedList<>();
+		
+		// kill first and last
+		list.set(0,  0d);
+		list.set(list.size()-1, 0d);
+
+		// have a look at the others
+		for(int i=1; i<list.size()-1; i++) {
+			if (list.get(i) < list.get(i - 1) || list.get(i) < list.get(i+1))
+				list.set(i, 0d);
+			else
+				indices.add(i);
+		}
+		
+		System.err.println(indices.size());
+		
+		for (int i : indices) {
+			int from = Math.max(0, i - THRESHOLD_RANGE);
+			int to = Math.min(i	+ THRESHOLD_RANGE, list.size()-1);
+			
+			for (int j = from; j <= to; j++) {
+				if(list.get(j) > list.get(i))
+					list.set(i, 0d);
+			}
+			
+			if(list.get(i) >= 15)
+				result.add(i*hopTime);
+		}
+		
+		return result;
 	}
 }
