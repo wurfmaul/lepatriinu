@@ -66,14 +66,17 @@ public class Runner {
 
         File dir = new File(outputDirectory);
         if (!dir.exists()) {
-            throw new IllegalArgumentException("Output Directory does not exist!");
+        	// Don't hesitate, there is still a way ;)
+        	dir.mkdirs();
+//            throw new IllegalArgumentException("Output Directory does not exist!");
         }
 
         if (!outputDirectory.endsWith(File.separator)) {
             outputDirectory = outputDirectory + File.separator;
         }
 
-        shortWavFileName = wavFileName.substring(wavFileName.lastIndexOf("/") + 1, wavFileName.lastIndexOf("."));
+        // Using File.seperatorChar instead of hard coded "/" which will not work properly on Windows
+        shortWavFileName = wavFileName.substring(wavFileName.lastIndexOf(File.separatorChar) + 1, wavFileName.lastIndexOf("."));
         outputOnsetsFileName = outputDirectory + shortWavFileName + ".onsets";
         outputTempoFileName = outputDirectory + shortWavFileName + ".bpms";
         outputBeatsFileName = outputDirectory + shortWavFileName + ".beats";
