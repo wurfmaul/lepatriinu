@@ -16,8 +16,8 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
 public class Analyzer {
 	// Detector/Extractor classes
 	private static final OnsetDetector ONSET_DETECTOR = OnsetDetector.FLUX;
-//	private static final TempoExtractor TEMPO_EXTRACTOR = TempoExtractor.SIMPLE;
-//	private static final BeatDetector BEAT_DETECTOR = BeatDetector.SIMPLE;
+	private static final BeatDetector BEAT_DETECTOR = BeatDetector.AUTO;
+	private static final TempoExtractor TEMPO_EXTRACTOR = TempoExtractor.SIMPLE;
 	
 	// GENERAL CONSTANTS
 	public static final boolean DEBUG_MODE = true;
@@ -29,10 +29,6 @@ public class Analyzer {
 	public static final boolean HIFQ_USE_WPHACK = true;
 	public static final boolean PEAKPICK_USE_ADPTV_THRESHOLD = false;
 	
-	// SWING-UI CONSTANTS
-	public static final String INPUT_DIR = "data";
-	public static final String OUTPUT_DIR = "output";
-	
 	private final AudioFile audiofile;
 	
 	public Analyzer(AudioFile audiofile) {
@@ -42,16 +38,12 @@ public class Analyzer {
 	public LinkedList<Double> performOnsetDetection() {
 		return ONSET_DETECTOR.execute(audiofile);
 	}
-
-	public double performTempoExtraction() {
-		System.err.println("Tempo extraction not yet supported.");
-//		TEMPO_EXTRACTOR.execute(audiofile);
-		return 0d;
+	
+	public LinkedList<Double> performBeatDetection(LinkedList<Double> onsets) {
+		return BEAT_DETECTOR.execute(audiofile, onsets);
 	}
 
-	public LinkedList<Double> performBeatDetection() {
-		System.err.println("Beat detection not yet supported.");
-//		BEAT_DETECTOR.execute(audiofile);
-		return new LinkedList<Double>();
+	public double performTempoExtraction(LinkedList<Double> beats) {
+		return TEMPO_EXTRACTOR.execute(audiofile, beats);
 	}
 }

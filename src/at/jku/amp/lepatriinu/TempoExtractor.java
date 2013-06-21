@@ -1,5 +1,7 @@
 package at.jku.amp.lepatriinu;
 
+import java.util.LinkedList;
+
 import at.cp.jku.teaching.amprocessing.AudioFile;
 
 /**
@@ -18,7 +20,9 @@ public abstract class TempoExtractor {
 	 * 
 	 * @param audiofile
 	 *            The audio file that is to be analyzed.
+	 * @param beats
+	 *            The list of found beats.
 	 * @return A value for the measured tempo.
 	 */
-	public abstract double execute(AudioFile audiofile);
+	public abstract double execute(AudioFile audiofile, LinkedList<Double> beats);
 }

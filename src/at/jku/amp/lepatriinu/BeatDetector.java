@@ -13,14 +13,17 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
  * 
  */
 public abstract class BeatDetector {
-	public static final BeatDetector SIMPLE = null;
-	
+	public static final BeatDetector AUTO = new AutoCorrelationBeatDetector();
+
 	/**
 	 * Performs the detection operation.
 	 * 
 	 * @param audiofile
 	 *            The audio file that is to be analyzed.
+	 * @param onsets
+	 *            The list of found onsets.
 	 * @return A list of beat measurements.
 	 */
-	public abstract LinkedList<Double> execute(AudioFile audiofile);
+	public abstract LinkedList<Double> execute(AudioFile audiofile,
+			LinkedList<Double> onsets);
 }
