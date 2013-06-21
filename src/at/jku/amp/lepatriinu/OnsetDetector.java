@@ -16,7 +16,7 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
 public abstract class OnsetDetector {
 	public static final OnsetDetector SIMPLE = new SimpleOnsetDetector();
 	public static final OnsetDetector FLUX = new SpectralFluxOnsetDetector();
-	public static final OnsetDetector HIGHFREQ = new HighFrequencyOnsetDetector();
+	public static final OnsetDetector HIFQ = new HighFrequencyOnsetDetector();
 
 	/**
 	 * Performs the detection operation.

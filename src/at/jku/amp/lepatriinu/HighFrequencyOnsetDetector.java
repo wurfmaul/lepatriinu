@@ -9,11 +9,35 @@ public class HighFrequencyOnsetDetector extends OnsetDetector {
 
 	@Override
 	public LinkedList<Double> execute(AudioFile audiofile) {
+		LinkedList<Double> result;
+		
 		// DETECTION FUNCTION
-//		final int length = audiofile.spectralDataContainer.size();
-		final LinkedList<Double> result = new LinkedList<>();
+		if (Analyzer.HIFQ_USE_WPHACK)
+			result = executeWikipediaHack(audiofile);
+		else
+			result = executeOriginal(audiofile);
 
-		// FIXME: still goes notly, but needs lessly time for it ...
+		// POSTPROCESSING
+		return peakPick(result, audiofile.hopTime);
+	}
+	
+	private LinkedList<Double> executeOriginal(AudioFile audiofile) {
+		final int length = audiofile.spectralDataContainer.size();
+		final LinkedList<Double> result = new LinkedList<>();
+		double sum;
+
+		for (SpectralData sd: audiofile.spectralDataContainer) {
+			sum = 0;
+			for (int j = 1; j < sd.size; j++) {
+				sum += Math.pow(j * sd.magnitudes[j], 2);
+			}
+			result.add(sum / length);
+		}
+		return result;
+	}
+	
+	private LinkedList<Double> executeWikipediaHack(AudioFile audiofile) {
+		final LinkedList<Double> result = new LinkedList<>();
 		double sum;
 
 		for (SpectralData sd: audiofile.spectralDataContainer) {
@@ -21,21 +45,8 @@ public class HighFrequencyOnsetDetector extends OnsetDetector {
 			for (int i = 0; i < sd.size; i++) {
 				sum += Math.abs(i * sd.magnitudes[i]);
 			}
-//			System.err.println(length + ", " + audiofile.sampleDataContainer.size());
 			result.add(sum);
 		}
-
-//		for (int i = 0; i < length; i++) {
-//			sum = 0;
-//			for (int j = 1; j < length; j++) {
-//				sum += j
-//						* Math.pow(Math.abs(audiofile.spectralDataContainer
-//								.get(j).totalEnergy), 2);
-//			}
-//			result.add(sum);
-//		}
-
-		// POSTPROCESSING
-		return peakPick(result, audiofile.hopTime);
+		return result;
 	}
 }
