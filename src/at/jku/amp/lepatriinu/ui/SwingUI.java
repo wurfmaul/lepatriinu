@@ -144,7 +144,7 @@ public class SwingUI extends JFrame {
 		File p = new File(OUTPUT_DIRECTORY);
 		System.out.println("Output directory created: " + p.mkdirs());
 
-		setTitle("Geris Version - Audio and Music Processor");
+		setTitle("lepatriinu - Audio and Music Processor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 757, 527);
 		JPanel contentPane = new JPanel();
@@ -236,6 +236,7 @@ public class SwingUI extends JFrame {
 		panel_2.add(cbOnset, gbc_cbOnset);
 
 		cbTempo = new JCheckBox("Generate Tempo File");
+		cbTempo.setSelected(true);
 		GridBagConstraints gbc_cbTempo = new GridBagConstraints();
 		gbc_cbTempo.insets = new Insets(0, 0, 0, 5);
 		gbc_cbTempo.gridx = 1;
@@ -243,6 +244,7 @@ public class SwingUI extends JFrame {
 		panel_2.add(cbTempo, gbc_cbTempo);
 
 		cbBeat = new JCheckBox("Generate  Beats File");
+		cbBeat.setSelected(true);
 		GridBagConstraints gbc_cbBeat = new GridBagConstraints();
 		gbc_cbBeat.gridx = 2;
 		gbc_cbBeat.gridy = 0;
