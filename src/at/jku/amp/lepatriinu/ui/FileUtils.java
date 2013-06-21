@@ -1,4 +1,4 @@
-package at.jku.amp.lepatriinu.utils;
+package at.jku.amp.lepatriinu.ui;
 
 import java.awt.Component;
 import java.io.BufferedReader;

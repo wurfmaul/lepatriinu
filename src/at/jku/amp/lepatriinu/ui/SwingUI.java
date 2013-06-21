@@ -40,7 +40,6 @@ import javax.swing.text.BadLocationException;
 
 import at.cp.jku.teaching.amprocessing.Runner;
 import at.jku.amp.lepatriinu.Analyzer;
-import at.jku.amp.lepatriinu.utils.FileUtils;
 
 /**
  * A GUI for the execution of the <code>Runner</code>. It just provides some

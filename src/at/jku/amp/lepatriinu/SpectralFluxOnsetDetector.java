@@ -6,7 +6,6 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
 
 public class SpectralFluxOnsetDetector extends OnsetDetector {
 
-	// OUR ORIGINAL VERSION
 	@Override
 	public LinkedList<Double> execute(AudioFile audiofile) {
 		LinkedList<Double> result;
