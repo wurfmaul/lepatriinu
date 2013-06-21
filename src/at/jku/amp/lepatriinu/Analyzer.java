@@ -23,6 +23,7 @@ public class Analyzer {
 	public static final boolean DEBUG_MODE = true;
 	
 	// ONSET DETECTION CONSTANTS
+	public static final int THRESHOLD = 13;
 	public static final int THRESHOLD_RANGE = 5;
 	public static final boolean FLUX_USE_TOTAL_ENERGY = true;
 	public static final boolean HIFQ_USE_WPHACK = true;

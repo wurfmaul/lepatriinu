@@ -1,6 +1,6 @@
 package at.jku.amp.lepatriinu;
 
-import static at.jku.amp.lepatriinu.Analyzer.THRESHOLD_RANGE;
+import static at.jku.amp.lepatriinu.Analyzer.*;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -90,8 +90,7 @@ public abstract class OnsetDetector {
 				indices.add(i);
 		}
 		
-		System.err.println(indices.size());
-		
+		// use threshold
 		for (int i : indices) {
 			int from = Math.max(0, i - THRESHOLD_RANGE);
 			int to = Math.min(i	+ THRESHOLD_RANGE, list.size()-1);
@@ -101,7 +100,7 @@ public abstract class OnsetDetector {
 					list.set(i, 0d);
 			}
 			
-			if(list.get(i) >= 15)
+			if(list.get(i) >= THRESHOLD)
 				result.add(i*hopTime);
 		}
 		
