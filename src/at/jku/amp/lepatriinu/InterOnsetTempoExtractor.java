@@ -11,6 +11,12 @@ import java.util.Map.Entry;
 
 import at.cp.jku.teaching.amprocessing.AudioFile;
 
+/**
+ * Uses Inter Onset Intervals (slides 5.10 - 5.14) to estimate the beat.
+ * 
+ * @author Wolfgang Küllinger (0955711)
+ * @author Fabian Jordan (0855941)
+ */
 public class InterOnsetTempoExtractor extends TempoExtractor {
 	private Map<Integer, Integer> occurrences = new LinkedHashMap<>();
 	private Map<Double, Integer> map = new LinkedHashMap<>();
@@ -21,7 +27,7 @@ public class InterOnsetTempoExtractor extends TempoExtractor {
 		occurrences = new LinkedHashMap<>();
 		map = new LinkedHashMap<>();
 		maxInt = 0;
-		
+
 		double currentOnset, nextOnset, distance;
 
 		// calculate distances
@@ -49,7 +55,7 @@ public class InterOnsetTempoExtractor extends TempoExtractor {
 		}
 
 		assert maxKey > 0 : "Tempo extraction: no maximum found!";
-		
+
 		// translate to bpm
 		return 60 / maxKey;
 	}

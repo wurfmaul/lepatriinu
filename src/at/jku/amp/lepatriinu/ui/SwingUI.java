@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -40,7 +41,9 @@ import at.cp.jku.teaching.amprocessing.Runner;
  * <code>System.exit(1);</code> parts into
  * <code>throw IllegalArgumentExceptions</code>. </br></br>
  * <code>System.out</code> and <code>System.err</code> will be redirected to
- * text panes in the window.
+ * text panes in the window. </br></br> <i><b>Tip:</b> Best to use the
+ * WindowBuilder plugin from Google, as the GridBagLayout produces really nasty
+ * code but has far the best effects on the layout.</i>
  * 
  * @author Wolfgang Küllinger (0955711)
  * @author Fabian Jordan (0855941)
@@ -121,21 +124,6 @@ public class SwingUI extends JFrame {
 			loadOnsetsOutputBox();
 			loadTempoOutputBox();
 			loadBeatOutputBox();
-		}
-	};
-
-	private ActionListener useOnsetOutputClick = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-		}
-	};
-
-	private ActionListener useTempoOutputClick = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-		}
-	};
-
-	private ActionListener useBeatOutputClick = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
 		}
 	};
 
@@ -225,7 +213,6 @@ public class SwingUI extends JFrame {
 
 		cbOnset = new JCheckBox("Generate Onset File");
 		cbOnset.setSelected(true);
-		cbOnset.addActionListener(useOnsetOutputClick);
 		GridBagConstraints gbc_cbOnset = new GridBagConstraints();
 		gbc_cbOnset.insets = new Insets(0, 0, 0, 5);
 		gbc_cbOnset.gridx = 0;
@@ -246,8 +233,6 @@ public class SwingUI extends JFrame {
 		gbc_cbBeat.gridx = 2;
 		gbc_cbBeat.gridy = 0;
 		panel_2.add(cbBeat, gbc_cbBeat);
-		cbBeat.addActionListener(useBeatOutputClick);
-		cbTempo.addActionListener(useTempoOutputClick);
 
 		JPanel panel_5 = new JPanel();
 		panel_5.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -699,10 +684,14 @@ public class SwingUI extends JFrame {
 		contentPane.add(toolBar, BorderLayout.NORTH);
 
 		btRunSel = new JButton("Run selected");
+		btRunSel.setIcon(new ImageIcon(SwingUI.class
+				.getResource("/media/play.png")));
 		btRunSel.setEnabled(false);
 		btRunSel.addActionListener(runButtonClick);
 
 		btnRunAll = new JButton("Run all");
+		btnRunAll.setIcon(new ImageIcon(SwingUI.class
+				.getResource("/media/play_all.png")));
 		btnRunAll.addActionListener(runAllButtonClick);
 		toolBar.add(btnRunAll);
 		toolBar.add(btRunSel);

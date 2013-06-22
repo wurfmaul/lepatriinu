@@ -23,11 +23,17 @@ public abstract class BeatDetector {
 	 *            The audio file that is to be analyzed.
 	 * @param onsets
 	 *            The list of found onsets.
+	 * @param tempo
+	 *            The result from the TempoExtractor.
 	 * @return A list of beat measurements.
 	 */
 	public abstract LinkedList<Double> execute(AudioFile audiofile,
 			LinkedList<Double> onsets, double tempo);
 
+	/**
+	 * Defines which function AutoCorrelationBeatDetector should choose when
+	 * called.
+	 */
 	public enum Mode {
 		AUTO_TEMPO_CORRELATION, AUTO_ONSET_CORRELATION, AUTO_SPECTRAL_CORRELATION;
 	}

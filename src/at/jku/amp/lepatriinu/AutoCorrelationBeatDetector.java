@@ -4,6 +4,14 @@ import java.util.LinkedList;
 
 import at.cp.jku.teaching.amprocessing.AudioFile;
 
+/**
+ * Implements three autocorrelating algorithms, which can be chosen by the
+ * setting <code>Analyzer.AUTO_FUNCTION</code>.
+ * 
+ * @author Wolfgang Küllinger (0955711)
+ * @author Fabian Jordan (0855941)
+ * 
+ */
 public class AutoCorrelationBeatDetector extends BeatDetector {
 
 	@Override
@@ -14,12 +22,23 @@ public class AutoCorrelationBeatDetector extends BeatDetector {
 		case AUTO_ONSET_CORRELATION:
 			return executeOnOnsets(audiofile, onsets);
 		case AUTO_SPECTRAL_CORRELATION:
-			 return executeOnSpectralData(audiofile, onsets);
+			return executeOnSpectralData(audiofile, onsets);
 		default:
 			return executeOnTempo(audiofile, onsets, tempo);
 		}
 	}
 
+	/**
+	 * Implements the Pulse Train idea (slides 5.15 - 5.19).
+	 * 
+	 * @param audiofile
+	 *            The audio file that is to be analyzed.
+	 * @param onsets
+	 *            The list of found onsets.
+	 * @param tempo
+	 *            The result from the TempoExtractor.
+	 * @return A list of beat measurements.
+	 */
 	private LinkedList<Double> executeOnTempo(AudioFile audiofile,
 			LinkedList<Double> onsets, double tempo) {
 		double realTempo = 60 / tempo;
@@ -55,6 +74,18 @@ public class AutoCorrelationBeatDetector extends BeatDetector {
 		return result;
 	}
 
+	/**
+	 * Implements the IOI idea (slides 5.10 - 5.14). It uses the onsets as
+	 * information.
+	 * 
+	 * @param audiofile
+	 *            The audio file that is to be analyzed.
+	 * @param onsets
+	 *            The list of found onsets.
+	 * @param tempo
+	 *            The result from the TempoExtractor.
+	 * @return A list of beat measurements.
+	 */
 	private LinkedList<Double> executeOnOnsets(AudioFile audiofile,
 			LinkedList<Double> onsets) {
 
@@ -87,6 +118,19 @@ public class AutoCorrelationBeatDetector extends BeatDetector {
 		return result;
 	}
 
+	/**
+	 * Implements the IOI idea (slides 5.10 - 5.14). It uses the STFT and
+	 * doesn't work well, as it doesn't always like to hit the right onset
+	 * times.
+	 * 
+	 * @param audiofile
+	 *            The audio file that is to be analyzed.
+	 * @param onsets
+	 *            The list of found onsets.
+	 * @param tempo
+	 *            The result from the TempoExtractor.
+	 * @return A list of beat measurements.
+	 */
 	private LinkedList<Double> executeOnSpectralData(AudioFile audiofile,
 			LinkedList<Double> onsets) {
 

@@ -11,7 +11,7 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
 
 /**
  * Super class of all onset detectors. Contains instances of all available
- * detectors.
+ * detectors and the peak picking functions.
  * 
  * @author Wolfgang Küllinger (0955711)
  * @author Fabian Jordan (0855941)
@@ -36,15 +36,26 @@ public abstract class OnsetDetector {
 	 */
 	public abstract LinkedList<Double> execute(AudioFile audiofile);
 
+	/**
+	 * Performs peak picking on a given list.
+	 * 
+	 * @param list
+	 *            The list of possible onsets.
+	 * @param hopTime
+	 *            The hoptime (from the audiofile).
+	 * @return The final list of onsets.
+	 */
 	protected LinkedList<Double> peakPick(LinkedList<Double> list,
 			double hopTime) {
-
 		if (Analyzer.USE_MOUNTAIN_PEAKPICK)
 			return mountainClimbing(list, hopTime);
 		else
 			return adaptiveThreshold(list, hopTime);
 	}
 
+	/**
+	 * Applies an adaptive threshold (slide 5.40).
+	 */
 	private LinkedList<Double> adaptiveThreshold(LinkedList<Double> list,
 			double hopTime) {
 
@@ -83,6 +94,10 @@ public abstract class OnsetDetector {
 		return onsets;
 	}
 
+	// FIXME: SOURCE!?
+	/**
+	 * Only  
+	 */
 	private LinkedList<Double> mountainClimbing(LinkedList<Double> list,
 			double hopTime) {
 

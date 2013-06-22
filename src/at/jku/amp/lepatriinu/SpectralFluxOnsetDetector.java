@@ -4,6 +4,13 @@ import java.util.LinkedList;
 
 import at.cp.jku.teaching.amprocessing.AudioFile;
 
+/**
+ * Uses the idea of Spectral Difference (slide 4.20) to extract onsets.
+ * 
+ * @author Wolfgang Küllinger (0955711)
+ * @author Fabian Jordan (0855941)
+ * 
+ */
 public class SpectralFluxOnsetDetector extends OnsetDetector {
 
 	@Override
@@ -20,6 +27,9 @@ public class SpectralFluxOnsetDetector extends OnsetDetector {
 		return peakPick(result, audiofile.hopTime);
 	}
 
+	/**
+	 * Uses the exact formula from slide 4.20.
+	 */
 	private LinkedList<Double> executeOriginal(AudioFile audiofile) {
 		final int length = audiofile.spectralDataContainer.size();
 		final LinkedList<Double> result = new LinkedList<>();
@@ -45,6 +55,10 @@ public class SpectralFluxOnsetDetector extends OnsetDetector {
 		return result;
 	}
 
+	/**
+	 * Uses the total energy of each bin (inspired by playing around and <a
+	 * href="http://en.wikipedia.org/wiki/Spectral_flux">Wikipedia</a>).
+	 */
 	private LinkedList<Double> executeTotalEnergy(AudioFile audiofile) {
 		final int length = audiofile.spectralDataContainer.size();
 		final LinkedList<Double> result = new LinkedList<>();
@@ -61,10 +75,9 @@ public class SpectralFluxOnsetDetector extends OnsetDetector {
 			x = (x + Math.abs(x)) / 2;
 			// SD(n) = sum(...)^2
 			result.add(x * x);
-			
+
 			lastEnergy = energy;
 		}
 		return result;
 	}
-
 }
