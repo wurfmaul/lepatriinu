@@ -1,0 +1,128 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% General Settings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\documentclass[numbers=noenddot]{scrartcl}
+\documentclass[numbers=noenddot]{scrreprt}
+
+\usepackage[USenglish,naustrian]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage{pdfpages}
+\usepackage{listings}
+\usepackage{varioref}
+\usepackage[numbers]{natbib}
+\usepackage[hyphens]{url}
+\usepackage{amsmath}
+\usepackage{scrhack} % avoid warnings about deprecated functions
+
+% set koma font
+\setkomafont{disposition}{\bfseries}
+\geometry{a4paper} % ,left=25mm, right=25mm, top=25mm, bottom=25mm, includeheadfoot}
+
+% Factor of gap between lines (default = 1)
+\newcommand{\gapoflinesfactor}{1.15}
+% Gap between paragraphs (default = 0em)
+\newcommand{\gapofparagraphs}{0.5em}
+
+% Specify space between lines
+\renewcommand{\baselinestretch}{\gapoflinesfactor}\normalsize
+% Specify space between paragraphs
+\setlength{\parskip}{\gapofparagraphs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Settings for title page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}} 	% Horizontal rule
+\newcommand{\fulltitle}{Audio and Music Processing}
+\renewcommand{\subtitle}{Exercise Track}
+
+\makeatletter							% Title
+\def\printtitle{%						
+    {\centering \@title\par}}
+\makeatother									
+
+\makeatletter							% Author
+\def\printauthor{%					
+    {\centering \large \@author}}				
+\makeatother						
+
+\title{	\normalsize \textsc{\subtitle}	 	% Subtitle of the document
+ 	\\[2.0cm]								% 2cm spacing
+	\HRule{0.5pt} \\						% Upper rule
+	\LARGE \textbf{\uppercase{\fulltitle}}	% Title
+	\HRule{2pt} \\ [0.5cm]					% Lower rule + 0.5cm spacing
+	\normalsize \today						% Todays date
+}
+
+\author{
+	Wolfgang Küllinger (0955711) \\ 
+	Fabian Jordan (0855941) \\
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Package Settings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[colorlinks=true,
+	linkcolor=black,
+	citecolor=black,
+	urlcolor=black,
+	breaklinks=true,
+	bookmarksnumbered=true,
+	hypertexnames=false,
+	pdfpagemode=UseOutlines,
+	pdfview=FitH,
+	plainpages=false,
+	pdfpagelabels,
+	bookmarks=true,
+	linktocpage=true]{hyperref}
+
+\hypersetup{
+	pdfauthor={Gruppe 3},
+	pdftitle={\fulltitle},
+	pdfsubject={Projekt},
+	pdfkeywords={Kryptografie, WLAN, Verschlüsselung},
+	pdfcreator={pdfLaTeX with hyperref (\today{})}
+}
+    
+%\definecolor{dkgreen}{rgb}{0.4,0.6,0.4}
+%\definecolor{gray}{rgb}{0.5,0.5,0.5}
+%\definecolor{mauve}{rgb}{0.7,0,0.7}
+
+\lstset{
+	basicstyle=\footnotesize,
+	captionpos=b,
+%	commentstyle=\color{dkgreen},
+	frame=single,
+%	keywordstyle=\color{blue}\bfseries,
+	numbers=left,
+	numbersep=5pt,
+%	numberstyle=\tiny\color{gray},
+	rulecolor=\color{black},
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	stepnumber=1,
+%	stringstyle=\color{mauve},
+	tabsize=2,
+	title=\lstname,
+	aboveskip=1em,
+	belowskip=1em
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Environment Settings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{enumerate*}{%
+	\begin{enumerate}%
+	\setlength{\itemsep}{0pt}%
+	\setlength{\parskip}{0pt}%
+}{\end{enumerate}}
+
+%%%%% new itemize environment without gap %%%%%
+\newenvironment{itemize*}{%
+	\begin{itemize}%
+	\setlength{\itemsep}{0pt}%
+	\setlength{\parskip}{0pt}}%
+{\end{itemize}}

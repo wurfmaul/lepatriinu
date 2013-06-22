@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="src/jopt-simple.jar"/>
-	<classpathentry kind="lib" path="media.jar"/>
+	<classpathentry kind="lib" path="/home/wurfmaul/audio/lepatriinu/src/media.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
