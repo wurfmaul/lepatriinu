@@ -1,6 +1,8 @@
 package at.jku.amp.lepatriinu;
 
-import static at.jku.amp.lepatriinu.Analyzer.*;
+import static at.jku.amp.lepatriinu.Analyzer.PEAKPICK_USE_MEAN;
+import static at.jku.amp.lepatriinu.Analyzer.THRESHOLD;
+import static at.jku.amp.lepatriinu.Analyzer.THRESHOLD_RANGE;
 
 import java.util.Arrays;
 import java.util.LinkedList;

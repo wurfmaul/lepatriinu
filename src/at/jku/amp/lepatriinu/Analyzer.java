@@ -16,7 +16,7 @@ import at.jku.amp.lepatriinu.OnsetDetector.Mode;
  */
 public class Analyzer {
 	// DETECTOR INSTANCES
-	private static final OnsetDetector ONSET_DETECTOR = OnsetDetector.GRTR;
+	private static final OnsetDetector ONSET_DETECTOR = OnsetDetector.FLUX;
 	private static final TempoExtractor TEMPO_EXTRACTOR = TempoExtractor.IOTE;
 	private static final BeatDetector BEAT_DETECTOR = BeatDetector.AUTO;
 	
@@ -37,7 +37,7 @@ public class Analyzer {
 	// TEMPO EXTRACTOR CONSTANTS
 	public static final double MIN_TEMPO = 0.3; // = 200 bpm
 	public static final double MAX_TEMPO = 1; // = 60 bpm
-	public static final double TEMPO_KEY_TOLERANCE = 0.025;
+	public static final double TEMPO_KEY_TOLERANCE = 0.1;
 
 	private final AudioFile audiofile;
 
