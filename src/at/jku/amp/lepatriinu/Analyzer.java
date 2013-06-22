@@ -33,7 +33,7 @@ public class Analyzer {
 	public static final boolean AUTO_USE_ONSETS = false;
 	public static final double OCC_THRESHOLD = 0.35;
 	public static final double TOLERANCE = 0.025;
-	
+
 	// TEMPO EXTRACTOR CONSTANTS
 	public static final double MIN_TEMPO = 0.3;
 	public static final double MAX_TEMPO = 1;
@@ -53,7 +53,8 @@ public class Analyzer {
 		return TEMPO_EXTRACTOR.execute(audiofile, onsets);
 	}
 
-	public LinkedList<Double> performBeatDetection(LinkedList<Double> onsets) {
-		return BEAT_DETECTOR.execute(audiofile, onsets);
+	public LinkedList<Double> performBeatDetection(LinkedList<Double> onsets,
+			double tempo) {
+		return BEAT_DETECTOR.execute(audiofile, onsets, tempo);
 	}
 }

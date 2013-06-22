@@ -7,7 +7,7 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
 public class AutoCorrelationBeatDetector extends BeatDetector {
 	@Override
 	public LinkedList<Double> execute(AudioFile audiofile,
-			LinkedList<Double> onsets) {
+			LinkedList<Double> onsets, double tempo) {
 
 		if (Analyzer.AUTO_USE_ONSETS)
 			return executeOnOnsets(audiofile, onsets);

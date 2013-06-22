@@ -48,8 +48,8 @@ public class Processor {
 
 		Analyzer analyzer = new Analyzer(m_audiofile);
 		m_onsetList = analyzer.performOnsetDetection();
-		m_beatList = analyzer.performBeatDetection(m_onsetList);
-		m_tempo = analyzer.performTempoExtraction(m_beatList);
+		m_tempo = analyzer.performTempoExtraction(m_onsetList);
+		m_beatList = analyzer.performBeatDetection(m_onsetList, m_tempo);
 
 		if (Analyzer.DEBUG_MODE)
 			System.out.println("Analysis finished.");

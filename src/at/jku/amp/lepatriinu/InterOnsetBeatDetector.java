@@ -18,7 +18,7 @@ public class InterOnsetBeatDetector extends BeatDetector {
 
 	@Override
 	public LinkedList<Double> execute(AudioFile audiofile,
-			LinkedList<Double> onsets) {
+			LinkedList<Double> onsets, double tempo) {
 
 		LinkedList<Double> result = new LinkedList<>();
 		

@@ -41,7 +41,6 @@ public class InterOnsetTempoExtractor extends TempoExtractor {
 				break;
 			
 			occ = occurrences.get(e.getValue());
-			System.err.println(occ + "(max=" + max + ")");
 			if (occ > max) {
 				max = occ;
 				maxKey = e.getKey();

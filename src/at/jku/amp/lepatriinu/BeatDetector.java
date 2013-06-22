@@ -26,5 +26,5 @@ public abstract class BeatDetector {
 	 * @return A list of beat measurements.
 	 */
 	public abstract LinkedList<Double> execute(AudioFile audiofile,
-			LinkedList<Double> onsets);
+			LinkedList<Double> onsets, double tempo);
 }
