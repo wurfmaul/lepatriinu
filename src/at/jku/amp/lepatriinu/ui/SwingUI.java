@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -32,6 +33,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicDirectoryModel;
 
 import at.cp.jku.teaching.amprocessing.Runner;
+import javax.swing.ImageIcon;
 
 /**
  * A GUI for the execution of the <code>Runner</code>. It just provides some
@@ -51,8 +53,7 @@ public class SwingUI extends JFrame {
 	public static final String INPUT_DIR = "data";
 	public static final String OUTPUT_DIR = "output";
 	private static final String STARTING_DIRECTORY = INPUT_DIR + SEP;
-	private static final String OUTPUT_DIRECTORY = "." + SEP
-			+ OUTPUT_DIR + SEP;
+	private static final String OUTPUT_DIRECTORY = "." + SEP + OUTPUT_DIR + SEP;
 
 	private JCheckBox cbOnset;
 	private JCheckBox cbTempo;
@@ -70,7 +71,7 @@ public class SwingUI extends JFrame {
 	private JLabel lOnPrecision;
 	private JLabel lOnRecall;
 	private JLabel lOnFMeasure;
-	
+
 	private JList<Object> lTeOutput;
 	private BasicDirectoryModel bdmTeOutputFiles;
 	private JTextArea tpTeOutput;
@@ -440,23 +441,37 @@ public class SwingUI extends JFrame {
 		loadTempoOutputBox();
 		scrollPane_4.setViewportView(lTeOutput);
 
+		JPanel panel_16 = new JPanel();
+		GridBagConstraints gbc_panel_16 = new GridBagConstraints();
+		gbc_panel_16.fill = GridBagConstraints.BOTH;
+		gbc_panel_16.gridx = 0;
+		gbc_panel_16.gridy = 1;
+		panel.add(panel_16, gbc_panel_16);
+		GridBagLayout gbl_panel_16 = new GridBagLayout();
+		gbl_panel_16.columnWidths = new int[] { 0, 0 };
+		gbl_panel_16.rowHeights = new int[] { 0, 0 };
+		gbl_panel_16.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panel_16.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+		panel_16.setLayout(gbl_panel_16);
+
 		JPanel panel_15 = new JPanel();
-		panel_15.setBorder(new TitledBorder(null, "Selected File",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_15 = new GridBagConstraints();
 		gbc_panel_15.fill = GridBagConstraints.BOTH;
 		gbc_panel_15.gridx = 0;
-		gbc_panel_15.gridy = 1;
-		panel.add(panel_15, gbc_panel_15);
+		gbc_panel_15.gridy = 0;
+		panel_16.add(panel_15, gbc_panel_15);
+		panel_15.setBorder(new TitledBorder(null, "Selected File",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagLayout gbl_panel_15 = new GridBagLayout();
-		gbl_panel_15.columnWidths = new int[] { 6, 0 };
+		gbl_panel_15.columnWidths = new int[] { 6, 0, 0 };
 		gbl_panel_15.rowHeights = new int[] { 24, 0 };
-		gbl_panel_15.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panel_15.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
 		gbl_panel_15.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		panel_15.setLayout(gbl_panel_15);
 
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 0;
@@ -464,6 +479,75 @@ public class SwingUI extends JFrame {
 
 		tpTeOutput = new JTextArea();
 		scrollPane.setViewportView(tpTeOutput);
+
+		JPanel panel_17 = new JPanel();
+		panel_17.setBorder(new TitledBorder(UIManager
+				.getBorder("TitledBorder.border"), "Summary",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panel_17 = new GridBagConstraints();
+		gbc_panel_17.fill = GridBagConstraints.BOTH;
+		gbc_panel_17.gridx = 1;
+		gbc_panel_17.gridy = 0;
+		panel_15.add(panel_17, gbc_panel_17);
+		GridBagLayout gbl_panel_17 = new GridBagLayout();
+		gbl_panel_17.columnWidths = new int[] { 0, 0, 0 };
+		gbl_panel_17.rowHeights = new int[] { 0, 0, 0, 0 };
+		gbl_panel_17.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_17.rowWeights = new double[] { 0.0, 0.0, 0.0,
+				Double.MIN_VALUE };
+		panel_17.setLayout(gbl_panel_17);
+
+		JLabel lblCorrectTempo = new JLabel("Correct Tempo");
+		GridBagConstraints gbc_lblCorrectTempo = new GridBagConstraints();
+		gbc_lblCorrectTempo.anchor = GridBagConstraints.BASELINE_TRAILING;
+		gbc_lblCorrectTempo.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCorrectTempo.gridx = 0;
+		gbc_lblCorrectTempo.gridy = 0;
+		panel_17.add(lblCorrectTempo, gbc_lblCorrectTempo);
+
+		lblTeCorrect = new JLabel("0.0% (0/0)");
+		lblTeCorrect.setOpaque(true);
+		GridBagConstraints gbc_lblTeCorrect = new GridBagConstraints();
+		gbc_lblTeCorrect.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblTeCorrect.anchor = GridBagConstraints.BASELINE;
+		gbc_lblTeCorrect.insets = new Insets(0, 0, 5, 0);
+		gbc_lblTeCorrect.gridx = 1;
+		gbc_lblTeCorrect.gridy = 0;
+		panel_17.add(lblTeCorrect, gbc_lblTeCorrect);
+
+		JLabel lblMultipleTempo = new JLabel("Multiple Tempo");
+		GridBagConstraints gbc_lblMultipleTempo = new GridBagConstraints();
+		gbc_lblMultipleTempo.anchor = GridBagConstraints.BASELINE_TRAILING;
+		gbc_lblMultipleTempo.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMultipleTempo.gridx = 0;
+		gbc_lblMultipleTempo.gridy = 1;
+		panel_17.add(lblMultipleTempo, gbc_lblMultipleTempo);
+
+		lblTeMultiple = new JLabel("0.0% (0/0)");
+		lblTeMultiple.setOpaque(true);
+		GridBagConstraints gbc_lblTeMultiple = new GridBagConstraints();
+		gbc_lblTeMultiple.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblTeMultiple.anchor = GridBagConstraints.BASELINE;
+		gbc_lblTeMultiple.insets = new Insets(0, 0, 5, 0);
+		gbc_lblTeMultiple.gridx = 1;
+		gbc_lblTeMultiple.gridy = 1;
+		panel_17.add(lblTeMultiple, gbc_lblTeMultiple);
+
+		JLabel lblNoTempo = new JLabel("No Tempo");
+		GridBagConstraints gbc_lblNoTempo = new GridBagConstraints();
+		gbc_lblNoTempo.anchor = GridBagConstraints.ABOVE_BASELINE_TRAILING;
+		gbc_lblNoTempo.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNoTempo.gridx = 0;
+		gbc_lblNoTempo.gridy = 2;
+		panel_17.add(lblNoTempo, gbc_lblNoTempo);
+
+		lblTeNone = new JLabel("0.0% (0/0)");
+		lblTeNone.setOpaque(true);
+		GridBagConstraints gbc_lblTeNone = new GridBagConstraints();
+		gbc_lblTeNone.fill = GridBagConstraints.BOTH;
+		gbc_lblTeNone.gridx = 1;
+		gbc_lblTeNone.gridy = 2;
+		panel_17.add(lblTeNone, gbc_lblTeNone);
 
 		JPanel panel_10 = new JPanel();
 		panel_10.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -643,13 +727,16 @@ public class SwingUI extends JFrame {
 
 		bdmOnOutputFiles.addListDataListener(onLDL);
 	}
-	
+
 	private void loadTempoOutputBox() {
 		JFileChooser fj;
 		fj = new JFileChooser(OUTPUT_DIRECTORY);
-		fj.setFileFilter(FileUtils.getFileFilter("bpms.eval"));
+		fj.setFileFilter(FileUtils.getFileFilter(new String[] { "bpms",
+				"bpms.eval" }));
 		bdmTeOutputFiles = new BasicDirectoryModel(fj);
 		lTeOutput.setModel(bdmTeOutputFiles);
+
+		bdmTeOutputFiles.addListDataListener(teLDL);
 	}
 
 	private void loadBeatOutputBox() {
@@ -670,7 +757,7 @@ public class SwingUI extends JFrame {
 		@Override
 		public void intervalAdded(ListDataEvent e) {
 			double p = 0, r = 0, fM = 0, temp;
-			double size = bdmOnOutputFiles.getSize();
+			final int size = bdmOnOutputFiles.getSize();
 			for (File f : bdmOnOutputFiles.getFiles()) {
 				String bigString = FileUtils.readFile(f.getAbsolutePath());
 				String searchString = "Precision: ";
@@ -701,14 +788,53 @@ public class SwingUI extends JFrame {
 			p /= size;
 			lOnPrecision.setText(String.format("%f%%", p * 100));
 			lOnPrecision
-					.setBackground(new Color((float) (1 - p), (float) p, 0f));
+					.setBackground(getColorValue(p));
 			r /= size;
 			lOnRecall.setText(String.format("%f%%", r * 100));
-			lOnRecall.setBackground(new Color((float) (1 - r), (float) r, 0f));
+			lOnRecall.setBackground(getColorValue(r));
 			fM /= size;
 			lOnFMeasure.setText(String.format("%f%%", fM * 100));
-			lOnFMeasure.setBackground(new Color((float) (1 - fM), (float) fM,
-					0f));
+			lOnFMeasure.setBackground(getColorValue(fM));
+		}
+
+		@Override
+		public void contentsChanged(ListDataEvent e) {
+		}
+	};
+
+	private ListDataListener teLDL = new ListDataListener() {
+		@Override
+		public void intervalRemoved(ListDataEvent e) {
+		}
+
+		@Override
+		public void intervalAdded(ListDataEvent e) {
+			int correct = 0, multiple = 0, none = 0, evalCount = 0;
+			for (File f : bdmTeOutputFiles.getFiles()) {
+				String path = f.getPath();
+				final String text = FileUtils.readFile(path);
+				if (path.endsWith("eval")) {
+					if (text.length() >= 2) {
+						int c = Integer.parseInt(text.substring(0, 1));
+						int m = Integer.parseInt(text.substring(2, 3));
+						correct += (c == 1) ? 1 : 0;
+						multiple += (m == 1) ? 1: 0;
+						none += (m == 0 && c == 0) ? 1 : 0;
+						evalCount++;
+					}
+				} else {
+
+				}
+			}
+			double percentage = (double)correct / evalCount;
+			lblTeCorrect.setText(String.format("%f%% (%d/%d)", (percentage * 100), correct, evalCount));
+			lblTeCorrect.setBackground(getColorValue(percentage));
+			percentage = (double)multiple / evalCount;
+			lblTeMultiple.setText(String.format("%f%% (%d/%d)", (percentage * 100), multiple, evalCount));
+			lblTeMultiple.setBackground(getColorValue(percentage));
+			percentage = (double)none / evalCount;
+			lblTeNone.setText(String.format("%f%% (%d/%d)", (percentage * 100), none, evalCount));
+			lblTeNone.setBackground(getColorValue(1 - percentage));
 		}
 
 		@Override
@@ -724,7 +850,7 @@ public class SwingUI extends JFrame {
 		@Override
 		public void intervalAdded(ListDataEvent e) {
 			double p = 0, r = 0, fM = 0, temp;
-			double size = bdmBeOutputFiles.getSize();
+			final int size = bdmBeOutputFiles.getSize();
 			for (File f : bdmBeOutputFiles.getFiles()) {
 				String bigString = FileUtils.readFile(f.getAbsolutePath());
 				String searchString = "Precision: ";
@@ -755,20 +881,27 @@ public class SwingUI extends JFrame {
 			p /= size;
 			lBePrecision.setText(String.format("%f%%", p * 100));
 			lBePrecision
-					.setBackground(new Color((float) (1 - p), (float) p, 0f));
+					.setBackground(getColorValue(p));
 			r /= size;
 			lBeRecall.setText(String.format("%f%%", r * 100));
-			lBeRecall.setBackground(new Color((float) (1 - r), (float) r, 0f));
+			lBeRecall.setBackground(getColorValue(r));
 			fM /= size;
 			lBeFMeasure.setText(String.format("%f%%", fM * 100));
-			lBeFMeasure.setBackground(new Color((float) (1 - fM), (float) fM,
-					0f));
+			lBeFMeasure.setBackground(getColorValue(fM));
 		}
 
 		@Override
 		public void contentsChanged(ListDataEvent e) {
 		}
 	};
+	
+	private Color getColorValue(double p) {
+		return new Color((float) (1 - p), (float) p, 0f);
+	}
+	private JLabel lblTeCorrect;
+	private JLabel lblTeMultiple;
+	private JLabel lblTeNone;
+
 	/**
 	 * Launch the application.
 	 */

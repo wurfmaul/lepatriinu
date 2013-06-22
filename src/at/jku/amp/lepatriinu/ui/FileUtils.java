@@ -70,7 +70,7 @@ public class FileUtils {
 			return fj.getSelectedFile();
 		return null;
 	}
-	
+
 	public static String readFile(String filename) {
 		Path p = Paths.get(filename);
 		try (BufferedReader br = Files.newBufferedReader(p,
@@ -95,10 +95,14 @@ public class FileUtils {
 	}
 
 	public static FileFilter getFileFilter(final String extension) {
+		return getFileFilter(new String[] { extension });
+	}
+
+	public static FileFilter getFileFilter(final String[] extensions) {
 		return new FileFilter() {
 			@Override
 			public String getDescription() {
-				return extension;
+				return extensions[0];
 			}
 
 			@Override
@@ -106,7 +110,11 @@ public class FileUtils {
 				if (f.isDirectory())
 					return false;
 				String name = f.getName();
-				return name.endsWith("." + extension);
+				for (String s : extensions) {
+					if (name.endsWith("." + s))
+						return true;
+				}
+				return false;
 			}
 		};
 	}
