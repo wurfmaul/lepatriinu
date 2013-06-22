@@ -36,12 +36,6 @@ public class InterOnsetTempoExtractor extends TempoExtractor {
 				count(distance);
 			}
 		}
-		
-		System.err.println("OCCURRENCES:");
-		for(Entry<Double, Integer> e : map.entrySet()) {
-			System.err.print(e.getKey() + " => ");
-			System.err.println(occurrences.get(e.getValue()));
-		}
 
 		// calculate maximum
 		int occ, max = 0;
@@ -57,9 +51,7 @@ public class InterOnsetTempoExtractor extends TempoExtractor {
 		assert maxKey > 0 : "Tempo extraction: no maximum found!";
 		
 		// translate to bpm
-		final double tempo = 60 / maxKey;
-		System.err.println("TEMPO: " + tempo + " (" + maxKey + ")");
-		return tempo;
+		return 60 / maxKey;
 	}
 
 	private void count(double distance) {

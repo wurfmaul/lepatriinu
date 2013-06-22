@@ -39,7 +39,7 @@ public class Analyzer {
 	// TEMPO EXTRACTOR CONSTANTS
 	public static final double MIN_TEMPO = 0.3; // = 200 bpm
 	public static final double MAX_TEMPO = 1; // = 60 bpm
-	public static final double TEMPO_KEY_TOLERANCE = 0.1;
+	public static final double TEMPO_KEY_TOLERANCE = 0.0195;
 
 	private final AudioFile audiofile;
 
