@@ -148,7 +148,6 @@ public class SwingUI extends JFrame {
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new EmptyBorder(5, 5, 5, 5));
 		tabbedPane.addTab("Files", null, panel_3, null);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[] { 0, 0 };
@@ -235,7 +234,6 @@ public class SwingUI extends JFrame {
 		panel_2.add(cbBeat, gbc_cbBeat);
 
 		JPanel panel_5 = new JPanel();
-		panel_5.setBorder(new EmptyBorder(5, 5, 5, 5));
 		tabbedPane.addTab("Onsets Output", null, panel_5, null);
 		GridBagLayout gbl_panel_5 = new GridBagLayout();
 		gbl_panel_5.columnWidths = new int[] { 0, 0 };
@@ -392,9 +390,7 @@ public class SwingUI extends JFrame {
 		panel.setLayout(gbl_panel);
 
 		JPanel panel_6 = new JPanel();
-		panel_6.setBorder(new TitledBorder(UIManager
-				.getBorder("TitledBorder.border"), "Beats",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_6.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Tempos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_6 = new GridBagConstraints();
 		gbc_panel_6.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_6.fill = GridBagConstraints.BOTH;
@@ -530,7 +526,6 @@ public class SwingUI extends JFrame {
 		panel_17.add(lTeNone, gbc_lblTeNone);
 
 		JPanel panel_10 = new JPanel();
-		panel_10.setBorder(new EmptyBorder(5, 5, 5, 5));
 		tabbedPane.addTab("Beat Output", null, panel_10, null);
 		GridBagLayout gbl_panel_10 = new GridBagLayout();
 		gbl_panel_10.columnWidths = new int[] { 0, 0 };
