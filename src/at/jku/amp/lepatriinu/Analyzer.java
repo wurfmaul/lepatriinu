@@ -34,7 +34,7 @@ public class Analyzer {
 	// BEAT DETECTOR CONSTANTS
 	public static final boolean AUTO_USE_ONSETS = false;
 	public static final Mode AUTO_FUNCTION = Mode.AUTO_TEMPO_CORRELATION;
-	public static final double AUTO_PHASE_TOLERANCE = 0.25;
+	public static final double AUTO_PHASE_TOLERANCE = 0.21;
 
 	// TEMPO EXTRACTOR CONSTANTS
 	public static final double MIN_TEMPO = 0.3; // = 200 bpm
