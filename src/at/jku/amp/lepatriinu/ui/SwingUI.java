@@ -809,7 +809,7 @@ public class SwingUI extends JFrame {
 						int c = Integer.parseInt(text.substring(0, 1));
 						int m = Integer.parseInt(text.substring(2, 3));
 						correct += (c == 1) ? 1 : 0;
-						multiple += (m == 1) ? 1 : 0;
+						multiple += (m == 1 && c == 0) ? 1 : 0;
 						none += (m == 0 && c == 0) ? 1 : 0;
 						evalCount++;
 					}
