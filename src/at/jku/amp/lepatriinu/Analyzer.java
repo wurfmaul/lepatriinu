@@ -3,7 +3,7 @@ package at.jku.amp.lepatriinu;
 import java.util.LinkedList;
 
 import at.cp.jku.teaching.amprocessing.AudioFile;
-import at.jku.amp.lepatriinu.OnsetDetector.Mode;
+import at.jku.amp.lepatriinu.BeatDetector.Mode;
 
 /**
  * Heart of detecting functionality. Contains the configuration of all kind of
@@ -28,11 +28,13 @@ public class Analyzer {
 	public static final int THRESHOLD_RANGE = 5;
 	public static final boolean FLUX_USE_TOTAL_ENERGY = true;
 	public static final boolean HIFQ_USE_WPHACK = true;
-	public static final Mode PEAKPICK_MODE = Mode.MOUNTAIN_CLIMBING;
+	public static final boolean USE_MOUNTAIN_PEAKPICK = true;
 	public static final boolean PEAKPICK_USE_MEAN = false;
 
 	// BEAT DETECTOR CONSTANTS
 	public static final boolean AUTO_USE_ONSETS = false;
+	public static final Mode AUTO_FUNCTION = Mode.AUTO_TEMPO_CORRELATION;
+	public static final double AUTO_PHASE_TOLERANCE = 0.25;
 
 	// TEMPO EXTRACTOR CONSTANTS
 	public static final double MIN_TEMPO = 0.3; // = 200 bpm

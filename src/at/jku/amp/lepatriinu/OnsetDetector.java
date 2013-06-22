@@ -39,12 +39,10 @@ public abstract class OnsetDetector {
 	protected LinkedList<Double> peakPick(LinkedList<Double> list,
 			double hopTime) {
 
-		switch (Analyzer.PEAKPICK_MODE) {
-		case ADAPTIVE_THRESHOLD:
-			return adaptiveThreshold(list, hopTime);
-		default:
+		if (Analyzer.USE_MOUNTAIN_PEAKPICK)
 			return mountainClimbing(list, hopTime);
-		}
+		else
+			return adaptiveThreshold(list, hopTime);
 	}
 
 	private LinkedList<Double> adaptiveThreshold(LinkedList<Double> list,
@@ -63,7 +61,7 @@ public abstract class OnsetDetector {
 				sum += list.get(j);
 			}
 
-			if(PEAKPICK_USE_MEAN) {
+			if (PEAKPICK_USE_MEAN) {
 				double mean = sum / (to - from);
 				if (list.get(i) > mean) {
 					onsets.add(i * hopTime);
@@ -75,7 +73,7 @@ public abstract class OnsetDetector {
 					median = (values[values.length / 2 - 1] + values[values.length / 2]) / 2;
 				else
 					median = values[values.length / 2];
-	
+
 				if (list.get(i) > median) {
 					onsets.add(i * hopTime);
 				}
@@ -118,9 +116,5 @@ public abstract class OnsetDetector {
 		}
 
 		return result;
-	}
-
-	public enum Mode {
-		ADAPTIVE_THRESHOLD, MOUNTAIN_CLIMBING;
 	}
 }

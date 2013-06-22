@@ -5,14 +5,54 @@ import java.util.LinkedList;
 import at.cp.jku.teaching.amprocessing.AudioFile;
 
 public class AutoCorrelationBeatDetector extends BeatDetector {
+
 	@Override
 	public LinkedList<Double> execute(AudioFile audiofile,
 			LinkedList<Double> onsets, double tempo) {
 
-		if (Analyzer.AUTO_USE_ONSETS)
+		switch (Analyzer.AUTO_FUNCTION) {
+		case AUTO_ONSET_CORRELATION:
 			return executeOnOnsets(audiofile, onsets);
-		else
-			return executeOnSpectralData(audiofile, onsets);
+		case AUTO_SPECTRAL_CORRELATION:
+			 return executeOnSpectralData(audiofile, onsets);
+		default:
+			return executeOnTempo(audiofile, onsets, tempo);
+		}
+	}
+
+	private LinkedList<Double> executeOnTempo(AudioFile audiofile,
+			LinkedList<Double> onsets, double tempo) {
+		double realTempo = 60 / tempo;
+
+		LinkedList<Double> result = null;
+		LinkedList<Double> temp = new LinkedList<>();
+
+		int bestCross = 0;
+		double lastOnset = onsets.getLast();
+
+		for (double slowD : onsets) {
+			int crossCorr = 0;
+			while (slowD < lastOnset) {
+
+				for (double fastD : onsets) {
+
+					if (Math.abs(slowD - fastD) < Analyzer.AUTO_PHASE_TOLERANCE) {
+						crossCorr++;
+						temp.add(fastD);
+					}
+				}
+
+				slowD += realTempo;
+			}
+
+			if (crossCorr > bestCross) {
+				result = new LinkedList<>(temp);
+				bestCross = crossCorr;
+			}
+			temp.clear();
+		}
+
+		return result;
 	}
 
 	private LinkedList<Double> executeOnOnsets(AudioFile audiofile,
@@ -54,7 +94,7 @@ public class AutoCorrelationBeatDetector extends BeatDetector {
 		final int to = (int) (1 / audiofile.hopTime);
 		final int from = (int) (to * 0.3);
 		double[] temp = new double[to];
-		
+
 		for (int i = from; i < to; i++) {
 
 			double sum = 0;
