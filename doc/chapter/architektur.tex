@@ -4,111 +4,35 @@
 The project was separated into several classes. The given framework simple calls
 methods which are defined in the package \texttt{at.jku.amp.lepatriinu}.
 
-\begin{itemize}
-  \ttfamily
-  \item at.jku.amp.lepatriinu.Analyzer
-  \item at.jku.amp.lepatriinu.BeatDetector
-  \begin{itemize}
-    \item at.jku.amp.lepatriinu.AutoCorrelationBeatDetector
-  \end{itemize}
-  \item at.jku.amp.lepatriinu.OnsetDetector
-  \begin{itemize}
-    \item at.jku.amp.lepatriinu.GroundTruthPicker 
-    \item at.jku.amp.lepatriinu.HighFrequencyOnsetDetector
-    \item at.jku.amp.lepatriinu.SimpleOnsetDetector
-    \item at.jku.amp.lepatriinu.SpectralFluxOnsetDetector
-  \end{itemize}
-  \item at.jku.amp.lepatriinu.TempoExtractor
-  \begin{itemize}
-    \item at.jku.amp.lepatriinu.InterOnsetTempoExtractor
-  \end{itemize} 
-\end{itemize}
+% \begin{itemize}
+%   \ttfamily
+%   \item at.jku.amp.lepatriinu.Analyzer
+%   \item at.jku.amp.lepatriinu.BeatDetector
+%   \begin{itemize}
+%     \item at.jku.amp.lepatriinu.AutoCorrelationBeatDetector
+%   \end{itemize}
+%   \item at.jku.amp.lepatriinu.OnsetDetector
+%   \begin{itemize}
+%     \item at.jku.amp.lepatriinu.GroundTruthPicker 
+%     \item at.jku.amp.lepatriinu.HighFrequencyOnsetDetector
+%     \item at.jku.amp.lepatriinu.SimpleOnsetDetector
+%     \item at.jku.amp.lepatriinu.SpectralFluxOnsetDetector
+%   \end{itemize}
+%   \item at.jku.amp.lepatriinu.TempoExtractor
+%   \begin{itemize}
+%     \item at.jku.amp.lepatriinu.InterOnsetTempoExtractor
+%   \end{itemize} 
+% \end{itemize}
 
-\subsection{\ttfamily Analyzer}
-The \emph{Analyzer} class defines all the constants that are needed for any
-algorithm in the project to succeed. In order to make central configurations
-possible, the constants are collected in this single class.
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=\textwidth]{chapter/ClassDiagram}
+  \label{fig:classdiagram}
+  \caption{Class diagram}
+\end{figure}
 
-Furthermore it provides the central interface to the
-\texttt{at.cp.jku.teaching.amprocessing} project. It is initialized with a
-pre-processed (e.g. FFT) audio file of type \texttt{Audiofile}. The order of
-usage is important. In the first place, onset detection can be done. This
-information can directly be retrieved from the audio file. The found onsets are
-the base for tempo extraction. Therefore the onset list has to be provided as
-parameter of the tempo extraction function. Finally beat detection can be
-performed. In order to be able to use the best algorithms both the onset list as
-well as the calculated tempo should be provided.
-
-\begin{enumerate}
-  \item Onset detection: \texttt{onsets = performOnsetDetection()}
-  \item Tempo extraction: \texttt{tempo = performTempoExtraction(onsets)}
-  \item Beat Detection: \texttt{beats = performBeatDetection(onsets, tempo)}
-\end{enumerate}
-
-\subsubsection{Constants}
-In the following section the used constants are explained.
-
-\begin{table}[htp]
-	\begin{tabular}{|l|l|l|l|}
-		\hline
-			\bf Constant & \bf Type & \bf Default value & \bf Description\\
-		\hline \hline
-			ONSET\_DETECTOR & OnsetDetector & OnsetDetector.FLUX & specifies the used
-			onset detection algorithm.\\
-		\hline
-			 &  &  & \\
-		\hline
-			 &  &  & \\
-		\hline
-			 &  &  & \\
-		\hline
-			 &  &  & \\
-		\hline
-			 &  &  & \\
-		\hline
-			 &  &  & \\
-		\hline
-			 &  &  & \\
-		\hline
-			 &  &  & \\
-		\hline
-			 &  &  & \\
-		\hline
-			 &  &  & \\
-		\hline
-			 &  &  & \\
-		\hline
-			 &  &  & \\
-		\hline
-		\hline
-	\end{tabular}
-	\caption{Constants in \texttt{Analyzer}}
-	\label{tbl:constants}
-\end{table}
-
-% 	  = ;
-% 	private static final TempoExtractor TEMPO_EXTRACTOR = TempoExtractor.IOTE;
-% 	private static final BeatDetector BEAT_DETECTOR = BeatDetector.AUTO;
-% 	
-% 	// GENERAL CONSTANTS
-% 	public static final boolean DEBUG_MODE = true;
-% 
-% 	// ONSET DETECTION CONSTANTS
-% 	public static final int THRESHOLD = 13;
-% 	public static final int THRESHOLD_RANGE = 5;
-% 	public static final boolean FLUX_USE_TOTAL_ENERGY = true;
-% 	public static final boolean HIFQ_USE_WPHACK = true;
-% 	public static final boolean USE_MOUNTAIN_PEAKPICK = true;
-% 	public static final boolean PEAKPICK_USE_MEAN = false;
-% 
-% 	// BEAT DETECTOR CONSTANTS
-% 	public static final boolean AUTO_USE_ONSETS = false;
-% 	public static final Mode AUTO_FUNCTION = Mode.AUTO_TEMPO_CORRELATION;
-% 	public static final double AUTO_PHASE_TOLERANCE = 0.21;
-% 
-% 	// TEMPO EXTRACTOR CONSTANTS
-% 	public static final double MIN_TEMPO = 0.3; // = 200 bpm
-% 	public static final double MAX_TEMPO = 1; // = 60 bpm
-% 	public static final double TEMPO_KEY_TOLERANCE = 0.0195;
-
-\section{Graphical user interface}
+\input{chapter/analyzer}
+\input{chapter/onset}
+\input{chapter/tempo}
+\input{chapter/beat}
+\input{chapter/gui}
