@@ -13,7 +13,7 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
  * 
  */
 public abstract class TempoExtractor {
-	public static final TempoExtractor SIMPLE = null;
+	public static final TempoExtractor IOTE = new InterOnsetTempoExtractor();
 
 	/**
 	 * Performs the tempo extraction operation.

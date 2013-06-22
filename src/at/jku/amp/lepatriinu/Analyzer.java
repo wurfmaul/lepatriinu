@@ -17,26 +17,30 @@ import at.jku.amp.lepatriinu.OnsetDetector.Mode;
 public class Analyzer {
 	// DETECTOR INSTANCES
 	private static final OnsetDetector ONSET_DETECTOR = OnsetDetector.GRTR;
+	private static final TempoExtractor TEMPO_EXTRACTOR = TempoExtractor.IOTE;
 	private static final BeatDetector BEAT_DETECTOR = BeatDetector.IOSE;
-	private static final TempoExtractor TEMPO_EXTRACTOR = TempoExtractor.SIMPLE;
-	
 	// GENERAL CONSTANTS
 	public static final boolean DEBUG_MODE = true;
-	
+
 	// ONSET DETECTION CONSTANTS
 	public static final int THRESHOLD = 13;
 	public static final int THRESHOLD_RANGE = 5;
 	public static final boolean FLUX_USE_TOTAL_ENERGY = true;
 	public static final boolean HIFQ_USE_WPHACK = true;
 	public static final Mode PEAKPICK_MODE = Mode.MOUNTAIN_CLIMBING;
-	
+
 	// BEAT DETECTOR CONSTANTS
 	public static final boolean AUTO_USE_ONSETS = false;
 	public static final double OCC_THRESHOLD = 0.35;
 	public static final double TOLERANCE = 0.025;
 	
+	// TEMPO EXTRACTOR CONSTANTS
+	public static final double MIN_TEMPO = 0.3;
+	public static final double MAX_TEMPO = 1;
+	public static final double TEMPO_KEY_TOLERANCE = 0.025;
+
 	private final AudioFile audiofile;
-	
+
 	public Analyzer(AudioFile audiofile) {
 		this.audiofile = audiofile;
 	}
@@ -44,13 +48,12 @@ public class Analyzer {
 	public LinkedList<Double> performOnsetDetection() {
 		return ONSET_DETECTOR.execute(audiofile);
 	}
-	
-	public LinkedList<Double> performBeatDetection(LinkedList<Double> onsets) {
-		return BEAT_DETECTOR.execute(audiofile, onsets);
+
+	public double performTempoExtraction(LinkedList<Double> onsets) {
+		return TEMPO_EXTRACTOR.execute(audiofile, onsets);
 	}
 
-	public double performTempoExtraction(LinkedList<Double> beats) {
-//		return TEMPO_EXTRACTOR.execute(audiofile, beats);
-		return 0;
+	public LinkedList<Double> performBeatDetection(LinkedList<Double> onsets) {
+		return BEAT_DETECTOR.execute(audiofile, onsets);
 	}
 }

@@ -1,9 +1,7 @@
 package at.jku.amp.lepatriinu;
 
-import static at.jku.amp.lepatriinu.Analyzer.OCC_THRESHOLD;
-import static at.jku.amp.lepatriinu.Analyzer.TOLERANCE;
+import static at.jku.amp.lepatriinu.Analyzer.*;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -11,44 +9,47 @@ import java.util.Map.Entry;
 
 import at.cp.jku.teaching.amprocessing.AudioFile;
 
-public class InterOnsetBeatDetector extends BeatDetector {
+public class InterOnsetTempoExtractor extends TempoExtractor {
 	private Map<Integer, Integer> occurrences = new LinkedHashMap<>();
 	private Map<Double, Integer> map = new LinkedHashMap<>();
 	private int maxInt = 0;
 
 	@Override
-	public LinkedList<Double> execute(AudioFile audiofile,
-			LinkedList<Double> onsets) {
+	public double execute(AudioFile audiofile, LinkedList<Double> onsets) {
+		double currentOnset, nextOnset, distance;
 
-		LinkedList<Double> result = new LinkedList<>();
-		
 		// calculate distances
 		for (int i = 0; i < onsets.size(); i++) {
-			double currentOnset = onsets.get(i);
+			currentOnset = onsets.get(i);
 
 			for (int j = i; j < onsets.size(); j++) {
-				double nextOnset = onsets.get(j);
-				double distance = nextOnset - currentOnset;
+				nextOnset = onsets.get(j);
+				distance = nextOnset - currentOnset;
 				count(distance);
 			}
 		}
-		
-		// important for normalization
+
+		// calculate maximum
 		int max = 0;
-		for (Integer i : occurrences.values()) {
-			max = Math.max(max, i);
-		}
-		
-		// normalization and thresholding
+		double maxKey = -1;
+		int occ;
 		for (Entry<Double, Integer> e : map.entrySet()) {
-			final int occ = occurrences.get(e.getValue());
+			if(e.getKey() < MIN_TEMPO)
+				continue;
 			
-			if ((double) occ/(double) max > OCC_THRESHOLD) {
-				result.add(e.getKey());
+			if(e.getKey() > MAX_TEMPO)
+				break;
+			
+			occ = occurrences.get(e.getValue());
+			System.err.println(occ + "(max=" + max + ")");
+			if (occ > max) {
+				max = occ;
+				maxKey = e.getKey();
 			}
 		}
-		Collections.sort(result);
-		return result;
+
+		assert maxKey > 0 : "Tempo extraction: no maximum found!";
+		return 60 / maxKey;
 	}
 
 	private void count(double distance) {
@@ -58,7 +59,7 @@ public class InterOnsetBeatDetector extends BeatDetector {
 
 	private int getKey(double value) {
 		for (Double key : map.keySet()) {
-			if (value - TOLERANCE < key && key < value + TOLERANCE)
+			if (value - TEMPO_KEY_TOLERANCE < key && key < value + TEMPO_KEY_TOLERANCE)
 				return map.get(key);
 		}
 		map.put(value, maxInt);
