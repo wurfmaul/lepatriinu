@@ -1,0 +1,31 @@
+\chapter{GUI} \label{cpt:gui}
+
+\section{Purpose}
+As the pure command line interface provided too few possibilities to see the
+overall performance of our algorithms and lacks a simple way to execute
+batches of runs, we decided to develop a small GUI in Swing to match these two
+requirements.
+
+\section{Precaustionary Measures}
+In order to prevent the program from shutting down at any occuring error we had
+to edit the \texttt{Runner} a little bit and replace the
+\texttt{System.exit(0)} calls for simple runtime exceptions.
+
+\section{Structure}
+\subsection{Files}
+Starting the program will allow you to select one or multiple files, which
+should be located in the ``\texttt{./data/}'' folder. On the bottom of the
+window three checkboxes let you choose, whether the output files should be
+generated. The ``Run'' buttons on the top are pretty self-explanatory.
+
+\subsection{Outputs}
+The outputs are displayed seperately for Onsets, Tempo and Beat, to keep a
+straight interface. Each of the three output tabs has the same layout:
+
+\begin{itemize}
+  \item In the upper half, each output file will be displayed. For onsets and
+  beat, only the respective ``\texttt{*.eval}'' files appear, whereas for the
+  tempo the ``\texttt{*.bpms}'' as well as the ``\texttt{*.bpms.eval}'' file.
+  \item In the bottom half, the selected file will be displayed as well as the
+  summary of this evaluation.
+\end{itemize}

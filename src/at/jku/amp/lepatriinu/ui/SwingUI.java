@@ -431,13 +431,12 @@ public class SwingUI extends JFrame {
 		panel_16.setLayout(gbl_panel_16);
 
 		JPanel panel_15 = new JPanel();
+		panel_15.setBorder(new TitledBorder(null, "Selected File", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_15 = new GridBagConstraints();
 		gbc_panel_15.fill = GridBagConstraints.BOTH;
 		gbc_panel_15.gridx = 0;
 		gbc_panel_15.gridy = 0;
 		panel_16.add(panel_15, gbc_panel_15);
-		panel_15.setBorder(new TitledBorder(null, "Selected File",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagLayout gbl_panel_15 = new GridBagLayout();
 		gbl_panel_15.columnWidths = new int[] { 6, 0, 0 };
 		gbl_panel_15.rowHeights = new int[] { 24, 0 };
