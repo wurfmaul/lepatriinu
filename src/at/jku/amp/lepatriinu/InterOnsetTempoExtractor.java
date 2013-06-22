@@ -1,6 +1,8 @@
 package at.jku.amp.lepatriinu;
 
-import static at.jku.amp.lepatriinu.Analyzer.*;
+import static at.jku.amp.lepatriinu.Analyzer.MAX_TEMPO;
+import static at.jku.amp.lepatriinu.Analyzer.MIN_TEMPO;
+import static at.jku.amp.lepatriinu.Analyzer.TEMPO_KEY_TOLERANCE;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -34,12 +36,12 @@ public class InterOnsetTempoExtractor extends TempoExtractor {
 		double maxKey = -1;
 		int occ;
 		for (Entry<Double, Integer> e : map.entrySet()) {
-			if(e.getKey() < MIN_TEMPO)
+			if (e.getKey() < MIN_TEMPO)
 				continue;
-			
-			if(e.getKey() > MAX_TEMPO)
+
+			if (e.getKey() > MAX_TEMPO)
 				break;
-			
+
 			occ = occurrences.get(e.getValue());
 			if (occ > max) {
 				max = occ;
@@ -48,6 +50,7 @@ public class InterOnsetTempoExtractor extends TempoExtractor {
 		}
 
 		assert maxKey > 0 : "Tempo extraction: no maximum found!";
+		// translate to bpm
 		return 60 / maxKey;
 	}
 
@@ -58,7 +61,8 @@ public class InterOnsetTempoExtractor extends TempoExtractor {
 
 	private int getKey(double value) {
 		for (Double key : map.keySet()) {
-			if (value - TEMPO_KEY_TOLERANCE < key && key < value + TEMPO_KEY_TOLERANCE)
+			if (value - TEMPO_KEY_TOLERANCE < key
+					&& key < value + TEMPO_KEY_TOLERANCE)
 				return map.get(key);
 		}
 		map.put(value, maxInt);

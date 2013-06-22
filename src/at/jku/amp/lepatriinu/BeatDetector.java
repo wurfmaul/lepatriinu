@@ -13,8 +13,8 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
  * 
  */
 public abstract class BeatDetector {
+	/** Use auto-correlation for beat detection */
 	public static final BeatDetector AUTO = new AutoCorrelationBeatDetector();
-	public static final BeatDetector IOSE = new InterOnsetBeatDetector();
 
 	/**
 	 * Performs the detection operation.

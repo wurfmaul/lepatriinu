@@ -18,7 +18,8 @@ public class Analyzer {
 	// DETECTOR INSTANCES
 	private static final OnsetDetector ONSET_DETECTOR = OnsetDetector.GRTR;
 	private static final TempoExtractor TEMPO_EXTRACTOR = TempoExtractor.IOTE;
-	private static final BeatDetector BEAT_DETECTOR = BeatDetector.IOSE;
+	private static final BeatDetector BEAT_DETECTOR = BeatDetector.AUTO;
+	
 	// GENERAL CONSTANTS
 	public static final boolean DEBUG_MODE = true;
 
@@ -31,12 +32,10 @@ public class Analyzer {
 
 	// BEAT DETECTOR CONSTANTS
 	public static final boolean AUTO_USE_ONSETS = false;
-	public static final double OCC_THRESHOLD = 0.35;
-	public static final double TOLERANCE = 0.025;
 
 	// TEMPO EXTRACTOR CONSTANTS
-	public static final double MIN_TEMPO = 0.3;
-	public static final double MAX_TEMPO = 1;
+	public static final double MIN_TEMPO = 0.3; // = 200 bpm
+	public static final double MAX_TEMPO = 1; // = 60 bpm
 	public static final double TEMPO_KEY_TOLERANCE = 0.025;
 
 	private final AudioFile audiofile;

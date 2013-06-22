@@ -10,7 +10,7 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
  * @author Andreas Arzt
  * 
  */
-class SimpleOnsetDetector extends OnsetDetector {
+public class SimpleOnsetDetector extends OnsetDetector {
 
 	@Override
 	public LinkedList<Double> execute(AudioFile audiofile) {

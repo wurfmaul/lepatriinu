@@ -16,9 +16,13 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
  * 
  */
 public abstract class OnsetDetector {
+	/** Use a very simple approach of detecting onsets. */
 	public static final OnsetDetector SIMPLE = new SimpleOnsetDetector();
+	/** Use spectral flux for onset detection. */
 	public static final OnsetDetector FLUX = new SpectralFluxOnsetDetector();
+	/** Use high frequency for onset detection. */
 	public static final OnsetDetector HIFQ = new HighFrequencyOnsetDetector();
+	/** CHEAT: use groundtruth for evaluating beats/tempo on a proper basis. */
 	public static final OnsetDetector GRTR = new GroundTruthPicker();
 
 	/**
