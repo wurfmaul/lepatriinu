@@ -18,6 +18,10 @@ public class InterOnsetTempoExtractor extends TempoExtractor {
 
 	@Override
 	public double execute(AudioFile audiofile, LinkedList<Double> onsets) {
+		occurrences = new LinkedHashMap<>();
+		map = new LinkedHashMap<>();
+		maxInt = 0;
+		
 		double currentOnset, nextOnset, distance;
 
 		// calculate distances
