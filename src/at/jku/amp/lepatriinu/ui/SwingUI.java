@@ -9,8 +9,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Arrays;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -33,9 +33,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicDirectoryModel;
 
 import at.cp.jku.teaching.amprocessing.Runner;
-import javax.swing.ImageIcon;
 
 /**
+ * 
  * A GUI for the execution of the <code>Runner</code>. It just provides some
  * clickable interface to start off the analysis. Therefore we had to change the
  * <code>System.exit(1);</code> parts into
@@ -55,12 +55,12 @@ public class SwingUI extends JFrame {
 	private static final String STARTING_DIRECTORY = INPUT_DIR + SEP;
 	private static final String OUTPUT_DIRECTORY = "." + SEP + OUTPUT_DIR + SEP;
 
+	private JButton btRunSel;
+
 	private JCheckBox cbOnset;
 	private JCheckBox cbTempo;
 	private JCheckBox cbBeat;
 	private JButton btnRunAll;
-
-	private JButton btRunSel;
 
 	private JList<Object> lFiles;
 	private BasicDirectoryModel bdmInputFiles;
@@ -75,6 +75,9 @@ public class SwingUI extends JFrame {
 	private JList<Object> lTeOutput;
 	private BasicDirectoryModel bdmTeOutputFiles;
 	private JTextArea tpTeOutput;
+	private JLabel lTeCorrect;
+	private JLabel lTeMultiple;
+	private JLabel lTeNone;
 
 	private JList<Object> lBeOutput;
 	private BasicDirectoryModel bdmBeOutputFiles;
@@ -154,14 +157,7 @@ public class SwingUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 
-		// JSplitPane splitPane = new JSplitPane();
-		// splitPane.setResizeWeight(0.5);
-		// splitPane.setContinuousLayout(true);
-		// splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		// contentPane.add(splitPane, BorderLayout.CENTER);
-
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		// splitPane.setLeftComponent(tabbedPane);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel panel_3 = new JPanel();
@@ -505,15 +501,15 @@ public class SwingUI extends JFrame {
 		gbc_lblCorrectTempo.gridy = 0;
 		panel_17.add(lblCorrectTempo, gbc_lblCorrectTempo);
 
-		lblTeCorrect = new JLabel("0.0% (0/0)");
-		lblTeCorrect.setOpaque(true);
+		lTeCorrect = new JLabel("0.0% (0/0)");
+		lTeCorrect.setOpaque(true);
 		GridBagConstraints gbc_lblTeCorrect = new GridBagConstraints();
 		gbc_lblTeCorrect.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblTeCorrect.anchor = GridBagConstraints.BASELINE;
 		gbc_lblTeCorrect.insets = new Insets(0, 0, 5, 0);
 		gbc_lblTeCorrect.gridx = 1;
 		gbc_lblTeCorrect.gridy = 0;
-		panel_17.add(lblTeCorrect, gbc_lblTeCorrect);
+		panel_17.add(lTeCorrect, gbc_lblTeCorrect);
 
 		JLabel lblMultipleTempo = new JLabel("Multiple Tempo");
 		GridBagConstraints gbc_lblMultipleTempo = new GridBagConstraints();
@@ -523,15 +519,15 @@ public class SwingUI extends JFrame {
 		gbc_lblMultipleTempo.gridy = 1;
 		panel_17.add(lblMultipleTempo, gbc_lblMultipleTempo);
 
-		lblTeMultiple = new JLabel("0.0% (0/0)");
-		lblTeMultiple.setOpaque(true);
+		lTeMultiple = new JLabel("0.0% (0/0)");
+		lTeMultiple.setOpaque(true);
 		GridBagConstraints gbc_lblTeMultiple = new GridBagConstraints();
 		gbc_lblTeMultiple.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblTeMultiple.anchor = GridBagConstraints.BASELINE;
 		gbc_lblTeMultiple.insets = new Insets(0, 0, 5, 0);
 		gbc_lblTeMultiple.gridx = 1;
 		gbc_lblTeMultiple.gridy = 1;
-		panel_17.add(lblTeMultiple, gbc_lblTeMultiple);
+		panel_17.add(lTeMultiple, gbc_lblTeMultiple);
 
 		JLabel lblNoTempo = new JLabel("No Tempo");
 		GridBagConstraints gbc_lblNoTempo = new GridBagConstraints();
@@ -541,13 +537,13 @@ public class SwingUI extends JFrame {
 		gbc_lblNoTempo.gridy = 2;
 		panel_17.add(lblNoTempo, gbc_lblNoTempo);
 
-		lblTeNone = new JLabel("0.0% (0/0)");
-		lblTeNone.setOpaque(true);
+		lTeNone = new JLabel("0.0% (0/0)");
+		lTeNone.setOpaque(true);
 		GridBagConstraints gbc_lblTeNone = new GridBagConstraints();
 		gbc_lblTeNone.fill = GridBagConstraints.BOTH;
 		gbc_lblTeNone.gridx = 1;
 		gbc_lblTeNone.gridy = 2;
-		panel_17.add(lblTeNone, gbc_lblTeNone);
+		panel_17.add(lTeNone, gbc_lblTeNone);
 
 		JPanel panel_10 = new JPanel();
 		panel_10.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -712,9 +708,6 @@ public class SwingUI extends JFrame {
 		toolBar.add(btnRunAll);
 		toolBar.add(btRunSel);
 
-		// System.setOut(getLogWorkaround());
-		// System.setErr(getDebugWorkaround());
-
 		System.out.println("Ready!");
 	}
 
@@ -787,8 +780,7 @@ public class SwingUI extends JFrame {
 			}
 			p /= size;
 			lOnPrecision.setText(String.format("%f%%", p * 100));
-			lOnPrecision
-					.setBackground(getColorValue(p));
+			lOnPrecision.setBackground(getColorValue(p));
 			r /= size;
 			lOnRecall.setText(String.format("%f%%", r * 100));
 			lOnRecall.setBackground(getColorValue(r));
@@ -818,7 +810,7 @@ public class SwingUI extends JFrame {
 						int c = Integer.parseInt(text.substring(0, 1));
 						int m = Integer.parseInt(text.substring(2, 3));
 						correct += (c == 1) ? 1 : 0;
-						multiple += (m == 1) ? 1: 0;
+						multiple += (m == 1) ? 1 : 0;
 						none += (m == 0 && c == 0) ? 1 : 0;
 						evalCount++;
 					}
@@ -826,15 +818,18 @@ public class SwingUI extends JFrame {
 
 				}
 			}
-			double percentage = (double)correct / evalCount;
-			lblTeCorrect.setText(String.format("%f%% (%d/%d)", (percentage * 100), correct, evalCount));
-			lblTeCorrect.setBackground(getColorValue(percentage));
-			percentage = (double)multiple / evalCount;
-			lblTeMultiple.setText(String.format("%f%% (%d/%d)", (percentage * 100), multiple, evalCount));
-			lblTeMultiple.setBackground(getColorValue(percentage));
-			percentage = (double)none / evalCount;
-			lblTeNone.setText(String.format("%f%% (%d/%d)", (percentage * 100), none, evalCount));
-			lblTeNone.setBackground(getColorValue(1 - percentage));
+			double percentage = (double) correct / evalCount;
+			lTeCorrect.setText(String.format("%f%% (%d/%d)",
+					(percentage * 100), correct, evalCount));
+			lTeCorrect.setBackground(getColorValue(percentage));
+			percentage = (double) multiple / evalCount;
+			lTeMultiple.setText(String.format("%f%% (%d/%d)",
+					(percentage * 100), multiple, evalCount));
+			lTeMultiple.setBackground(getColorValue(percentage));
+			percentage = (double) none / evalCount;
+			lTeNone.setText(String.format("%f%% (%d/%d)", (percentage * 100),
+					none, evalCount));
+			lTeNone.setBackground(getColorValue(1 - percentage));
 		}
 
 		@Override
@@ -880,8 +875,7 @@ public class SwingUI extends JFrame {
 			}
 			p /= size;
 			lBePrecision.setText(String.format("%f%%", p * 100));
-			lBePrecision
-					.setBackground(getColorValue(p));
+			lBePrecision.setBackground(getColorValue(p));
 			r /= size;
 			lBeRecall.setText(String.format("%f%%", r * 100));
 			lBeRecall.setBackground(getColorValue(r));
@@ -894,13 +888,10 @@ public class SwingUI extends JFrame {
 		public void contentsChanged(ListDataEvent e) {
 		}
 	};
-	
+
 	private Color getColorValue(double p) {
 		return new Color((float) (1 - p), (float) p, 0f);
 	}
-	private JLabel lblTeCorrect;
-	private JLabel lblTeMultiple;
-	private JLabel lblTeNone;
 
 	/**
 	 * Launch the application.
