@@ -61,19 +61,22 @@ public abstract class OnsetDetector {
 				sum += list.get(j);
 			}
 
-			// MEAN
-			double mean = sum / (to - from);
-
-			// MEDIAN
-			Arrays.sort(values);
-			double median = mean;
-			if (values.length % 2 == 0)
-				median += (values[values.length / 2 - 1] + values[values.length / 2]) / 2;
-			else
-				median += values[values.length / 2];
-
-			if (list.get(i) > median) {
-				onsets.add(i * hopTime);
+			if(PEAKPICK_USE_MEAN) {
+				double mean = sum / (to - from);
+				if (list.get(i) > mean) {
+					onsets.add(i * hopTime);
+				}
+			} else {
+				Arrays.sort(values);
+				double median = sum;
+				if (values.length % 2 == 0)
+					median = (values[values.length / 2 - 1] + values[values.length / 2]) / 2;
+				else
+					median = values[values.length / 2];
+	
+				if (list.get(i) > median) {
+					onsets.add(i * hopTime);
+				}
 			}
 
 		}

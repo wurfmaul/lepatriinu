@@ -29,6 +29,7 @@ public class Analyzer {
 	public static final boolean FLUX_USE_TOTAL_ENERGY = true;
 	public static final boolean HIFQ_USE_WPHACK = true;
 	public static final Mode PEAKPICK_MODE = Mode.MOUNTAIN_CLIMBING;
+	public static final boolean PEAKPICK_USE_MEAN = false;
 
 	// BEAT DETECTOR CONSTANTS
 	public static final boolean AUTO_USE_ONSETS = false;
