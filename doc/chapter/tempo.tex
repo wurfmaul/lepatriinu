@@ -1,1 +1,16 @@
 \subsection{\ttfamily TempoExtractor}
+\emph{TempoExtractor} is the abstract superclass of which all tempo extractors
+should be derived.
+
+\subsection{\ttfamily InterOnsetTempoExtractor}
+As the name suggests, \emph{InterOnsetTempoExtractor} performs the Inter Onset
+Intervals as described in the lecture slides 5.10 through 5.14.
+
+The method calculates the most common gapsize between the onsets inside a set of
+onsets. 
+
+Because of the inaccuracy that evolves when adding vague real numbers, we
+decided to use two \emph{HashMaps}, the first to map from the time point
+where an onset meets a gapsize to 
+
+// FIXME ich kapiers schon wieder nicht ...
