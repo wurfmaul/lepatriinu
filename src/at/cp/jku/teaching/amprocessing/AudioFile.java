@@ -218,8 +218,8 @@ public class AudioFile {
 
             frameCount++;
             if ((frameCount % 100) == 0) {
-                System.out.println("Progress:" + frameCount);
-
+            	// TODO: spams syso
+//                System.out.println("Progress:" + frameCount);
             }
 
         }
