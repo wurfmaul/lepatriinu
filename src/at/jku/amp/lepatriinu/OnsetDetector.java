@@ -94,9 +94,13 @@ public abstract class OnsetDetector {
 		return onsets;
 	}
 
-	// FIXME: SOURCE!?
 	/**
-	 * Only  
+	 * This method finds local maxima by simply eliminating every sample, that
+	 * has a higher neighbor. In a second step it also eliminates all smaller
+	 * neighbors in a certain range <code>Analyzer.THRESHOLD_RANGE</code>
+	 * .</br></br> <b>Source</b>: <a href=
+	 * "http://pdf.aminer.org/000/093/948/detection_of_peaks_in_spectral_representation_of_music_signals.pdf"
+	 * >Detection of Peaks in Spectral Representation of Music Signals</a> (pdf)
 	 */
 	private LinkedList<Double> mountainClimbing(LinkedList<Double> list,
 			double hopTime) {
