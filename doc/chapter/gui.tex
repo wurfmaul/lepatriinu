@@ -6,9 +6,13 @@ overall performance of our algorithms and lacks a simple way to execute
 batches of runs, we decided to develop a small GUI in Swing to match these two
 requirements.
 
-In order to prevent the program from shutting down at any occuring error we had
-to edit the \texttt{Runner} file a little bit and replace the
-\texttt{System.exit(0)} calls by simple \texttt{RuntimeException}s.
+The \texttt{SwingUI} only needs the \texttt{FileUtils} to run properly. As it
+starts the \texttt{Runner} by simply calling its main method, there is no need
+to make big adaptations to the \texttt{Runner} itself. Only, in order to prevent
+the program from shutting down at any occuring error we had to replace the
+\texttt{System.exit(0)} calls by simple \texttt{RuntimeException}s. And, in
+order to make it run properly on Windows systems, we changed some code
+regarding paths, that had hardcoded Unix path seperators (``/'').
 
 Starting the program will allow you to select one or multiple files, which
 should be located in the ``\texttt{./data/}'' folder. On the bottom of the
