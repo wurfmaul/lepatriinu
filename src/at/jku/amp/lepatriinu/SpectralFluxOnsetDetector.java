@@ -26,6 +26,32 @@ public class SpectralFluxOnsetDetector extends OnsetDetector {
 		// POSTPROCESSING
 		return peakPick(result, audiofile.hopTime);
 	}
+	
+	/**
+	 * Uses the total energy of each bin instead of the magnitudes. Evolved from
+	 * a copy of {@link SimpleOnsetDetector}.
+	 */
+	private LinkedList<Double> executeTotalEnergy(AudioFile audiofile) {
+		final int length = audiofile.spectralDataContainer.size();
+		final LinkedList<Double> result = new LinkedList<>();
+
+		double energy;
+		double lastEnergy = audiofile.spectralDataContainer.get(0).totalEnergy;
+		double x;
+
+		for (int i = 1; i < length; i++) {
+			energy = audiofile.spectralDataContainer.get(i).totalEnergy;
+			// x = |Xk(n)|-|Xk(n-1)|
+			x = Math.abs(energy) - Math.abs(lastEnergy);
+			// H(x) = (x + |x|)/2
+			x = (x + Math.abs(x)) / 2;
+			// SD(n) = sum(...)^2
+			result.add(x * x);
+
+			lastEnergy = energy;
+		}
+		return result;
+	}
 
 	/**
 	 * Uses the exact formula from slide 4.20.
@@ -49,32 +75,6 @@ public class SpectralFluxOnsetDetector extends OnsetDetector {
 			}
 			// SD(n) = sum(...)^2
 			result.add(sum * sum);
-
-			lastEnergy = energy;
-		}
-		return result;
-	}
-
-	/**
-	 * Uses the total energy of each bin (inspired by playing around and <a
-	 * href="http://en.wikipedia.org/wiki/Spectral_flux">Wikipedia</a>).
-	 */
-	private LinkedList<Double> executeTotalEnergy(AudioFile audiofile) {
-		final int length = audiofile.spectralDataContainer.size();
-		final LinkedList<Double> result = new LinkedList<>();
-
-		double energy;
-		double lastEnergy = audiofile.spectralDataContainer.get(0).totalEnergy;
-		double x;
-
-		for (int i = 1; i < length; i++) {
-			energy = audiofile.spectralDataContainer.get(i).totalEnergy;
-			// x = |Xk(n)|-|Xk(n-1)|
-			x = Math.abs(energy) - Math.abs(lastEnergy);
-			// H(x) = (x + |x|)/2
-			x = (x + Math.abs(x)) / 2;
-			// SD(n) = sum(...)^2
-			result.add(x * x);
 
 			lastEnergy = energy;
 		}

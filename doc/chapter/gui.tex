@@ -6,19 +6,26 @@ overall performance of our algorithms and lacks a simple way to execute
 batches of runs, we decided to develop a small GUI in Swing to match these two
 requirements.
 
-\section{Precaustionary Measures}
-In order to prevent the program from shutting down at any occuring error we had
-to edit the \texttt{Runner} a little bit and replace the
-\texttt{System.exit(0)} calls for simple runtime exceptions.
+\begin{figure}[htp]
+\begin{center}
+  \includegraphics[width=\textwidth]{chapter/gui}
+  \caption{Graphical user interface}
+  \label{fig:gui}
+\end{center}
+\end{figure}
 
-\section{Structure}
-\subsection{Files}
+\section{Precaustionary measures}
+In order to prevent the program from shutting down at any occuring error we had
+to edit the \texttt{Runner} file a little bit and replace the
+\texttt{System.exit(0)} calls by simple \texttt{RuntimeException}s.
+
+\section{Files}
 Starting the program will allow you to select one or multiple files, which
 should be located in the ``\texttt{./data/}'' folder. On the bottom of the
 window three checkboxes let you choose, whether the output files should be
 generated. The ``Run'' buttons on the top are pretty self-explanatory.
 
-\subsection{Outputs}
+\section{Outputs}
 The outputs are displayed seperately for Onsets, Tempo and Beat, to keep a
 straight interface. Each of the three output tabs has the same layout:
 
