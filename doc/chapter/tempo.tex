@@ -4,13 +4,29 @@ should be derived.
 
 \subsection{\ttfamily InterOnsetTempoExtractor}
 As the name suggests, \emph{InterOnsetTempoExtractor} performs the Inter Onset
-Intervals as described in the lecture slides 5.10 through 5.14.
+Intervals as described in the lecture slides 5.10 through 5.14. The method
+calculates the most common gap size between the onsets inside a set of onsets. 
 
-The method calculates the most common gapsize between the onsets inside a set of
-onsets. 
+Because of the inaccuracy that evolves when adding vague \texttt{double}
+values and the necessarity to provide some sort of categorization and
+clusterization an indirectional mapping from the \texttt{double} value of the
+gap size to the \texttt{int} value of the number of occurencies was established.
+In order to reach this goal actually two mappings are done:
 
-Because of the inaccuracy that evolves when adding vague real numbers, we
-decided to use two \emph{HashMaps}, the first to map from the time point
-where an onset meets a gapsize to 
+\begin{enumerate}
+  \item \texttt{double} $\rightarrow$ \texttt{int}: specified by the constant
+  \texttt{TEMPO\_KEY\_TOLERANCE}, given distances are separated into different
+  categories which are consecutively numbered using the \texttt{int} values. To
+  be more precise, if \texttt{distance $\pm$ TEMPO\_KEY\_TOLERANCE}
+  meets one key in the map, it is put into the same category. Otherwise it is
+  put into a new one.
+  \item \texttt{int} $\rightarrow$ \texttt{int}: The \emph{value} of the
+  mapping in 1 is the \emph{key} of the second mapping, which provides the
+  number of occurencies.
+\end{enumerate}
 
-// FIXME ich kapiers schon wieder nicht ...
+Of course this is to be done if the distance is within the range of usual tempi.
+Therefore distances that are smaller than \texttt{MIN\_TEMPO} or greater than
+\texttt{MAX\_TEMPO} are not taken into account.
+
+The tempo then is returned in \emph{beats per minute} (bpm).
