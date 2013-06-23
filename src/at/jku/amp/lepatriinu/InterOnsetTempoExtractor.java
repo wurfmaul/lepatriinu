@@ -18,9 +18,9 @@ import at.cp.jku.teaching.amprocessing.AudioFile;
  * @author Fabian Jordan (0855941)
  */
 public class InterOnsetTempoExtractor extends TempoExtractor {
-	private Map<Integer, Integer> occurrences = new LinkedHashMap<>();
-	private Map<Double, Integer> map = new LinkedHashMap<>();
-	private int maxInt = 0;
+	private Map<Integer, Integer> occurrences;
+	private Map<Double, Integer> map;
+	private int maxInt;
 
 	@Override
 	public double execute(AudioFile audiofile, LinkedList<Double> onsets) {

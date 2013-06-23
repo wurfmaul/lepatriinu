@@ -29,12 +29,4 @@ public abstract class BeatDetector {
 	 */
 	public abstract LinkedList<Double> execute(AudioFile audiofile,
 			LinkedList<Double> onsets, double tempo);
-
-	/**
-	 * Defines which function AutoCorrelationBeatDetector should choose when
-	 * called.
-	 */
-	public enum Mode {
-		AUTO_TEMPO_CORRELATION, AUTO_ONSET_CORRELATION, AUTO_SPECTRAL_CORRELATION;
-	}
 }

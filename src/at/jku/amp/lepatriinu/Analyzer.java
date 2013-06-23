@@ -3,7 +3,7 @@ package at.jku.amp.lepatriinu;
 import java.util.LinkedList;
 
 import at.cp.jku.teaching.amprocessing.AudioFile;
-import at.jku.amp.lepatriinu.BeatDetector.Mode;
+import at.jku.amp.lepatriinu.AutoCorrelationBeatDetector.Mode;
 
 /**
  * Heart of detecting functionality. Contains the configuration of all kind of
@@ -19,7 +19,7 @@ public class Analyzer {
 	private static final OnsetDetector ONSET_DETECTOR = OnsetDetector.FLUX;
 	private static final TempoExtractor TEMPO_EXTRACTOR = TempoExtractor.IOTE;
 	private static final BeatDetector BEAT_DETECTOR = BeatDetector.AUTO;
-	
+
 	// GENERAL CONSTANTS
 	public static final boolean DEBUG_MODE = true;
 

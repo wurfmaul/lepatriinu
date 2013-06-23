@@ -167,4 +167,11 @@ public class AutoCorrelationBeatDetector extends BeatDetector {
 		return result;
 	}
 
+	/**
+	 * Defines which function AutoCorrelationBeatDetector should choose when
+	 * called.
+	 */
+	public enum Mode {
+		AUTO_TEMPO_CORRELATION, AUTO_ONSET_CORRELATION, AUTO_SPECTRAL_CORRELATION;
+	}
 }
