@@ -1,8 +1,17 @@
 \chapter{Architecture} \label{cpt:architecture}
+\section{General overview} \label{sec:classes}
+Our project is called ``Lepatriinu'' which is the Estonian word for ``lady
+beetle'' (German: ``Marienkäfer'') in order to express our sympathy for Austrian
+lady beetles, which are threatened by the superior species of Asian lady
+beetles.
 
-\section{General class structure overview} \label{sec:classes}
-The project was separated into several classes. The given framework simple calls
+Generally the structure of our project is object oriented. Therefore the
+functionality is split in several classes. The given framework simple calls
 methods which are defined in the package \texttt{at.jku.amp.lepatriinu}.
+
+Additional to the functionality the project comes up with a graphical user
+interface which simplifies working on the audio data and represents the results
+in a proper fashion.
 
 \begin{figure}[htp]
   \centering
@@ -60,7 +69,7 @@ used by any sub class.
   Otherwise \emph{adaptive thresholding} is performed.
   \item \texttt{THRESHOLD\_RANGE} is used to specify the \texttt{int} size of
   the shifted slice used in \emph{adaptive thresholding} as well as the range of
-  zoroed neighbors in \emph{mountain climbing}. The best results were produced
+  zeroed neighbors in \emph{mountain climbing}. The best results were produced
   by a range of \texttt{5}.
   \item \texttt{PEAKPICK\_USE\_MEAN} defines whether to use mean
   (\texttt{true}) or median (\texttt{false}) in order to select the threshold
@@ -68,7 +77,7 @@ used by any sub class.
   thresholding}.
   \item \texttt{THRESHOLD} is used to define a fixed \texttt{int} threshold for
   choosing the magnitude peaks when using \emph{mountain climbing}. The value
-  that prouced the best results in our experiments was \texttt{13}. 
+  that produced the best results in our experiments was \texttt{13}. 
 \end{itemize}
 
 \subsection{\ttfamily SimpleOnsetDetector} \label{ssec:onsetsimple}
@@ -78,7 +87,7 @@ it against a fixed threshold of 10.
 
 \subsection{\ttfamily SpectralFluxOnsetDetector} \label{ssec:onsetflux}
 This onset detection function implements the idea of spectral differences
-(``spectral flux''). Therefore the idea of slide 5.20 was implemented. Because
+(``spectral flux''). Therefore the idea of slide 4.20 was implemented. Because
 this method evolved from a copy of \texttt{SimpleOnsetDetector} in the first
 place, two minimally different versions of this algorithm were implemented.
 
@@ -87,15 +96,35 @@ The mode can be chosen by the constant \texttt{FLUX\_USE\_TOTAL\_ENERGY}.
 \begin{itemize}
   \item \texttt{true}: like the \texttt{SimpleOnsetDetector} the first version
   uses the total energy of each bin in order to calculate the differences, which
-  are subsequently processed accoring to the formula.
+  are subsequently processed according to the formula.
   \item \texttt{false}: unlike the first method but according to the slides, the
   second method uses differences of magnitudes between bins. This has the
   unfortunate attitude to need an additional loop.
 \end{itemize}
 
 \subsection{\ttfamily HighFrequencyOnsetDetector} \label{ssec:onsethighfreq}
+As an alternative to spectral differences the \emph{HighFrequencyOnsetDetector}
+implements the idea of so called ``high frequency content'' (slide 4.19). Again
+there are two modes that qualify for usage. These can be switched by the
+\texttt{boolean} constant \texttt{HIFQ\_USE\_WPHACK}.
+
+\begin{itemize}
+  \item \texttt{false}: this mode implements the formula on the slides.
+  \item \texttt{true}: unlike the original idea, this mode uses a formula which
+  was found on
+  Wikipedia\footnote{\url{https://en.wikipedia.org/wiki/High_Frequency_Content}}.
+  Essentially the difference is the calculation of the mean, which is performed
+  by the formula on the slides but left away in the formula from Wikipedia.
+\end{itemize}
 
 \subsection{\ttfamily GroundTruthPicker} \label{ssec:onsetgroundtruth}
+We designed the \emph{GroundTruthPicker} just for experimenting with the best
+onsets we could possibly get: The original ground truth. It simply reads in the
+corresponding ground truth file from the input directory and parses it into a
+\texttt{List<Double>}, which it returns. To find the right file we had to expose
+the file name in the \texttt{Audiofile}. But as it turned out, the evaluation of
+the ground truth isn't even as true as we thought it would be - it was only
+considered with an average F-Measure of 92.5\% over all 18 data sets.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TEMPO EXTRACTION
@@ -110,10 +139,10 @@ Intervals as described in the lecture slides 5.10 through 5.14. The method
 calculates the most common gap size between the onsets inside a set of onsets. 
 
 Because of the inaccuracy that evolves when adding vague \texttt{double}
-values and the necessarity to provide some sort of categorization and
-clusterization an indirectional mapping from the \texttt{double} value of the
-gap size to the \texttt{int} value of the number of occurencies was established.
-In order to reach this goal actually two mappings are done:
+values and the necessity to provide some sort of categorization and
+clustering an indirect mapping from the \texttt{double} value of the
+gap size to the \texttt{int} value of the number of occurrencies was
+established. In order to reach this goal actually two mappings are done:
 
 \begin{enumerate}
   \item \texttt{double} $\rightarrow$ \texttt{int}: specified by the constant
@@ -155,7 +184,7 @@ three different ideas and implementations:
   \item \texttt{AUTO\_ONSET\_CORRELATION} represents the implementation of the
   IOI idea presented on lecture slides 5.10 through 5.14.
   \item \texttt{AUTO\_SPECTRAL\_CORRELATION} was the attempt to improve the
-  onset correlation by trying to reinterprete the formulas as to be the spectral data
+  onset correlation by trying to reinterpret the formulas as to be the spectral data
   instead of the onsets. It didn't work out that well (less than 4\% over 18
   data sets).
 \end{enumerate}
