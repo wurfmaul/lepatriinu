@@ -1,6 +1,6 @@
 \chapter{Architecture} \label{cpt:architecture}
 
-\section{General class structure overview}
+\section{General class structure overview} \label{sec:classes}
 The project was separated into several classes. The given framework simple calls
 methods which are defined in the package \texttt{at.jku.amp.lepatriinu}.
 
@@ -14,7 +14,7 @@ methods which are defined in the package \texttt{at.jku.amp.lepatriinu}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ANALYZER 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\ttfamily Analyzer}
+\section{\ttfamily Analyzer} \label{sec:analyzer}
 The \emph{Analyzer} class defines all the constants that are needed for any
 algorithm in the project to succeed. In order to make central configurations
 possible, the constants are collected in this single class.
@@ -38,7 +38,7 @@ well as the calculated tempo should be provided.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ONSET DETECTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\ttfamily OnsetDetector}
+\section{\ttfamily OnsetDetector} \label{sec:onset}
 \emph{OnsetDetector} is the abstract superclass of all onset detection
 algorithm's classes. It provides two different peak picking methods which can be
 used by any sub class.
@@ -53,7 +53,7 @@ used by any sub class.
   climbing}.
 \end{enumerate}
 
-\subsection*{Constants}
+\subsection*{Constants} \label{ssec:onsetconstants}
 \begin{itemize}
   \item \texttt{USE\_MOUNTAIN\_PEAKPICK} defines which peakpicking method to
   use. If constant is \texttt{true}, \emph{mountain peakpicking} is chosen.
@@ -71,12 +71,12 @@ used by any sub class.
   that prouced the best results in our experiments was \texttt{13}. 
 \end{itemize}
 
-\subsection{\ttfamily SimpleOnsetDetector}
+\subsection{\ttfamily SimpleOnsetDetector} \label{ssec:onsetsimple}
 This very simplistic method is taken from the given framework. Generally it
 calculates the distances between every pair of spectral data bins and validates
 it against a fixed threshold of 10.
 
-\subsection{\ttfamily SpectralFluxOnsetDetector}
+\subsection{\ttfamily SpectralFluxOnsetDetector} \label{ssec:onsetflux}
 This onset detection function implements the idea of spectral differences
 (``spectral flux''). Therefore the idea of slide 5.20 was implemented. Because
 this method evolved from a copy of \texttt{SimpleOnsetDetector} in the first
@@ -93,18 +93,18 @@ The mode can be chosen by the constant \texttt{FLUX\_USE\_TOTAL\_ENERGY}.
   unfortunate attitude to need an additional loop.
 \end{itemize}
 
-\subsection{\ttfamily HighFrequencyOnsetDetector}
+\subsection{\ttfamily HighFrequencyOnsetDetector} \label{ssec:onsethighfreq}
 
-\subsection{\ttfamily GroundTruthPicker}
+\subsection{\ttfamily GroundTruthPicker} \label{ssec:onsetgroundtruth}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TEMPO EXTRACTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\ttfamily TempoExtractor}
+\section{\ttfamily TempoExtractor} \label{sec:tempo}
 \emph{TempoExtractor} is the abstract superclass of which all tempo extractors
 should be derived.
 
-\subsection{\ttfamily InterOnsetTempoExtractor}
+\subsection{\ttfamily InterOnsetTempoExtractor} \label{ssec:tempointeronset}
 As the name suggests, \emph{InterOnsetTempoExtractor} performs the Inter Onset
 Intervals as described in the lecture slides 5.10 through 5.14. The method
 calculates the most common gap size between the onsets inside a set of onsets. 
@@ -136,11 +136,11 @@ The tempo then is returned in \emph{beats per minute} (bpm).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BEAT DETECTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\ttfamily BeatDetector}
+\section{\ttfamily BeatDetector} \label{sec:beat}
 Also \emph{BeatDetector} is an abstract class, thats purpose is to be the
 superclass of all beat detection algorithms. 
 
-\subsection{\ttfamily AutoCorrelationBeatDetector}
+\subsection{\ttfamily AutoCorrelationBeatDetector} \label{ssec:beatauto}
 This subclass implements beat detection based on auto correlation. It
 accommodates an enumeration, named \emph{Mode}, which allows to switch between
 three different ideas and implementations:
@@ -160,6 +160,34 @@ three different ideas and implementations:
   data sets).
 \end{enumerate}
 
-\subsection{Best results}
-As onset correlation did a rather poor job and spectral correlation an even
-worse, we stuck with tempo correlation as the algorithm of choice.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEST RESULTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Best practices} \label{sec:bestresults}
+The best results were reached by using the following configuration:
+
+\begin{itemize}
+  \item Onset detection:
+  \begin{itemize}
+    \item onset detector: \texttt{SpectralFluxOnsetDetector} (see
+    \ref{ssec:onsetflux})
+    \item mode: \texttt{USE\_TOTAL\_ENERGY = true}
+    \item peak picking: \texttt{USE\_MOUNTAIN\_PEAKPICK = true} (see
+    \ref{sec:onset})
+    \item constants: \texttt{THRESHOLD = 13} and \texttt{THRESHOLD\_RANGE = 5}
+  \end{itemize}
+  \item Tempo extraction:
+  \begin{itemize}
+    \item tempo extractor: \texttt{InterOnsetTempoExtractor} (see
+    \ref{ssec:tempointeronset})
+    \item constants: \texttt{MIN\_TEMPO = 0.3} (= 200 bpm), \texttt{MAX\_TEMPO =
+    1} (= 60 bpm) and \texttt{TEMPO\_KEY\_TOLERANCE = 0.0195}.
+  \end{itemize}
+  \item Beat detection:
+  \begin{itemize}
+    \item beat detector: \texttt{AutoCorrelationBeatDetector} (see
+    \ref{ssec:beatauto})
+    \item mode: \texttt{AUTO\_FUNCTION = AUTO\_TEMPO\_CORRELATION}
+    \item constant: \texttt{AUTO\_PHASE\_TOLERANCE = 0.21}
+  \end{itemize}
+\end{itemize}
