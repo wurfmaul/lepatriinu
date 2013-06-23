@@ -10,11 +10,11 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="781"
-   height="561"
+   height="525.98871"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="ClassDiagram.svg">
+   sodipodi:docname="ClassDiagram.pdf">
   <defs
      id="defs4">
     <marker
@@ -53,9 +53,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4795009"
+     inkscape:zoom="1.5779806"
      inkscape:cx="390.5"
-     inkscape:cy="280.5"
+     inkscape:cy="262.99436"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -76,8 +76,8 @@
        visible="true"
        enabled="true"
        snapvisiblegridlinesonly="true"
-       originx="10.5px"
-       originy="-559.49998px" />
+       originx="10.510315px"
+       originy="-559.5103px" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -95,7 +95,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(10.5,68.137842)">
+     transform="translate(10.510315,33.136887)">
     <g
        id="g5594"
        transform="translate(-280,219.99996)">
@@ -121,41 +121,39 @@
            style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;text-anchor:end;font-family:Courier New;-inkscape-font-specification:Courier New">at.jku.amp.lepatriinu</tspan></text>
     </g>
     <g
-       id="g5599">
-      <g
-         id="g5609">
-        <rect
-           transform="translate(-0.54156524,21.820617)"
-           y="-29.458479"
-           x="280.54156"
-           height="219.99986"
-           width="199.99965"
-           id="rect5601"
-           style="fill:#f0f0f0;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
-        <text
-           sodipodi:linespacing="125%"
-           id="text5603"
-           y="7.3621378"
+       id="g5632"
+       transform="translate(0,4.9999993)">
+      <rect
+         style="fill:#f0f0f0;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect5601"
+         width="200"
+         height="150"
+         x="280"
+         y="22.362139" />
+      <text
+         xml:space="preserve"
+         style="font-size:14px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="285"
+         y="37.363106"
+         id="text5603"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan5605"
            x="285"
-           style="font-size:14px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Courier New;-inkscape-font-specification:Courier New"
-             y="7.3621378"
-             x="285"
-             id="tspan5605"
-             sodipodi:role="line">at.cp.jku.</tspan><tspan
-             id="tspan5607"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Courier New;-inkscape-font-specification:Courier New"
-             y="24.862137"
-             x="285"
-             sodipodi:role="line"> teaching.amprocessing</tspan></text>
-      </g>
+           y="37.363106"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Courier New;-inkscape-font-specification:Courier New">at.cp.jku.</tspan><tspan
+           sodipodi:role="line"
+           x="285"
+           y="54.863106"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;text-anchor:start;font-family:Courier New;-inkscape-font-specification:Courier New"
+           id="tspan5607"> teaching.amprocessing</tspan></text>
     </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
-       d="m 380,232.36218 0,40"
+       d="m 380,227.36213 0,45.00005"
        id="path3830"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow1Lstart);marker-end:url(#Arrow1Lend)"
        d="m 130,272.36218 0,-20 500,0 0,20"
@@ -193,10 +191,10 @@
         <rect
            style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
            id="rect4838"
-           width="200"
-           height="30"
-           x="60"
-           y="312.36218" />
+           width="220"
+           height="30.00001"
+           x="50"
+           y="312.36212" />
         <text
            xml:space="preserve"
            style="font-size:16px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -237,10 +235,10 @@
         <rect
            style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
            id="rect4859"
-           width="160"
-           height="30"
-           x="80"
-           y="312.36218" />
+           width="220"
+           height="30.00001"
+           x="50"
+           y="312.36212" />
         <text
            xml:space="preserve"
            style="font-size:16px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -257,10 +255,10 @@
          transform="translate(-20,120)"
          id="g4865">
         <rect
-           y="312.36218"
-           x="80"
-           height="30"
-           width="160"
+           y="312.36212"
+           x="50"
+           height="30.00001"
+           width="220"
            id="rect4867"
            style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
         <text
@@ -374,31 +372,30 @@
     <path
        inkscape:connector-curvature="0"
        id="path4975"
-       d="m 380,152.36218 0,44.99995"
+       d="m 380,167.36213 0,25"
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
-       d="m 380,72.362181 0,44.999949"
+       d="m 380,107.36214 0,24.99999"
        id="path4985"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <path
        inkscape:connector-curvature="0"
        id="path5001"
-       d="m 515,62.362138 -45,0"
+       d="m 515,97.363107 -45,0"
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:8, 8;stroke-dashoffset:0;marker-end:url(#Arrow1Lend)"
-       d="m 470.54157,55.499962 20,0 0,-90 55,0"
+       d="m 470.00001,82.363107 20,0 0,-90 55,0"
        id="path5003"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc"
-       transform="translate(-0.54156524,-8.1378238)" />
+       sodipodi:nodetypes="cccc" />
     <g
        id="g5201"
-       transform="translate(5.0000003,-3.2477954e-5)">
+       transform="translate(5.0000003,35.000937)">
       <rect
          transform="translate(-0.54156524,-8.1378238)"
          y="-49.500004"
@@ -421,7 +418,7 @@
     </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:8, 8;stroke-dashoffset:0;marker-start:none;marker-end:url(#Arrow1Lend)"
-       d="m 605.00001,-27.637862 0,64.999977"
+       d="m 605.00001,7.3631075 0,64.9999765"
        id="path5206"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
@@ -429,28 +426,28 @@
        xml:space="preserve"
        style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#7f7f7f;fill-opacity:1;stroke:none;font-family:Sans"
        x="500"
-       y="-47.637867"
+       y="-12.636896"
        id="text5576"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan5578"
          x="500"
-         y="-47.637867">write files</tspan></text>
+         y="-12.636896">write files</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text5580"
        y="-611"
-       x="4.3621149"
+       x="39.363087"
        style="font-size:14px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#7f7f7f;fill-opacity:1;stroke:none;font-family:Sans"
        xml:space="preserve"
        transform="matrix(0,1,-1,0,0,0)"><tspan
          y="-611"
-         x="4.3621149"
+         x="39.363087"
          sodipodi:role="line"
          id="tspan5584">read files</tspan></text>
     <g
        id="g4993"
-       transform="translate(225,-150.00003)">
+       transform="translate(225,-114.99906)">
       <rect
          y="187.36214"
          x="290"
@@ -471,7 +468,8 @@
            sodipodi:role="line">SwingUI</tspan></text>
     </g>
     <g
-       id="g5618">
+       id="g5618"
+       transform="translate(0,35.000969)">
       <rect
          style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.08313048;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
          id="rect4979"
@@ -493,7 +491,7 @@
     </g>
     <g
        id="g4967"
-       transform="translate(0,-69.999002)">
+       transform="translate(2.9859376e-7,-54.999003)">
       <rect
          y="187.36113"
          x="290"
@@ -515,7 +513,7 @@
     </g>
     <g
        id="g4962"
-       transform="translate(0,10.000001)">
+       transform="translate(0,4.9999489)">
       <rect
          style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.08313048;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
          id="rect3824"
