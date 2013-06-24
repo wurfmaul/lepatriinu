@@ -40,6 +40,7 @@ public class Analyzer {
 	public static final double MIN_TEMPO = 0.3; // = 200 bpm
 	public static final double MAX_TEMPO = 1; // = 60 bpm
 	public static final double TEMPO_KEY_TOLERANCE = 0.0195;
+	public static final double MAX_EXTENSION = 10;
 
 	private final AudioFile audiofile;
 

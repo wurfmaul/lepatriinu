@@ -26,7 +26,7 @@ public class InterOnsetTempoExtractor extends TempoExtractor {
 	public double execute(AudioFile audiofile, LinkedList<Double> onsets) {
 		if (onsets.size() <= 1)
 			return 0;
-		
+
 		occurrences = new LinkedHashMap<>();
 		map = new LinkedHashMap<>();
 		maxInt = 0;
@@ -38,18 +38,19 @@ public class InterOnsetTempoExtractor extends TempoExtractor {
 			// calculate distances
 			for (int i = 0; i < onsets.size(); i++) {
 				currentOnset = onsets.get(i);
-	
+
 				for (int j = i + 1; j < onsets.size(); j++) {
 					nextOnset = onsets.get(j);
 					distance = nextOnset - currentOnset;
-					if (distance < MIN_TEMPO / extensionFactor || distance > MAX_TEMPO * extensionFactor)
+					if (distance < MIN_TEMPO / extensionFactor
+							|| distance > MAX_TEMPO * extensionFactor)
 						continue;
 					count(distance);
 				}
 			}
-			
+
 			extensionFactor++;
-		} while(map.isEmpty());
+		} while (map.isEmpty() && extensionFactor < Analyzer.MAX_EXTENSION);
 
 		// calculate maximum
 		int occ, max = 0;
