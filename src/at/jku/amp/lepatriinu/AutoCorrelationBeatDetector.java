@@ -46,29 +46,31 @@ public class AutoCorrelationBeatDetector extends BeatDetector {
 		LinkedList<Double> result = null;
 		LinkedList<Double> temp = new LinkedList<>();
 
-		int bestCross = 0;
-		double lastOnset = onsets.getLast();
-
-		for (double slowD : onsets) {
-			int crossCorr = 0;
-			while (slowD < lastOnset) {
-
-				for (double fastD : onsets) {
-
-					if (Math.abs(slowD - fastD) < Analyzer.AUTO_PHASE_TOLERANCE) {
-						crossCorr++;
-						temp.add(fastD);
+		if (!onsets.isEmpty() && tempo > 0) {
+			int bestCross = 0;
+			double lastOnset = onsets.getLast();
+	
+			for (double slowD : onsets) {
+				int crossCorr = 0;
+				while (slowD < lastOnset) {
+	
+					for (double fastD : onsets) {
+	
+						if (Math.abs(slowD - fastD) < Analyzer.AUTO_PHASE_TOLERANCE) {
+							crossCorr++;
+							temp.add(fastD);
+						}
 					}
+	
+					slowD += realTempo;
 				}
-
-				slowD += realTempo;
+	
+				if (crossCorr > bestCross) {
+					result = new LinkedList<>(temp);
+					bestCross = crossCorr;
+				}
+				temp.clear();
 			}
-
-			if (crossCorr > bestCross) {
-				result = new LinkedList<>(temp);
-				bestCross = crossCorr;
-			}
-			temp.clear();
 		}
 
 		return result;

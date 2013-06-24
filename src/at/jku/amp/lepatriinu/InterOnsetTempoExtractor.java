@@ -24,24 +24,32 @@ public class InterOnsetTempoExtractor extends TempoExtractor {
 
 	@Override
 	public double execute(AudioFile audiofile, LinkedList<Double> onsets) {
+		if (onsets.size() <= 1)
+			return 0;
+		
 		occurrences = new LinkedHashMap<>();
 		map = new LinkedHashMap<>();
 		maxInt = 0;
 
 		double currentOnset, nextOnset, distance;
 
-		// calculate distances
-		for (int i = 0; i < onsets.size(); i++) {
-			currentOnset = onsets.get(i);
-
-			for (int j = i; j < onsets.size(); j++) {
-				nextOnset = onsets.get(j);
-				distance = nextOnset - currentOnset;
-				if (distance < MIN_TEMPO || distance > MAX_TEMPO)
-					continue;
-				count(distance);
+		double extensionFactor = 1d;
+		do {
+			// calculate distances
+			for (int i = 0; i < onsets.size(); i++) {
+				currentOnset = onsets.get(i);
+	
+				for (int j = i + 1; j < onsets.size(); j++) {
+					nextOnset = onsets.get(j);
+					distance = nextOnset - currentOnset;
+					if (distance < MIN_TEMPO / extensionFactor || distance > MAX_TEMPO * extensionFactor)
+						continue;
+					count(distance);
+				}
 			}
-		}
+			
+			extensionFactor++;
+		} while(map.isEmpty());
 
 		// calculate maximum
 		int occ, max = 0;
@@ -54,10 +62,8 @@ public class InterOnsetTempoExtractor extends TempoExtractor {
 			}
 		}
 
-		assert maxKey > 0 : "Tempo extraction: no maximum found!";
-
 		// translate to bpm
-		return 60 / maxKey;
+		return (maxKey > 0) ? 60 / maxKey : 29.7327;
 	}
 
 	private void count(double distance) {
