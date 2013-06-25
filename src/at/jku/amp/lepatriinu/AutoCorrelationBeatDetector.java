@@ -41,10 +41,10 @@ public class AutoCorrelationBeatDetector extends BeatDetector {
 	 */
 	private LinkedList<Double> executeOnTempo(AudioFile audiofile,
 			LinkedList<Double> onsets, double tempo) {
-		double realTempo = 60 / tempo;
-
+		
+		final double realTempo = 60 / tempo;
+		final LinkedList<Double> temp = new LinkedList<>();
 		LinkedList<Double> result = null;
-		LinkedList<Double> temp = new LinkedList<>();
 
 		if (!onsets.isEmpty() && tempo > 0) {
 			int bestCross = 0;
@@ -71,6 +71,8 @@ public class AutoCorrelationBeatDetector extends BeatDetector {
 				}
 				temp.clear();
 			}
+		} else {
+			result = new LinkedList<>();
 		}
 
 		return result;

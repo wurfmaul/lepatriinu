@@ -16,7 +16,8 @@ import at.jku.amp.lepatriinu.AutoCorrelationBeatDetector.Mode;
  */
 public class Analyzer {
 	// DETECTOR INSTANCES
-	private static final OnsetDetector ONSET_DETECTOR = OnsetDetector.FLUX;
+	private static final OnsetDetector ONSET_DETECTOR_FIRST = OnsetDetector.FLUX;
+	private static final OnsetDetector ONSET_DETECTOR_SECOND = OnsetDetector.HIFQ;
 	private static final TempoExtractor TEMPO_EXTRACTOR = TempoExtractor.IOTE;
 	private static final BeatDetector BEAT_DETECTOR = BeatDetector.AUTO;
 
@@ -49,7 +50,11 @@ public class Analyzer {
 	}
 
 	public LinkedList<Double> performOnsetDetection() {
-		return ONSET_DETECTOR.execute(audiofile);
+		LinkedList<Double> onsets = ONSET_DETECTOR_FIRST.execute(audiofile);
+		if (onsets.isEmpty()){
+			onsets = ONSET_DETECTOR_SECOND.execute(audiofile);
+		}
+		return onsets;
 	}
 
 	public double performTempoExtraction(LinkedList<Double> onsets) {
