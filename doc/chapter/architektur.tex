@@ -44,6 +44,21 @@ well as the calculated tempo should be provided.
   \item Beat Detection: \texttt{beats = performBeatDetection(onsets, tempo)}
 \end{enumerate}
 
+The configuration of detectors is done in this class. The following constants
+are used to specify the currently used detection functions:
+
+\begin{itemize}
+  \item \texttt{ONSET\_DETECTOR\_FIRST}: the first choice of onset detection
+  \item \texttt{ONSET\_DETECTOR\_SECOND}: the second choice of onset detection
+  \item \texttt{TEMPO\_EXTRACTOR}: the tempo extractor
+  \item \texttt{BEAT\_DETECTOR}: the beat detector
+\end{itemize}
+
+One feature is the varying onset detection function. It is possible to specify a
+first and a second choice. If the first choice fails to find onsets (e.g.
+returns an empty list), the second choice onset detector has the opportunity to
+improve the results.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ONSET DETECTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -158,7 +173,12 @@ established. In order to reach this goal actually two mappings are done:
 
 Of course this is to be done if the distance is within the range of usual tempi.
 Therefore distances that are smaller than \texttt{MIN\_TEMPO} or greater than
-\texttt{MAX\_TEMPO} are not taken into account.
+\texttt{MAX\_TEMPO} are not taken into account. If no tempo can be extracted
+within this range, the range is extended until a limit is reached. The extension
+factor is initialized with \texttt{1} and used as divisor of \texttt{MIN\_TEMPO}
+and as multiplier for \texttt{MAX\_TEMPO}. As long as no valid tempo can be
+found, the factor is incremented. A maximum of this incrementation can be
+specified by the constant \texttt{MAX\_EXTENSION}.
 
 The tempo then is returned in \emph{beats per minute} (bpm).
 
@@ -198,8 +218,13 @@ The best results were reached by using the following configuration:
 \begin{itemize}
   \item Onset detection:
   \begin{itemize}
-    \item onset detector: \texttt{SpectralFluxOnsetDetector} (see
+    \item onset detector:
+    \begin{itemize}
+      \item \texttt{ONSET\_DETECTOR\_FIRST = SpectralFluxOnsetDetector} (see
     \ref{ssec:onsetflux})
+      \item \texttt{ONSET\_DETECTOR\_SECOND = HighFrequencyOnsetDetector} (see
+    \ref{ssec:onsethighfreq})
+    \end{itemize}
     \item mode: \texttt{USE\_TOTAL\_ENERGY = true}
     \item peak picking: \texttt{USE\_MOUNTAIN\_PEAKPICK = true} (see
     \ref{sec:onset})
@@ -210,7 +235,8 @@ The best results were reached by using the following configuration:
     \item tempo extractor: \texttt{InterOnsetTempoExtractor} (see
     \ref{ssec:tempointeronset})
     \item constants: \texttt{MIN\_TEMPO = 0.3} (= 200 bpm), \texttt{MAX\_TEMPO =
-    1} (= 60 bpm) and \texttt{TEMPO\_KEY\_TOLERANCE = 0.0195}.
+    1} (= 60 bpm), \texttt{TEMPO\_KEY\_TOLERANCE = 0.0195} and
+    \texttt{MAX\_EXTENSION = 10}.
   \end{itemize}
   \item Beat detection:
   \begin{itemize}
