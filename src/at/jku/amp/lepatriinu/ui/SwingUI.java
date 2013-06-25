@@ -295,19 +295,10 @@ public class SwingUI extends JFrame {
 		gbc_panel_8.gridx = 0;
 		gbc_panel_8.gridy = 0;
 		panel_1.add(panel_8, gbc_panel_8);
-		GridBagLayout gbl_panel_8 = new GridBagLayout();
-		gbl_panel_8.columnWidths = new int[] { 6, 0 };
-		gbl_panel_8.rowHeights = new int[] { 24, 0 };
-		gbl_panel_8.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_panel_8.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
-		panel_8.setLayout(gbl_panel_8);
+		panel_8.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane_2 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
-		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_2.gridx = 0;
-		gbc_scrollPane_2.gridy = 0;
-		panel_8.add(scrollPane_2, gbc_scrollPane_2);
+		panel_8.add(scrollPane_2);
 
 		tpOnOutput = new JTextArea();
 		scrollPane_2.setViewportView(tpOnOutput);
@@ -431,7 +422,6 @@ public class SwingUI extends JFrame {
 		panel_16.setLayout(gbl_panel_16);
 
 		JPanel panel_15 = new JPanel();
-		panel_15.setBorder(new TitledBorder(null, "Selected File", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_15 = new GridBagConstraints();
 		gbc_panel_15.fill = GridBagConstraints.BOTH;
 		gbc_panel_15.gridx = 0;
@@ -443,17 +433,22 @@ public class SwingUI extends JFrame {
 		gbl_panel_15.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
 		gbl_panel_15.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		panel_15.setLayout(gbl_panel_15);
-
-		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 0;
-		panel_15.add(scrollPane, gbc_scrollPane);
-
-		tpTeOutput = new JTextArea();
-		scrollPane.setViewportView(tpTeOutput);
+		
+		JPanel panel_18 = new JPanel();
+		panel_18.setBorder(new TitledBorder(null, "Selected File", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panel_18 = new GridBagConstraints();
+		gbc_panel_18.insets = new Insets(0, 0, 0, 5);
+		gbc_panel_18.fill = GridBagConstraints.BOTH;
+		gbc_panel_18.gridx = 0;
+		gbc_panel_18.gridy = 0;
+		panel_15.add(panel_18, gbc_panel_18);
+				panel_18.setLayout(new BorderLayout(0, 0));
+		
+				JScrollPane scrollPane = new JScrollPane();
+				panel_18.add(scrollPane);
+				
+						tpTeOutput = new JTextArea();
+						scrollPane.setViewportView(tpTeOutput);
 
 		JPanel panel_17 = new JPanel();
 		panel_17.setBorder(new TitledBorder(UIManager
@@ -587,19 +582,10 @@ public class SwingUI extends JFrame {
 		gbc_panel_13.gridx = 0;
 		gbc_panel_13.gridy = 0;
 		panel_12.add(panel_13, gbc_panel_13);
-		GridBagLayout gbl_panel_13 = new GridBagLayout();
-		gbl_panel_13.columnWidths = new int[] { 6, 0 };
-		gbl_panel_13.rowHeights = new int[] { 24, 0 };
-		gbl_panel_13.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_panel_13.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
-		panel_13.setLayout(gbl_panel_13);
+		panel_13.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane_3 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_3 = new GridBagConstraints();
-		gbc_scrollPane_3.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_3.gridx = 0;
-		gbc_scrollPane_3.gridy = 0;
-		panel_13.add(scrollPane_3, gbc_scrollPane_3);
+		panel_13.add(scrollPane_3);
 
 		tpBeOutput = new JTextArea();
 		scrollPane_3.setViewportView(tpBeOutput);
